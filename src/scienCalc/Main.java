@@ -23,18 +23,14 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World");
         Scene myScene = new Scene(root, 300, 275);
         myScene.setOnKeyPressed(
-                new EventHandler<KeyEvent>()
-                {
-                    @Override
-                    public void handle(KeyEvent keyEvent)
-                    {
+                (KeyEvent keyEvent) -> {
                         System.out.println("Es wurde folgende Taste gedrückt:\t" + keyEvent.getCode() + keyEvent.getText());
                         if (keyEvent.getCode() == KeyCode.MINUS ) {
                             System.out.println("plus1");
                         }
                     }
-                }
         );
+
 
 
         //primaryStage.setScene(myScene);
