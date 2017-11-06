@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import scienCalc.calcInterface.FrameInterface;
+import scienCalc.model.LangModel;
 
 public class TRechnerGUI {
 
@@ -22,6 +23,7 @@ public class TRechnerGUI {
         // Base Anchor init
         baseAnchorPane = new AnchorPane();
         baseAnchorPane.setPadding(new Insets(MAINPADDING, MAINPADDING, MAINPADDING, MAINPADDING));
+        baseAnchorPane.setPrefSize(1024, 768);
         baseAnchorPane.setStyle("-fx-background-color: #303030;");
 
         // Einteilung oben unten
@@ -57,9 +59,8 @@ public class TRechnerGUI {
         nrGridPane.getRowConstraints().addAll(row,row,row,row,row);
 
 
-
-
-        //funcGridPane.add(btn, 2,2);
+        LangModel myModel = LangModel.getInstance();
+        System.out.println(myModel.getLangValue("SQR"));
 
 
         // GUI-Aufbau

@@ -7,5 +7,5 @@
     -fx-background-radius: 3,2,1;
     -fx-padding: 3 30 3 30;
     -fx-text-fill: black;
-    -fx-font-size: 14px;
+    /*-fx-font-size: 14px;*/
 }

@@ -1,6 +1,7 @@
 package scienCalc;
 
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import scienCalc.view.TRechnerGUI;
@@ -11,8 +12,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Taschenrechner-Prototyp");
         TRechnerGUI tRechnerGUI = new TRechnerGUI();
-        primaryStage.setScene(new Scene(tRechnerGUI.asParent(), 1024, 768));
+        Scene scene = new Scene(tRechnerGUI.asParent());
+        primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
 
