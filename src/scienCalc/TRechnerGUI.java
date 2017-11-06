@@ -21,12 +21,6 @@ public class TRechnerGUI {
         baseAnchorPane = new AnchorPane();
         baseAnchorPane.setPadding(new Insets(MAINPADDING, MAINPADDING, MAINPADDING, MAINPADDING));
         baseAnchorPane.setStyle("-fx-background-color: #303030;");
-        baseAnchorPane.widthProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println("geht");
-        });
-        baseAnchorPane.heightProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println("geht auch");
-        });
 
         outerVBox = new VBox();
         outerVBox.setFillWidth(true);
@@ -34,15 +28,32 @@ public class TRechnerGUI {
         outerVBox.setStyle("-fx-background-color: #32504e;"); //nur debugging
 
         innerVBox = new VBox();
+        innerVBox.setStyle("-fx-background-color: #FF0000;"); //nur debugging
 
         gridHBox = new HBox();
         gridHBox.setFillHeight(true);
+        gridHBox.setStyle("-fx-background-color: #00FF00;"); //nur debugging
+
+
+        outerVBox.getChildren().addAll(innerVBox, gridHBox);
 
         baseAnchorPane.setTopAnchor(outerVBox,0.0);
         baseAnchorPane.setLeftAnchor(outerVBox,0.0);
         baseAnchorPane.setRightAnchor(outerVBox,0.0);
         baseAnchorPane.setBottomAnchor(outerVBox,0.0);
         baseAnchorPane.getChildren().add(outerVBox);
+
+        // Resize inner Elements
+        baseAnchorPane.widthProperty().addListener((obs, oldVal, newVal) -> {
+
+            System.out.println("geht");
+        });
+
+        baseAnchorPane.heightProperty().addListener((obs, oldVal, newVal) -> {
+            gridHBox.setPrefHeight(0.7*(baseAnchorPane.getHeight() - (MAINPADDING * 3)));
+            innerVBox.setPrefHeight(0.3*(baseAnchorPane.getHeight() - (MAINPADDING * 3)));
+            System.out.println("geht auch");
+        });
     }
 
     public Parent asParent() {
