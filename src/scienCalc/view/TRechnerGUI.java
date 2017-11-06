@@ -1,15 +1,15 @@
-package scienCalc;
+package scienCalc.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
+import scienCalc.calcInterface.FrameInterface;
 
 public class TRechnerGUI {
 
-    private static final int MAINPADDING = 30;
-    private static final int INNERPADDING = 10;
+    public final static int MAINPADDING = 30;
+    public final static int INNERPADDING = 10;
 
     private AnchorPane baseAnchorPane;
     private VBox outerVBox, innerVBox;
@@ -46,13 +46,7 @@ public class TRechnerGUI {
         RowConstraints row = new RowConstraints();
         row.setVgrow(Priority.ALWAYS);
 
-        // Funktions Grid 5 x 5
-        funcGridPane = new GridPane();
-        funcGridPane.setHgap(INNERPADDING);
-        funcGridPane.setVgap(INNERPADDING);
-        funcGridPane.setGridLinesVisible(true);
-        funcGridPane.getColumnConstraints().addAll(col,col,col,col,col);
-        funcGridPane.getRowConstraints().addAll(row,row,row,row,row);
+        FunctionGrid fg = new FunctionGrid();
 
         // Number Grid 4 x 5
         nrGridPane = new GridPane();
@@ -62,16 +56,10 @@ public class TRechnerGUI {
         nrGridPane.getColumnConstraints().addAll(col,col,col,col);
         nrGridPane.getRowConstraints().addAll(row,row,row,row,row);
 
-        btn = new Button();
-        btn.setMaxWidth(Double.MAX_VALUE);
-        btn.setMaxHeight(Double.MAX_VALUE);
-        btn.setText("Hallo");
-        btn.setFont(Font.font(125));
-        funcGridPane.setFillWidth(btn, true);
-        funcGridPane.setFillHeight(btn, true);
 
 
-        funcGridPane.add(btn, 2,2);
+
+        //funcGridPane.add(btn, 2,2);
 
 
         // GUI-Aufbau
@@ -83,13 +71,13 @@ public class TRechnerGUI {
 
         outerVBox.getChildren().addAll(innerVBox, gridHBox);
 
-        gridHBox.getChildren().addAll(funcGridPane, nrGridPane);
+        gridHBox.getChildren().addAll(fg.getGrid(), nrGridPane);
 
 
 
         // Resize inner Elements
         baseAnchorPane.widthProperty().addListener((obs, oldVal, newVal) -> {
-            funcGridPane.setPrefWidth((5.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
+            fg.getGrid().setPrefWidth((5.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
             nrGridPane.setPrefWidth(((4.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3))));
             System.out.println("HboxWidth: " + gridHBox.getWidth() + "  BaseAnchorPane width: " + baseAnchorPane.getWidth());
 
@@ -100,6 +88,20 @@ public class TRechnerGUI {
             innerVBox.setPrefHeight(0.3 * (baseAnchorPane.getHeight() - (MAINPADDING * 3)));
             System.out.println("HboxHeight: " + gridHBox.getHeight() + "  BaseAnchorPane height: " + baseAnchorPane.getHeight());
         });
+
+
+    }
+
+    private class FrameAdapter implements FrameInterface {
+        @Override
+        public void setBigLabel (String message){
+
+        }
+
+        @Override
+        public void setSmallLabel (String message) {
+
+        }
     }
 
     public Parent asParent() {
