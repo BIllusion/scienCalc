@@ -2,6 +2,7 @@ package scienCalc;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -10,6 +11,7 @@ import javafx.scene.layout.VBox;
 public class TRechnerGUI {
 
     private static final int MAINPADDING = 30;
+    private static final int INNERPADDING = 10;
 
     private AnchorPane baseAnchorPane;
     private VBox outerVBox, innerVBox;
@@ -34,6 +36,17 @@ public class TRechnerGUI {
         gridHBox.setFillHeight(true);
         gridHBox.setStyle("-fx-background-color: #00FF00;"); //nur debugging
 
+        funcGridPane = new GridPane();
+        funcGridPane.setHgap(INNERPADDING);
+        funcGridPane.setVgap(INNERPADDING);
+        funcGridPane.setGridLinesVisible(true);
+        funcGridPane.add(new Button(), 4,4);
+        funcGridPane.setWidth(gridHBox.getWidth());
+        System.out.println("ich tu was");
+        updateGridHeight();
+        updateGridWidth();
+
+        gridHBox.getChildren().addAll(funcGridPane);
 
         outerVBox.getChildren().addAll(innerVBox, gridHBox);
 
@@ -58,5 +71,13 @@ public class TRechnerGUI {
 
     public Parent asParent() {
         return baseAnchorPane;
+    }
+
+    private void updateGridHeight() {
+        funcGridPane.setPrefHeight(gridHBox.getHeight());
+    }
+
+    private void updateGridWidth() {
+        funcGridPane.setPrefWidth(((5/9)*gridHBox.getWidth())-MAINPADDING);
     }
 }
