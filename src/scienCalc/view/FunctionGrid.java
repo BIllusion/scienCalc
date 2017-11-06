@@ -36,7 +36,6 @@ public class FunctionGrid {
         funcGridPane = new GridPane();
         funcGridPane.setHgap(TRechnerGUI.INNERPADDING);
         funcGridPane.setVgap(TRechnerGUI.INNERPADDING);
-        funcGridPane.setGridLinesVisible(true);
         funcGridPane.getColumnConstraints().addAll(col,col,col,col,col);
         funcGridPane.getRowConstraints().addAll(row,row,row,row,row);
 

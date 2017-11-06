@@ -54,7 +54,6 @@ public class TRechnerGUI {
         nrGridPane = new GridPane();
         nrGridPane.setHgap(INNERPADDING);
         nrGridPane.setVgap(INNERPADDING);
-        nrGridPane.setGridLinesVisible(true);
         nrGridPane.getColumnConstraints().addAll(col,col,col,col);
         nrGridPane.getRowConstraints().addAll(row,row,row,row,row);
 
