@@ -26,8 +26,12 @@ public class LangModel {
         return bundle.getLocale();
     }
 
-    public String getLangValue(String key) {
+    public String getKeyCaption(String key) {
         return bundle.getString(key);
+    }
+
+    public String getAccessibleText(String key) {
+        return bundle.getString(key + ".AccessibleText");
     }
 
 

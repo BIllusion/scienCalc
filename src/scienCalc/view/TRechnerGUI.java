@@ -30,17 +30,16 @@ public class TRechnerGUI {
         outerVBox = new VBox();
         outerVBox.setFillWidth(true);
         outerVBox.setSpacing(MAINPADDING);
-        outerVBox.setStyle("-fx-background-color: #32504e;"); //nur debugging
 
         // Oberer Teil
         innerVBox = new VBox();
-        innerVBox.setStyle("-fx-background-color: #FF0000;"); //nur debugging
+        innerVBox.setStyle("-fx-background-color: #FFFFFF;"); //nur debugging
 
         // Unterer Teil
         gridHBox = new HBox();
         gridHBox.setFillHeight(true);
         gridHBox.setSpacing(MAINPADDING);
-        gridHBox.setStyle("-fx-background-color: #00FF00;"); //nur debugging
+
 
         // Grid Resize-Helper
         ColumnConstraints col = new ColumnConstraints();
@@ -48,7 +47,7 @@ public class TRechnerGUI {
         RowConstraints row = new RowConstraints();
         row.setVgrow(Priority.ALWAYS);
 
-        FunctionGrid fg = new FunctionGrid();
+        FuncGrid fg = new FuncGrid();
 
         // Number Grid 4 x 5
         nrGridPane = new GridPane();
@@ -59,7 +58,6 @@ public class TRechnerGUI {
 
 
         LangModel myModel = LangModel.getInstance();
-        System.out.println(myModel.getLangValue("SQR"));
 
 
         // GUI-Aufbau

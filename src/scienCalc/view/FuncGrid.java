@@ -2,6 +2,7 @@ package scienCalc.view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -16,14 +17,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FunctionGrid {
+public class FuncGrid {
 
     private GridPane funcGridPane;
     private List<Button> buttonList = new ArrayList<Button>();
 
     private FuncGridListener fGListener = new FuncGridListener();
 
-    public FunctionGrid()  {
+    public FuncGrid()  {
         // Grid Resize-Helper
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(20);
@@ -46,11 +47,12 @@ public class FunctionGrid {
         // Setup Buttons
         for (int i = 0; i < 5*5; i++) {
             Button btn = new Button();
-            //btn.getStylesheets().add("scienCalc/view/css/baseButton.css");
+            btn.getStylesheets().add("scienCalc/view/css/baseButton.css");
             btn.requestFocus();
             btn.setId((FuncGridConstants.values()[i]).toString());
-            btn.setText(langModel.getLangValue((FuncGridConstants.values()[i]).toString()));
-            btn.setFont(new Font(14));
+            btn.setText(langModel.getKeyCaption((FuncGridConstants.values()[i]).toString()));
+            btn.setAccessibleText(langModel.getAccessibleText((FuncGridConstants.values()[i]).toString()));
+            btn.setFont(new Font("Lato", 16));
             btn.addEventHandler(ActionEvent.ACTION,fGListener);
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setMaxHeight(Double.MAX_VALUE);
@@ -84,8 +86,8 @@ public class FunctionGrid {
         Double sideLength = Math.min(sampleButton.getWidth(), sampleButton.getHeight());
         if (sideLength != 0 ) {
             // Calculate Font-Size
-            Double fontSize = sideLength / 3;
-            Font f = new Font(fontSize);
+            Double fontSize = sideLength / 4;
+            Font f = new Font("Lato", fontSize);
             // Update Font-Size on all Buttons
             for (Button btn : buttonList) {
                 // btn.setStyle("-fx-font-size: "+Math.round(100.0 * fontSize) / 100.0+"px;");
