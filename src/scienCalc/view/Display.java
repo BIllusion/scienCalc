@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 
 public class Display extends VBox {
@@ -42,7 +41,7 @@ public class Display extends VBox {
     private void updateLabelHeight() {
         bigMsgBox.setPrefHeight(this.getHeight()*(2.0/3.0));
         smallMsgBox.setPrefHeight(this.getHeight()*(1.0/3.0));
-        updateFontSize();
+        // updateFontSize();
     }
 
     private void updateFontSize() {

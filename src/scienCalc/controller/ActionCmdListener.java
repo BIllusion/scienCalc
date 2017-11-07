@@ -24,7 +24,7 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
             case SQR:
                 // DO Something
                 System.out.println("SQR");
-              //  fi.setBigLabel("Ich bins");
+                fi.setBigLabel("Ich bins");
                 break;
             case CUBIC:
                 // DO Something
