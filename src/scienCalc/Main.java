@@ -14,7 +14,6 @@ public class Main extends Application {
         Scene scene = new Scene(tRechnerGUI.asParent());
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
 

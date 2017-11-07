@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
+import scienCalc.calcInterfaces.FrameInterface;
 import scienCalc.calcInterfaces.GridInterface;
 import scienCalc.controller.ActionCmdListener;
 import scienCalc.model.ActionCmds;
@@ -17,12 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class NrGrid implements GridInterface {
+public class NrGrid extends GridPane implements GridInterface {
 
-    private GridPane NrGridPane;
     private List<Button> buttonList = new ArrayList<Button>();
+    private FrameInterface fi;
 
-    public NrGrid () {
+    public NrGrid (FrameInterface fi) {
+        super();
+        this.fi = fi;
         // Grid Resize-Helper
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(25);
@@ -32,15 +35,14 @@ public class NrGrid implements GridInterface {
         row.setVgrow(Priority.ALWAYS);
 
         // Setup 4x5 Grid
-        NrGridPane = new GridPane();
-        NrGridPane.setHgap(TRechnerGUI.INNERPADDING);
-        NrGridPane.setVgap(TRechnerGUI.INNERPADDING);
-        NrGridPane.getColumnConstraints().addAll(col,col,col,col);
-        NrGridPane.getRowConstraints().addAll(row,row,row,row,row);
+        this.setHgap(TRechnerGUI.INNERPADDING);
+        this.setVgap(TRechnerGUI.INNERPADDING);
+        this.getColumnConstraints().addAll(col,col,col,col);
+        this.getRowConstraints().addAll(row,row,row,row,row);
 
         //Setup Language-Pack & Listener
         LangModel langModel = LangModel.getInstance();
-        ActionCmdListener acl = new ActionCmdListener();
+        ActionCmdListener acl = new ActionCmdListener(fi);
 
         // Setup Buttons
         for (ActionCmds ac: ActionCmds.values()) {
@@ -62,7 +64,7 @@ public class NrGrid implements GridInterface {
             btn.addEventHandler(ActionEvent.ACTION,acl);
 
             //Add Button to Grid & Save for later use
-            NrGridPane.add(btn,ac.getCol(), ac.getRow(), ac.getColSpan(),ac.getRowSpan());
+            this.add(btn,ac.getCol(), ac.getRow(), ac.getColSpan(),ac.getRowSpan());
             buttonList.add(btn);
             }
         }
@@ -71,16 +73,12 @@ public class NrGrid implements GridInterface {
         updateFontSize();
 
         // Resize Listener for Text Scaling
-        NrGridPane.widthProperty().addListener(resizeListener);
-        NrGridPane.heightProperty().addListener(resizeListener);
+        this.widthProperty().addListener(resizeListener);
+        this.heightProperty().addListener(resizeListener);
     }
 
     ChangeListener<Number> resizeListener = (observable, oldValue, newValue) ->
             updateFontSize();
-
-    public GridPane getGrid() {
-        return NrGridPane;
-    }
 
     private void updateFontSize() {
         // Get smaller Side length
@@ -98,11 +96,22 @@ public class NrGrid implements GridInterface {
         }
     }
 
+
     @Override
     public void setButtonFocus(ActionCmds ac) {
         for (Button btn: buttonList) {
             if (btn.getId().equals(ac.toString())) {
                 btn.requestFocus();
+            }
+        }
+    }
+
+    @Override
+    public void fireButton(ActionCmds ac) {
+        for (Button btn: buttonList) {
+            if (btn.getId().equals(ac.toString())) {
+                btn.requestFocus();
+                btn.fire();
             }
         }
     }

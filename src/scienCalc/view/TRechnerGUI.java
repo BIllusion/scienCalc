@@ -2,11 +2,11 @@ package scienCalc.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import scienCalc.calcInterfaces.FrameInterface;
 import scienCalc.calcInterfaces.GridInterface;
 import scienCalc.controller.KeyStrokeListener;
+import scienCalc.model.ActionCmds;
 
 public class TRechnerGUI {
 
@@ -16,6 +16,8 @@ public class TRechnerGUI {
     private AnchorPane baseAnchorPane;
     private VBox outerVBox, innerVBox;
     private HBox gridHBox;
+    private ToolBar tBar;
+    private Display display;
     private FuncGrid funcGrid;
     private NrGrid nrGrid;
     private FrameInterface fi = new FrameAdapter();
@@ -37,6 +39,13 @@ public class TRechnerGUI {
         innerVBox = new VBox();
         innerVBox.setStyle("-fx-background-color: #FFFFFF;"); //nur debugging
 
+        tBar = new ToolBar();
+        display = new Display(100.0);
+
+        innerVBox.setVgrow(display,Priority.ALWAYS);
+        innerVBox.getChildren().addAll(tBar, display);
+
+
         // Unterer Teil
         gridHBox = new HBox();
         gridHBox.setFillHeight(true);
@@ -44,8 +53,8 @@ public class TRechnerGUI {
 
 
         // Button Grids Erstellen
-        funcGrid = new FuncGrid();
-        nrGrid = new NrGrid();
+        funcGrid = new FuncGrid(fi);
+        nrGrid = new NrGrid(fi);
 
         // GUI-Aufbau
         baseAnchorPane.setTopAnchor(outerVBox,0.0);
@@ -56,14 +65,14 @@ public class TRechnerGUI {
 
         outerVBox.getChildren().addAll(innerVBox, gridHBox);
 
-        gridHBox.getChildren().addAll(funcGrid.getGrid(), nrGrid.getGrid());
+        gridHBox.getChildren().addAll(funcGrid, nrGrid);
 
 
 
         // Resize Grids 5 zu 4
         baseAnchorPane.widthProperty().addListener((obs, oldVal, newVal) -> {
-            funcGrid.getGrid().setPrefWidth((5.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
-            nrGrid.getGrid().setPrefWidth((4.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
+            funcGrid.setPrefWidth((5.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
+            nrGrid.setPrefWidth((4.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
             System.out.println("HboxWidth: " + gridHBox.getWidth() + "  BaseAnchorPane width: " + baseAnchorPane.getWidth());
 
         });
@@ -78,17 +87,18 @@ public class TRechnerGUI {
         KeyStrokeListener ks = new KeyStrokeListener(fi);
         baseAnchorPane.setOnKeyPressed(ks);
 
+        fi.getFuncGrid().setButtonFocus(ActionCmds.SQR);
     }
 
     private class FrameAdapter implements FrameInterface {
         @Override
         public void setBigLabel (String message){
-
+            display.setBigMsg(message);
         }
 
         @Override
         public void setSmallLabel (String message) {
-
+            display.setSmallMsg(message);
         }
 
         @Override

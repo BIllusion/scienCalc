@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
+import scienCalc.calcInterfaces.FrameInterface;
 import scienCalc.calcInterfaces.GridInterface;
 import scienCalc.controller.ActionCmdListener;
 import scienCalc.model.ActionCmds;
@@ -17,13 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FuncGrid implements GridInterface {
+public class FuncGrid extends GridPane implements GridInterface {
 
-    private GridPane funcGridPane;
     private List<Button> buttonList = new ArrayList<Button>();
+    private FrameInterface fi;
 
+    public FuncGrid(FrameInterface fi)  {
+        super();
+        this.fi = fi;
 
-    public FuncGrid()  {
         // Grid Resize-Helper
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(20);
@@ -33,15 +36,15 @@ public class FuncGrid implements GridInterface {
         row.setVgrow(Priority.ALWAYS);
 
         // Setup 5x5 Grid
-        funcGridPane = new GridPane();
-        funcGridPane.setHgap(TRechnerGUI.INNERPADDING);
-        funcGridPane.setVgap(TRechnerGUI.INNERPADDING);
-        funcGridPane.getColumnConstraints().addAll(col,col,col,col, col);
-        funcGridPane.getRowConstraints().addAll(row,row,row,row,row);
+
+        this.setHgap(TRechnerGUI.INNERPADDING);
+        this.setVgap(TRechnerGUI.INNERPADDING);
+        this.getColumnConstraints().addAll(col,col,col,col, col);
+        this.getRowConstraints().addAll(row,row,row,row,row);
 
         //Setup Language-Pack & Listener
         LangModel langModel = LangModel.getInstance();
-        ActionCmdListener acl = new ActionCmdListener();
+        ActionCmdListener acl = new ActionCmdListener(fi);
 
         // Setup Buttons
         for (ActionCmds ac: ActionCmds.values()) {
@@ -63,7 +66,7 @@ public class FuncGrid implements GridInterface {
                 btn.addEventHandler(ActionEvent.ACTION,acl);
 
                 //Add Button to Grid & Save for later use
-                funcGridPane.add(btn,ac.getCol(), ac.getRow(), ac.getColSpan(),ac.getRowSpan());
+                this.add(btn,ac.getCol(), ac.getRow(), ac.getColSpan(),ac.getRowSpan());
                 buttonList.add(btn);
             }
         }
@@ -71,15 +74,11 @@ public class FuncGrid implements GridInterface {
         updateFontSize();
 
         // Resize Listener for Text Scaling
-        funcGridPane.widthProperty().addListener(resizeListener);
-        funcGridPane.heightProperty().addListener(resizeListener);
+        this.widthProperty().addListener(resizeListener);
+        this.heightProperty().addListener(resizeListener);
     }
 
     ChangeListener<Number> resizeListener = (observable, oldValue, newValue) -> updateFontSize();
-
-    public GridPane getGrid() {
-        return funcGridPane;
-    }
 
     private void updateFontSize() {
         // Get smaller Side length
@@ -102,6 +101,16 @@ public class FuncGrid implements GridInterface {
         for (Button btn: buttonList) {
             if (btn.getId().equals(ac.toString())) {
                 btn.requestFocus();
+            }
+        }
+    }
+
+    @Override
+    public void fireButton(ActionCmds ac) {
+        for (Button btn: buttonList) {
+            if (btn.getId().equals(ac.toString())) {
+                btn.requestFocus();
+                btn.fire();
             }
         }
     }

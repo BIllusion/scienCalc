@@ -3,10 +3,18 @@ package scienCalc.controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import scienCalc.calcInterfaces.FrameInterface;
 import scienCalc.model.ActionCmds;
 
 
 public class ActionCmdListener implements EventHandler<ActionEvent> {
+
+    private FrameInterface fi;
+
+    public ActionCmdListener(FrameInterface fi) {
+        this.fi = fi;
+    }
+
     @Override
     public void handle(ActionEvent e) {
         String cmdID = ((Button)e.getSource()).getId();
@@ -16,6 +24,7 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
             case SQR:
                 // DO Something
                 System.out.println("SQR");
+              //  fi.setBigLabel("Ich bins");
                 break;
             case CUBIC:
                 // DO Something
