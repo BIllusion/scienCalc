@@ -4,8 +4,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
-import scienCalc.calcInterface.FrameInterface;
-import scienCalc.model.LangModel;
+import scienCalc.calcInterfaces.FrameInterface;
+import scienCalc.calcInterfaces.GridInterface;
+import scienCalc.controller.KeyStrokeListener;
 
 public class TRechnerGUI {
 
@@ -15,8 +16,9 @@ public class TRechnerGUI {
     private AnchorPane baseAnchorPane;
     private VBox outerVBox, innerVBox;
     private HBox gridHBox;
-    private GridPane funcGridPane, nrGridPane;
-    private Button btn;
+    private FuncGrid funcGrid;
+    private NrGrid nrGrid;
+    private FrameInterface fi = new FrameAdapter();
 
     public TRechnerGUI() {
 
@@ -41,26 +43,9 @@ public class TRechnerGUI {
         gridHBox.setSpacing(MAINPADDING);
 
 
-        // Grid Resize-Helper
-        ColumnConstraints col = new ColumnConstraints();
-        col.setHgrow(Priority.ALWAYS);
-        RowConstraints row = new RowConstraints();
-        row.setVgrow(Priority.ALWAYS);
-
-        FuncGrid fg = new FuncGrid();
-
-        NrGrid ng = new NrGrid();
-
-        // Number Grid 4 x 5
-        nrGridPane = new GridPane();
-        nrGridPane.setHgap(INNERPADDING);
-        nrGridPane.setVgap(INNERPADDING);
-        nrGridPane.getColumnConstraints().addAll(col,col,col,col);
-        nrGridPane.getRowConstraints().addAll(row,row,row,row,row);
-
-
-        LangModel myModel = LangModel.getInstance();
-
+        // Button Grids Erstellen
+        funcGrid = new FuncGrid();
+        nrGrid = new NrGrid();
 
         // GUI-Aufbau
         baseAnchorPane.setTopAnchor(outerVBox,0.0);
@@ -71,24 +56,27 @@ public class TRechnerGUI {
 
         outerVBox.getChildren().addAll(innerVBox, gridHBox);
 
-        gridHBox.getChildren().addAll(fg.getGrid(), ng.getGrid());
+        gridHBox.getChildren().addAll(funcGrid.getGrid(), nrGrid.getGrid());
 
 
 
-        // Resize inner Elements
+        // Resize Grids 5 zu 4
         baseAnchorPane.widthProperty().addListener((obs, oldVal, newVal) -> {
-            fg.getGrid().setPrefWidth((5.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
-            ng.getGrid().setPrefWidth((4.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
+            funcGrid.getGrid().setPrefWidth((5.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
+            nrGrid.getGrid().setPrefWidth((4.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
             System.out.println("HboxWidth: " + gridHBox.getWidth() + "  BaseAnchorPane width: " + baseAnchorPane.getWidth());
 
         });
 
+        // Resize Grids zu Label 7 zu 3
         baseAnchorPane.heightProperty().addListener((obs, oldVal, newVal) -> {
             gridHBox.setPrefHeight(0.7 * (baseAnchorPane.getHeight() - (MAINPADDING * 3)));
             innerVBox.setPrefHeight(0.3 * (baseAnchorPane.getHeight() - (MAINPADDING * 3)));
             System.out.println("HboxHeight: " + gridHBox.getHeight() + "  BaseAnchorPane height: " + baseAnchorPane.getHeight());
         });
 
+        KeyStrokeListener ks = new KeyStrokeListener(fi);
+        baseAnchorPane.setOnKeyPressed(ks);
 
     }
 
@@ -102,6 +90,18 @@ public class TRechnerGUI {
         public void setSmallLabel (String message) {
 
         }
+
+        @Override
+        public GridInterface getFuncGrid() {
+            return funcGrid;
+        }
+
+        @Override
+        public GridInterface getNrGrid() {
+            return nrGrid;
+        }
+
+
     }
 
     public Parent asParent() {

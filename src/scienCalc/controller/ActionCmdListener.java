@@ -3,15 +3,14 @@ package scienCalc.controller;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import scienCalc.model.FuncGridConstants;
+import scienCalc.model.ActionCmds;
 
 
-public class FuncGridListener implements EventHandler<ActionEvent> {
-
+public class ActionCmdListener implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent e) {
         String cmdID = ((Button)e.getSource()).getId();
-        FuncGridConstants c = FuncGridConstants.valueOf(cmdID);
+        ActionCmds c = ActionCmds.valueOf(cmdID);
         // Entscheidung welche Funktion aufgerufen wird.
         switch (c) {
             case SQR:
@@ -113,6 +112,85 @@ public class FuncGridListener implements EventHandler<ActionEvent> {
             case SIGNCHANGE:
                 // DO Something
                 System.out.println("SIGNCHANGE");
+                break;
+            case CLEARINPUT:
+                // DO Something
+                System.out.println("CLEARINPUT");
+                break;
+            case DELETEALL:
+                // DO Something
+                System.out.println("DELETEALL");
+                break;
+            case DELLASTCHAR:
+                // DO Something
+                System.out.println("DELLASTCHAR");
+                break;
+            case ONE:
+                // DO Something
+                System.out.println("ONE");
+                break;
+            case TWO:
+                // DO Something
+                System.out.println("TWO");
+                break;
+            case THREE:
+                // DO Something
+                System.out.println("THREE");
+                break;
+            case FOUR:
+                // DO Something
+                System.out.println("FOUR");
+                break;
+            case FIVE:
+                // DO Something
+                System.out.println("FIVE");
+                break;
+            case SIX:
+                // DO Something
+                System.out.println("SIX");
+                break;
+            case SEVEN:
+                // DO Something
+                System.out.println("SEVEN");
+                break;
+            case EIGHT:
+                // DO Something
+                System.out.println("EIGHT");
+                break;
+            case NINE:
+                // DO Something
+                System.out.println("NINE");
+                break;
+            case ZERO:
+                // DO Something
+                System.out.println("ZERO");
+                break;
+            case KOMMA:
+                // DO Something
+                System.out.println("KOMMA");
+                break;
+            case DIVIDE:
+                // DO Something
+                System.out.println("DIVIDE");
+                break;
+            case MULTIPLY:
+                // DO Something
+                System.out.println("MULTIPLY");
+                break;
+            case SUBTRACT:
+                // DO Something
+                System.out.println("SUBTRACT");
+                break;
+            case ADDITION:
+                // DO Something
+                System.out.println("ADDITION");
+                break;
+            case EQUALS:
+                // DO Something
+                System.out.println("EQUALS");
+                break;
+            default:
+                System.out.println("ActionCommand ist nicht bekannt");
                 break;
         }
         e.consume();

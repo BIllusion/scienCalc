@@ -8,21 +8,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
-import scienCalc.controller.FuncGridListener;
-import scienCalc.model.FuncGridConstants;
+import scienCalc.calcInterfaces.GridInterface;
+import scienCalc.controller.ActionCmdListener;
+import scienCalc.model.ActionCmds;
 import scienCalc.model.LangModel;
-import scienCalc.model.NrGridConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NrGrid {
+
+public class NrGrid implements GridInterface {
+
     private GridPane NrGridPane;
     private List<Button> buttonList = new ArrayList<Button>();
 
-    private FuncGridListener fGListener = new FuncGridListener();
-
-    public NrGrid()  {
+    public NrGrid () {
         // Grid Resize-Helper
         ColumnConstraints col = new ColumnConstraints();
         col.setPercentWidth(25);
@@ -31,38 +31,42 @@ public class NrGrid {
         row.setPercentHeight(20);
         row.setVgrow(Priority.ALWAYS);
 
-        // Setup 5x5 Grid
+        // Setup 4x5 Grid
         NrGridPane = new GridPane();
         NrGridPane.setHgap(TRechnerGUI.INNERPADDING);
         NrGridPane.setVgap(TRechnerGUI.INNERPADDING);
         NrGridPane.getColumnConstraints().addAll(col,col,col,col);
         NrGridPane.getRowConstraints().addAll(row,row,row,row,row);
 
-        //Setup Language-Pack
+        //Setup Language-Pack & Listener
         LangModel langModel = LangModel.getInstance();
-        // System.out.println(myModel.getLangValue("SQR"));
+        ActionCmdListener acl = new ActionCmdListener();
 
         // Setup Buttons
-        for (int i = 0; i < 4*5; i++) {
+        for (ActionCmds ac: ActionCmds.values()) {
+
+        // Search associated ActionCmds
+        if (ac.getGridID() == ac.NR_GRID_ID) {
+
+            // Create Button & Styles
             Button btn = new Button();
             btn.getStylesheets().add("scienCalc/view/css/nrGridStyles.css");
-            //btn.requestFocus();
-            btn.setId((NrGridConstants.values()[i]).toString());
-            btn.setText(langModel.getKeyCaption((NrGridConstants.values()[i]).toString()));
-           // btn.setAccessibleText(langModel.getAccessibleText((NrGridConstants.values()[i]).toString()));
             btn.setFont(new Font("Lato", 16));
-            //btn.addEventHandler(ActionEvent.ACTION,fGListener);
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setMaxHeight(Double.MAX_VALUE);
-            buttonList.add(btn);
-        }
 
-        // Add Buttons to Grid
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 4; j++) {
-                NrGridPane.add(buttonList.get(i*4+j),j,i);
+            // Add Captions, Text & Listener
+            btn.setId(ac.toString());
+            btn.setText(langModel.getKeyCaption(ac.toString()));
+            btn.setAccessibleText(langModel.getAccessibleText(ac.toString()));
+            btn.addEventHandler(ActionEvent.ACTION,acl);
+
+            //Add Button to Grid & Save for later use
+            NrGridPane.add(btn,ac.getCol(), ac.getRow(), ac.getColSpan(),ac.getRowSpan());
+            buttonList.add(btn);
             }
         }
+
 
         updateFontSize();
 
@@ -90,6 +94,15 @@ public class NrGrid {
             for (Button btn : buttonList) {
                 // btn.setStyle("-fx-font-size: "+Math.round(100.0 * fontSize) / 100.0+"px;");
                 btn.setFont(f);
+            }
+        }
+    }
+
+    @Override
+    public void setButtonFocus(ActionCmds ac) {
+        for (Button btn: buttonList) {
+            if (btn.getId().equals(ac.toString())) {
+                btn.requestFocus();
             }
         }
     }

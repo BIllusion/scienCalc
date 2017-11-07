@@ -6,17 +6,21 @@
     /*-fx-font-size: 14px;*/
 }
 
-.button:focused {
+.button:focused, #EQUALS:focused {
     -fx-border-color: #fff15f;
     -fx-border-width: 2px;
     -fx-border-insets: -2px;
 }
 
-.button:hover {
+.button:hover, #EQUALS:hover {
     -fx-background-color:#FFFFFF;
     -fx-text-fill: #595959;
 }
 
-.button:pressed {
+.button:pressed, #EQUALS:pressed {
 
+}
+
+#EQUALS {
+    -fx-background-color:#006d68;
 }
