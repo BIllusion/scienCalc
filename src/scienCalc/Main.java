@@ -3,6 +3,7 @@ package scienCalc;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import scienCalc.controller.KeyStrokeListener;
 import scienCalc.view.TRechnerGUI;
 
 public class Main extends Application {

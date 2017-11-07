@@ -26,6 +26,11 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
 
     @Override
     public void handle(KeyEvent e) {
+        String keyText = e.getText();
+        String keyCharacter = e.getCharacter();
+        String keyC = e.getCode().toString();
+        System.out.println("Text: "+ keyText + " Char: " + keyCharacter + " Code: " + keyC);
+
         if (e.isControlDown()) {
             // Keystroke Checks
             if (keyCombinationExpf.match(e)) {
@@ -51,17 +56,75 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
 
             }
         } else {
-            // Single Button press Check
-            if (e.getCode() == KeyCode.ADD) {
-                fi.getNrGrid().fireButton(ActionCmds.ADDITION);
+            // Single Key
+            switch ( e.getCode()) {
+                case ADD:
+                    fi.getNrGrid().fireButton(ActionCmds.ADDITION);
+                    break;
+                case SUBTRACT:
+                    fi.getNrGrid().fireButton(ActionCmds.SUBTRACT);
+                    break;
+                case MULTIPLY:
+                    fi.getNrGrid().fireButton(ActionCmds.MULTIPLY);
+                    break;
+                case DIVIDE:
+                    fi.getNrGrid().fireButton(ActionCmds.DIVIDE);
+                    break;
+                case NUMPAD0:
+                case DIGIT0:
+                    fi.getNrGrid().fireButton(ActionCmds.ZERO);
+                    break;
+                case NUMPAD1:
+                case DIGIT1:
+                    fi.getNrGrid().fireButton(ActionCmds.ONE);
+                    break;
+                case NUMPAD2:
+                case DIGIT2:
+                    fi.getNrGrid().fireButton(ActionCmds.TWO);
+                    break;
+                case NUMPAD3:
+                case DIGIT3:
+                    fi.getNrGrid().fireButton(ActionCmds.THREE);
+                    break;
+                case NUMPAD4:
+                case DIGIT4:
+                    fi.getNrGrid().fireButton(ActionCmds.FOUR);
+                    break;
+                case NUMPAD5:
+                case DIGIT5:
+                    fi.getNrGrid().fireButton(ActionCmds.FIVE);
+                    break;
+                case NUMPAD6:
+                case DIGIT6:
+                    fi.getNrGrid().fireButton(ActionCmds.SIX);
+                    break;
+                case NUMPAD7:
+                case DIGIT7:
+                    fi.getNrGrid().fireButton(ActionCmds.SEVEN);
+                    break;
+                case NUMPAD8:
+                case DIGIT8:
+                    fi.getNrGrid().fireButton(ActionCmds.EIGHT);
+                    break;
+                case NUMPAD9:
+                case DIGIT9:
+                    fi.getNrGrid().fireButton(ActionCmds.NINE);
+                    break;
+                case COMMA:
+                case PERIOD:
+                case DECIMAL:
+                    fi.getNrGrid().fireButton(ActionCmds.KOMMA);
+                    break;
+                case DEAD_CIRCUMFLEX:
+                    fi.getFuncGrid().fireButton(ActionCmds.XPOWY);
+                    break;
+                case EQUALS:
+                    fi.getNrGrid().fireButton(ActionCmds.EQUALS);
+                    break;
+                default:
+                    break;
             }
-            String keyText = e.getText();
-            String keyCharacter = e.getCharacter();
-            String keyCode = e.getCode().toString();
-            System.out.println("Text: "+ keyText + " Char: " + keyCharacter + " Code: " + keyCode);
         }
-
-
     }
 
 
