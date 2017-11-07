@@ -8,51 +8,50 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
-import scienCalc.model.FuncGridConstants;
 import scienCalc.controller.FuncGridListener;
+import scienCalc.model.FuncGridConstants;
 import scienCalc.model.LangModel;
+import scienCalc.model.NrGridConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class FuncGrid {
-
-    private GridPane funcGridPane;
+public class NrGrid {
+    private GridPane NrGridPane;
     private List<Button> buttonList = new ArrayList<Button>();
 
     private FuncGridListener fGListener = new FuncGridListener();
 
-    public FuncGrid()  {
+    public NrGrid()  {
         // Grid Resize-Helper
         ColumnConstraints col = new ColumnConstraints();
-        col.setPercentWidth(20);
+        col.setPercentWidth(25);
         col.setHgrow(Priority.ALWAYS);
         RowConstraints row = new RowConstraints();
         row.setPercentHeight(20);
         row.setVgrow(Priority.ALWAYS);
 
         // Setup 5x5 Grid
-        funcGridPane = new GridPane();
-        funcGridPane.setHgap(TRechnerGUI.INNERPADDING);
-        funcGridPane.setVgap(TRechnerGUI.INNERPADDING);
-        funcGridPane.getColumnConstraints().addAll(col,col,col,col, col);
-        funcGridPane.getRowConstraints().addAll(row,row,row,row,row);
+        NrGridPane = new GridPane();
+        NrGridPane.setHgap(TRechnerGUI.INNERPADDING);
+        NrGridPane.setVgap(TRechnerGUI.INNERPADDING);
+        NrGridPane.getColumnConstraints().addAll(col,col,col,col);
+        NrGridPane.getRowConstraints().addAll(row,row,row,row,row);
 
         //Setup Language-Pack
         LangModel langModel = LangModel.getInstance();
-       // System.out.println(myModel.getLangValue("SQR"));
+        // System.out.println(myModel.getLangValue("SQR"));
 
         // Setup Buttons
-        for (int i = 0; i < 5*5; i++) {
+        for (int i = 0; i < 4*5; i++) {
             Button btn = new Button();
-            btn.getStylesheets().add("scienCalc/view/css/baseButton.css");
-            btn.requestFocus();
-            btn.setId((FuncGridConstants.values()[i]).toString());
-            btn.setText(langModel.getKeyCaption((FuncGridConstants.values()[i]).toString()));
-            btn.setAccessibleText(langModel.getAccessibleText((FuncGridConstants.values()[i]).toString()));
+            btn.getStylesheets().add("scienCalc/view/css/nrGridStyles.css");
+            //btn.requestFocus();
+            btn.setId((NrGridConstants.values()[i]).toString());
+            btn.setText(langModel.getKeyCaption((NrGridConstants.values()[i]).toString()));
+           // btn.setAccessibleText(langModel.getAccessibleText((NrGridConstants.values()[i]).toString()));
             btn.setFont(new Font("Lato", 16));
-            btn.addEventHandler(ActionEvent.ACTION,fGListener);
+            //btn.addEventHandler(ActionEvent.ACTION,fGListener);
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.setMaxHeight(Double.MAX_VALUE);
             buttonList.add(btn);
@@ -60,23 +59,23 @@ public class FuncGrid {
 
         // Add Buttons to Grid
         for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                funcGridPane.add(buttonList.get(i*5+j),j,i);
+            for (int j = 0; j < 4; j++) {
+                NrGridPane.add(buttonList.get(i*4+j),j,i);
             }
         }
 
         updateFontSize();
 
         // Resize Listener for Text Scaling
-        funcGridPane.widthProperty().addListener(resizeListener);
-        funcGridPane.heightProperty().addListener(resizeListener);
+        NrGridPane.widthProperty().addListener(resizeListener);
+        NrGridPane.heightProperty().addListener(resizeListener);
     }
 
     ChangeListener<Number> resizeListener = (observable, oldValue, newValue) ->
             updateFontSize();
 
     public GridPane getGrid() {
-        return funcGridPane;
+        return NrGridPane;
     }
 
     private void updateFontSize() {

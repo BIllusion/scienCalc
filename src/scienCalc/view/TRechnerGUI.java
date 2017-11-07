@@ -49,6 +49,8 @@ public class TRechnerGUI {
 
         FuncGrid fg = new FuncGrid();
 
+        NrGrid ng = new NrGrid();
+
         // Number Grid 4 x 5
         nrGridPane = new GridPane();
         nrGridPane.setHgap(INNERPADDING);
@@ -69,14 +71,14 @@ public class TRechnerGUI {
 
         outerVBox.getChildren().addAll(innerVBox, gridHBox);
 
-        gridHBox.getChildren().addAll(fg.getGrid(), nrGridPane);
+        gridHBox.getChildren().addAll(fg.getGrid(), ng.getGrid());
 
 
 
         // Resize inner Elements
         baseAnchorPane.widthProperty().addListener((obs, oldVal, newVal) -> {
             fg.getGrid().setPrefWidth((5.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
-            nrGridPane.setPrefWidth(((4.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3))));
+            ng.getGrid().setPrefWidth((4.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
             System.out.println("HboxWidth: " + gridHBox.getWidth() + "  BaseAnchorPane width: " + baseAnchorPane.getWidth());
 
         });
