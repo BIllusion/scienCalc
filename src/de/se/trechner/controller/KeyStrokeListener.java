@@ -1,12 +1,12 @@
-package scienCalc.controller;
+package de.se.trechner.controller;
 
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import scienCalc.calcInterfaces.FrameInterface;
-import scienCalc.model.ActionCmds;
+import de.se.trechner.interfaces.FrameInterface;
+import de.se.trechner.model.ActionCmds;
 
 public class KeyStrokeListener implements EventHandler<KeyEvent> {
 

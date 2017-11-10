@@ -1,4 +1,4 @@
-package scienCalc.view;
+package de.se.trechner.view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -8,68 +8,65 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
-import scienCalc.calcInterfaces.FrameInterface;
-import scienCalc.calcInterfaces.GridInterface;
-import scienCalc.controller.ActionCmdListener;
-import scienCalc.model.ActionCmds;
-import scienCalc.model.LangModel;
+import de.se.trechner.interfaces.FrameInterface;
+import de.se.trechner.interfaces.GridInterface;
+import de.se.trechner.controller.ActionCmdListener;
+import de.se.trechner.model.ActionCmds;
+import de.se.trechner.model.LangModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FuncGrid extends GridPane implements GridInterface {
+public class NrGrid extends GridPane implements GridInterface {
 
     private List<Button> buttonList = new ArrayList<Button>();
-    private FrameInterface fi;
 
-    public FuncGrid(FrameInterface fi)  {
+    public NrGrid (FrameInterface fi) {
         super();
-        this.fi = fi;
-
         // Grid Resize-Helper
         ColumnConstraints col = new ColumnConstraints();
-        col.setPercentWidth(20);
+        col.setPercentWidth(25);
         col.setHgrow(Priority.ALWAYS);
         RowConstraints row = new RowConstraints();
         row.setPercentHeight(20);
         row.setVgrow(Priority.ALWAYS);
 
-        // Setup 5x5 Grid
-
+        // Setup 4x5 Grid
         this.setHgap(TRechnerGUI.INNERPADDING);
         this.setVgap(TRechnerGUI.INNERPADDING);
-        this.getColumnConstraints().addAll(col,col,col,col, col);
+        this.getColumnConstraints().addAll(col,col,col,col);
         this.getRowConstraints().addAll(row,row,row,row,row);
 
         //Setup Language-Pack & Listener
         LangModel langModel = LangModel.getInstance();
-        ActionCmdListener acl = new ActionCmdListener(fi);
+        ActionCmdListener acl = ActionCmdListener.getInstance(fi);
 
         // Setup Buttons
         for (ActionCmds ac: ActionCmds.values()) {
 
-            // Search associated ActionCmds
-            if (ac.getGridID() == ac.FUNC_GRID_ID) {
+        // Search associated ActionCmds
+        if (ac.getGridID() == ac.NR_GRID_ID) {
 
-                // Create Button & Styles
-                Button btn = new Button();
-                btn.getStylesheets().add("scienCalc/view/css/funcGridStyles.css");
-                btn.setFont(new Font("Lato", 16));
-                btn.setMaxWidth(Double.MAX_VALUE);
-                btn.setMaxHeight(Double.MAX_VALUE);
+            // Create Button & Styles
+            Button btn = new Button();
+            btn.getStylesheets().add("resources/css/nrGridStyles.css");
+            btn.setFont(new Font("Lato", 16));
+            btn.setMaxWidth(Double.MAX_VALUE);
+            btn.setMaxHeight(Double.MAX_VALUE);
 
-                // Add Captions, Text & Listener
-                btn.setId(ac.toString());
-                btn.setText(langModel.getKeyCaption(ac.toString()));
-                btn.setAccessibleText(langModel.getAccessibleText(ac.toString()));
-                btn.addEventHandler(ActionEvent.ACTION,acl);
+            // Add Captions, Text & Listener
+            btn.setId(ac.toString());
+            btn.setText(langModel.getKeyCaption(ac.toString()));
+            btn.setAccessibleText(langModel.getAccessibleText(ac.toString()));
+            btn.addEventHandler(ActionEvent.ACTION,acl);
 
-                //Add Button to Grid & Save for later use
-                this.add(btn,ac.getCol(), ac.getRow(), ac.getColSpan(),ac.getRowSpan());
-                buttonList.add(btn);
+            //Add Button to Grid & Save for later use
+            this.add(btn,ac.getCol(), ac.getRow(), ac.getColSpan(),ac.getRowSpan());
+            buttonList.add(btn);
             }
         }
+
 
         updateFontSize();
 
@@ -78,7 +75,8 @@ public class FuncGrid extends GridPane implements GridInterface {
         this.heightProperty().addListener(resizeListener);
     }
 
-    ChangeListener<Number> resizeListener = (observable, oldValue, newValue) -> updateFontSize();
+    ChangeListener<Number> resizeListener = (observable, oldValue, newValue) ->
+            updateFontSize();
 
     private void updateFontSize() {
         // Get smaller Side length
@@ -95,6 +93,7 @@ public class FuncGrid extends GridPane implements GridInterface {
             }
         }
     }
+
 
     @Override
     public void setButtonFocus(ActionCmds ac) {

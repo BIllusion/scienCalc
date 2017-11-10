@@ -1,12 +1,12 @@
-package scienCalc.view;
+package de.se.trechner.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.layout.*;
-import scienCalc.calcInterfaces.FrameInterface;
-import scienCalc.calcInterfaces.GridInterface;
-import scienCalc.controller.KeyStrokeListener;
-import scienCalc.model.ActionCmds;
+import de.se.trechner.interfaces.FrameInterface;
+import de.se.trechner.interfaces.GridInterface;
+import de.se.trechner.controller.KeyStrokeListener;
+import de.se.trechner.model.ActionCmds;
 
 public class TRechnerGUI {
 

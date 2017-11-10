@@ -1,24 +1,18 @@
-package scienCalc.view;
+package de.se.trechner.view;
 
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import scienCalc.Main;
 
 
 public class Display extends VBox {
     private Label bigMsgBox;
     private Label smallMsgBox;
-    private Font testFont;
 
     public Display(Double height) {
         super();
-
-
-        Font.loadFont(Main.class.getResource("SpectralSC-Regular.ttf").toExternalForm(),20);
-
         this.setPrefHeight(height);
         this.setStyle("-fx-background-color: #FFFFFF;");
         this.setFillWidth(true);
@@ -32,10 +26,6 @@ public class Display extends VBox {
 
         bigMsgBox = new Label();
         bigMsgBox.setText("Hallo Welt Hallo Welt Ha");
-        testFont = new Font("Spectral SC", 80);
-        bigMsgBox.setFont(testFont);
-       // bigMsgBox.setStyle("-fx-font-family: \"TRON\";"); //nur debugging
-       // bigMsgBox.setStyle("-fx-font-size: 80px;"); //nur debugging
         //bigMsgBox.setStyle("-fx-background-color: #FF0000;"); //nur debugging
         bigMsgBox.setPrefHeight(height*(2.0/3.0));
 
@@ -51,7 +41,7 @@ public class Display extends VBox {
     private void updateLabelHeight() {
         bigMsgBox.setPrefHeight(this.getHeight()*(2.0/3.0));
         smallMsgBox.setPrefHeight(this.getHeight()*(1.0/3.0));
-        //updateFontSize();
+        // updateFontSize();
     }
 
     private void updateFontSize() {

@@ -1,4 +1,4 @@
-package scienCalc.model;
+package de.se.trechner.model;
 
 import java.util.Locale;
 import java.util.MissingResourceException;
@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 public class LangModel {
     private static ResourceBundle bundle;
-    private String baseName = "scienCalc.langBundle";
+    private String baseName = "resources.langBundle";
 
     private static LangModel ourInstance = new LangModel();
 

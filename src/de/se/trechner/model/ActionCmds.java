@@ -1,4 +1,4 @@
-package scienCalc.model;
+package de.se.trechner.model;
 
 import java.util.zip.CheckedOutputStream;
 

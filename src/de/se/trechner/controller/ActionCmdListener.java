@@ -1,30 +1,73 @@
-package scienCalc.controller;
+package de.se.trechner.controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import scienCalc.calcInterfaces.FrameInterface;
-import scienCalc.model.ActionCmds;
+
+import de.se.trechner.interfaces.FrameInterface;
+import de.se.trechner.model.ActionCmds;
+import de.se.trechner.model.Term;
 
 
 public class ActionCmdListener implements EventHandler<ActionEvent> {
+    private static ActionCmdListener ownInstance;
 
     private FrameInterface fi;
+    private Term term;
+    private boolean isAddingNumber;
+    private boolean isInteger;
+    private String numInput;
+    
 
-    public ActionCmdListener(FrameInterface fi) {
+    private ActionCmdListener(FrameInterface fi) {
         this.fi = fi;
+        term = new Term();
+        isAddingNumber = false;
+        isInteger = true;
+        numInput = "0";
+        fi.setSmallLabel(term.toString());
+        fi.setBigLabel(numInput);
     }
 
     @Override
     public void handle(ActionEvent e) {
+    	double value;
         String cmdID = ((Button)e.getSource()).getId();
         ActionCmds c = ActionCmds.valueOf(cmdID);
+        switch (c) {
+        	case ONE:
+        	case TWO:
+        	case THREE:
+        	case FOUR:
+        	case FIVE:
+        	case SIX:
+        	case SEVEN:
+        	case EIGHT:
+        	case NINE:
+        	case ZERO:
+        	case KOMMA:
+        	case CLEARINPUT:
+        		if(! isAddingNumber) {
+        			isAddingNumber = true;
+        			isInteger = true;
+        			numInput = "";
+        		}
+            break;
+        	case PI:
+        		break;
+        	default:
+        		if(isAddingNumber) {
+        			isAddingNumber = false;
+        			term.addNumber(Double.valueOf(numInput.replace(',', '.')));
+        			numInput = "0";
+        		}
+        		break;
+        }
         // Entscheidung welche Funktion aufgerufen wird.
         switch (c) {
             case SQR:
-                // DO Something
+                term.addUnaryOperator(19);
                 System.out.println("SQR");
-                fi.setBigLabel("Ich bins");
                 break;
             case CUBIC:
                 // DO Something
@@ -47,7 +90,7 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("XPOWY");
                 break;
             case RECVAL:
-                // DO Something
+                term.addUnaryOperator(24);
                 System.out.println("RECVAL");
                 break;
             case ARCSIN:
@@ -63,7 +106,7 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("ARCTAN");
                 break;
             case SQRT:
-                // DO Something
+                term.addUnaryOperator(22);
                 System.out.println("SQRT");
                 break;
             case YSQRT:
@@ -87,7 +130,7 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("EXPF");
                 break;
             case LOG:
-                // DO Something
+                term.addUnaryOperator(29);
                 System.out.println("LOG");
                 break;
             case MOD:
@@ -95,11 +138,11 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("MOD");
                 break;
             case OBRACKET:
-                // DO Something
+                term.addBracket(true);
                 System.out.println("OBRACKET");
                 break;
             case CBRACKET:
-                // DO Something
+                term.addBracket(false);
                 System.out.println("CBRACKET");
                 break;
             case EX:
@@ -107,11 +150,11 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("EX");
                 break;
             case LN:
-                // DO Something
+                term.addUnaryOperator(30);
                 System.out.println("LN");
                 break;
             case FACT:
-                // DO Something
+                term.addUnaryOperator(26);
                 System.out.println("FACT");
                 break;
             case PI:
@@ -119,15 +162,20 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("PI");
                 break;
             case SIGNCHANGE:
-                // DO Something
+                term.addUnaryOperator(10);
                 System.out.println("SIGNCHANGE");
                 break;
             case CLEARINPUT:
-                // DO Something
+            	isAddingNumber = false;
+            	isInteger = true;
+    			numInput = "0";
                 System.out.println("CLEARINPUT");
                 break;
             case DELETEALL:
-                // DO Something
+                term.initialize();
+                isAddingNumber = false;
+            	isInteger = true;
+    			numInput = "0";
                 System.out.println("DELETEALL");
                 break;
             case DELLASTCHAR:
@@ -135,73 +183,88 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("DELLASTCHAR");
                 break;
             case ONE:
-                // DO Something
+                numInput += "1";
                 System.out.println("ONE");
                 break;
             case TWO:
-                // DO Something
+            	numInput += "2";
                 System.out.println("TWO");
                 break;
             case THREE:
-                // DO Something
+            	numInput += "3";
                 System.out.println("THREE");
                 break;
             case FOUR:
-                // DO Something
+            	numInput += "4";
                 System.out.println("FOUR");
                 break;
             case FIVE:
-                // DO Something
+            	numInput += "5";
                 System.out.println("FIVE");
                 break;
             case SIX:
-                // DO Something
+            	numInput += "6";
                 System.out.println("SIX");
                 break;
             case SEVEN:
-                // DO Something
+            	numInput += "7";
                 System.out.println("SEVEN");
                 break;
             case EIGHT:
-                // DO Something
+            	numInput += "8";
                 System.out.println("EIGHT");
                 break;
             case NINE:
-                // DO Something
+            	numInput += "9";
                 System.out.println("NINE");
                 break;
             case ZERO:
-                // DO Something
+            	numInput += "0";
                 System.out.println("ZERO");
                 break;
             case KOMMA:
-                // DO Something
+            	if(isInteger) {
+            		isInteger = false;
+            		numInput += ",";
+            	}
                 System.out.println("KOMMA");
                 break;
             case DIVIDE:
-                // DO Something
+                term.addBinaryOperator(5);
                 System.out.println("DIVIDE");
                 break;
             case MULTIPLY:
-                // DO Something
+                term.addBinaryOperator(4);
                 System.out.println("MULTIPLY");
                 break;
             case SUBTRACT:
-                // DO Something
+                term.addBinaryOperator(3);
                 System.out.println("SUBTRACT");
                 break;
             case ADDITION:
-                // DO Something
+                term.addBinaryOperator(2);
                 System.out.println("ADDITION");
                 break;
             case EQUALS:
-                // DO Something
+                value = term.solve();
+                if(value == (long) value)
+        			numInput = String.format("%d", (long) value);
+                else numInput = String.format("%s", value);
                 System.out.println("EQUALS");
                 break;
             default:
                 System.out.println("ActionCommand ist nicht bekannt");
                 break;
         }
+        fi.setSmallLabel(term.toString());
+        fi.setBigLabel(numInput);
         e.consume();
+    }
+
+    public static ActionCmdListener getInstance(FrameInterface fi) {
+        if (ownInstance == null) {
+            ownInstance = new ActionCmdListener(fi);
+        }
+        return ownInstance;
     }
 }

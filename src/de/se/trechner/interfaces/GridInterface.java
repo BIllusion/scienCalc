@@ -1,6 +1,6 @@
-package scienCalc.calcInterfaces;
+package de.se.trechner.interfaces;
 
-import scienCalc.model.ActionCmds;
+import de.se.trechner.model.ActionCmds;
 
 public interface GridInterface {
 

@@ -1,4 +1,4 @@
-package scienCalc.view;
+package de.se.trechner.view;
 
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
