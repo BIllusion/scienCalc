@@ -1,7 +1,5 @@
 package de.se.trechner.model;
 
-import java.util.zip.CheckedOutputStream;
-
 public enum ActionCmds {
 
     // Func Grid --------------------------------------

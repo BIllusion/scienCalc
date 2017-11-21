@@ -35,7 +35,6 @@ public class Term {
 				output = e.toString() + output;
 			}
 		}
-		if(output.equals("")) return "";
 		return output;
 	}
 	
@@ -71,24 +70,27 @@ public class Term {
 		return output;
 	}
 	
-	public double solve(){
-		ArrayList<Element> clone = getClone();
+	public double solve() {
+		return solve(elements, 0);
+	}
+	
+	public double solve(ArrayList<Element> term, int startIndex){
 		int index = 0;
-		for(int i=0; i<clone.size(); i++){
-			if(clone.get(i) instanceof Bracket){
-				if(((Bracket) clone.get(i)).isOpen()) index = i+1;
+		for(int i=startIndex; i<term.size(); i++){
+			if(term.get(i) instanceof Bracket){
+				if(((Bracket) term.get(i)).isOpen()) index = i+1;
 				else{
-					solve(clone, index, i-1);
-					clone.remove(index - 1);
-					clone.remove(index);
-					i = -1;
+					solve(term, index, i-1);
+					term.remove(index - 1);
+					term.remove(index);
+					i = startIndex-1;
 				}
 			}
 		}
 		
-		solve(clone, 0, clone.size()-1);
+		solve(term, startIndex, term.size()-1);
 		
-		return ((Number) clone.get(0)).getValue();
+		return ((Number) term.get(startIndex)).getValue();
 	}
 	
 	private void solve(ArrayList<Element> term, int index1, int index2){
@@ -104,7 +106,7 @@ public class Term {
 				i--;
 			}
 		}
-		int index = -1; // markiert den Index der binären Operation mit dem höchsten Rang
+		int index = -1; // markiert den Index der binÃ¤ren Operation mit dem hÃ¶chsten Rang
 		BinaryOperator b = null;
 		for(int i=1; index1 != index2; i += 2){
 			if(index == -1){
@@ -150,7 +152,7 @@ public class Term {
 		elements.add(new Number(num));
 	}
 	
-	public void addUnaryOperator(int identifier){
+	public double addUnaryOperator(ActionCmds identifier){
 		if(elements.isEmpty()) elements.add(new Number(0));
 		Element lastElement = elements.get(elements.size()-1);
 		if((lastElement instanceof Bracket && ((Bracket) lastElement).isOpen()) 
@@ -158,14 +160,40 @@ public class Term {
 			elements.add(new Number(0));
 		}
 		elements.add(new UnaryOperator(identifier));
+		return preSolve();
 	}
 	
-	public void addBinaryOperator(int identifier){
+	private double preSolve() {
+		int bracketCounter = 0;
+		ArrayList<Element> clone = getClone();
+		Element e;
+		for(int i = clone.size()-2; i>=0 ; i--) {
+			e = clone.get(i);
+			if(e instanceof Number && bracketCounter == 0) {
+				return solve(clone, i);
+			}
+			if(e instanceof Bracket) {
+				if(((Bracket) e).isOpen()) {
+					bracketCounter++;
+					if(bracketCounter == 0) return solve(clone, i);
+				}else {
+					bracketCounter--;
+				}
+			}
+		}
+		return 0;
+	}
+	
+	public void addBinaryOperator(ActionCmds identifier){
 		if(elements.isEmpty()) elements.add(new Number(0));
 		else {
 			Element lastElement = elements.get(elements.size()-1);
 			if(lastElement instanceof Bracket && ((Bracket) lastElement).isOpen()) {
 				elements.add(new Number(0));
+			}else {
+				if(lastElement instanceof BinaryOperator) {
+					elements.remove(lastElement);
+				}
 			}
 		}
 		elements.add(new BinaryOperator(identifier));
@@ -176,7 +204,7 @@ public class Term {
 			Element lastElement = elements.get(elements.size()-1);
 			if(open) {
 				if(lastElement instanceof UnaryOperator) return false;
-				if(!((Bracket) lastElement).isOpen()) return false;
+				if(lastElement instanceof Bracket && !((Bracket) lastElement).isOpen()) return false;
 				if(lastElement instanceof Number) {
 					elements.remove(elements.size()-1);
 				}

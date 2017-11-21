@@ -1,5 +1,6 @@
 package de.se.trechner.view;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.layout.*;
@@ -87,7 +88,9 @@ public class TRechnerGUI {
         KeyStrokeListener ks = new KeyStrokeListener(fi);
         baseAnchorPane.setOnKeyPressed(ks);
 
-        fi.getFuncGrid().setButtonFocus(ActionCmds.SQR);
+        Platform.runLater( () -> {
+            fi.getFuncGrid().setButtonFocus(ActionCmds.SQR);
+        });
     }
 
     private class FrameAdapter implements FrameInterface {

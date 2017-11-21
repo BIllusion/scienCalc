@@ -1,14 +1,16 @@
 package de.se.trechner.model.elements;
 
-public abstract class Operator extends Element {
-	private int identifier;
+import de.se.trechner.model.ActionCmds;
 
-	public Operator(String stringRepresentation, int identifier) {
+public abstract class Operator extends Element {
+	private ActionCmds a;
+
+	public Operator(String stringRepresentation, ActionCmds a) {
 		super(stringRepresentation);
-		this.identifier = identifier;
+		this.a = a;
 	}
 
-	public int getIdentifier() {
-		return identifier;
+	public ActionCmds getIdentifier() {
+		return a;
 	}
 }

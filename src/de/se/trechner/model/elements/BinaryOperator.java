@@ -1,9 +1,11 @@
 package de.se.trechner.model.elements;
 
+import de.se.trechner.model.ActionCmds;
+
 public class BinaryOperator extends Operator{
 	private int rank;
 
-	public BinaryOperator(int identifier) {
+	public BinaryOperator(ActionCmds identifier) {
 		super(getRepresentation(identifier), identifier);
 		rank = getRank(identifier);
 	}
@@ -12,28 +14,41 @@ public class BinaryOperator extends Operator{
 		return (rank >= b.rank);
 	}
 	
-	private int getRank(int identifier){
+	private int getRank(ActionCmds identifier){
 		switch(identifier){
-		case 2:
-		case 3:
-			return 4;
-		case 4:
-		case 5:
-			return 5;
+		case ADDITION:
+		case SUBTRACT:
+			return 1;
+		case MULTIPLY:
+		case DIVIDE:
+			return 2;
+		case XPOWY:
+		case YSQRT:
+		case EXPF:
+		case MOD:
+			return 3;
 		}
 		return -1;
 	}
 	
-	private static String getRepresentation(int identifier){
+	private static String getRepresentation(ActionCmds identifier){
 		switch(identifier){
-		case 2:
+		case ADDITION:
 			return "+";
-		case 3:
+		case SUBTRACT:
 			return "-";
-		case 4:
+		case MULTIPLY:
 			return "*";
-		case 5:
+		case DIVIDE:
 			return "/";
+		case XPOWY:
+			return "^";
+		case YSQRT:
+			return " yRoot ";
+		case EXPF:
+			return ",e+";
+		case MOD:
+			return " mod ";
 		}
 		return null;
 	}

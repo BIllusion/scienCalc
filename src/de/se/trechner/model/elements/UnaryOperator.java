@@ -1,9 +1,11 @@
 package de.se.trechner.model.elements;
 
+import de.se.trechner.model.ActionCmds;
+
 public class UnaryOperator extends Operator{
 	private String representationEnd;
 
-	public UnaryOperator(int identifier) {
+	public UnaryOperator(ActionCmds identifier) {
 		super(getRepresentation(identifier), identifier);
 		representationEnd = getRepresentationEnd(identifier);
 	}
@@ -12,60 +14,70 @@ public class UnaryOperator extends Operator{
 		return stringRepresentation + content + representationEnd;
 	}
 	
-	private String getRepresentationEnd(int identifier) {
+	private String getRepresentationEnd(ActionCmds identifier) {
 		switch(identifier) {
-		case 10:
+		case SIGNCHANGE:
 			return ")";
-		case 13:
-		case 14:
-		case 15:
-		case 16:
-		case 17:
-		case 18:
+		case SIN:
+		case ARCSIN:
+		case COS:
+		case ARCCOS:
+		case TAN:
+		case ARCTAN:
 			return ")";
-		case 19:
-			return "�";
-		case 22:
+		case SQR:
+			return "²";
+		case CUBIC:
+			return "³";
+		case SQRT:
 			return ")";
-		case 24:
+		case RECVAL:
 			return ")";
-		case 26:
+		case FACT:
 			return "!";
-		case 29:
-		case 30:
+		case EX:
+			return "";
+		case EXPF:
+		case LOG:
+		case LN:
 			return ")";
 		}
 		return null;
 	}
 	
-	private static String getRepresentation(int identifier){
+	private static String getRepresentation(ActionCmds identifier){
 		switch(identifier) {
-		case 10:
+		case SIGNCHANGE:
 			return "negate(";
-		case 13:
+		case SIN:
 			return "sin(";
-		case 14:
+		case ARCSIN:
 			return "asin(";
-		case 15:
+		case COS:
 			return "cos(";
-		case 16:
+		case ARCCOS:
 			return "acos(";
-		case 17:
+		case TAN:
 			return "tan(";
-		case 18:
+		case ARCTAN:
 			return "atan(";
-		case 19:
+		case SQR:
+		case CUBIC:
 			return "";
-		case 22:
+		case SQRT:
 			return "sqrt(";
-		case 24:
+		case RECVAL:
 			return "reciproc(";
-		case 26:
+		case FACT:
 			return "";
-		case 29:
+		case EX:
+			return "e^";
+		case EXPF:
+			return "10^(";
+		case LOG:
 			return "log(";
-		case 30:
-			return "log(";
+		case LN:
+			return "ln(";
 		}
 		return null;
 	}
