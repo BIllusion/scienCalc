@@ -89,7 +89,7 @@ public class TRechnerGUI {
         baseAnchorPane.setOnKeyPressed(ks);
 
         Platform.runLater( () -> {
-            fi.getFuncGrid().setButtonFocus(ActionCmds.SQR);
+            display.setFocus();
         });
     }
 

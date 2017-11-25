@@ -86,4 +86,8 @@ public class Display extends VBox implements DisplayInterface {
         bigBox.setText(s);
     }
 
+    public void setFocus() {
+        bigBox.requestFocus();
+    }
+
 }
