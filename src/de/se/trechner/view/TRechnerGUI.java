@@ -41,7 +41,7 @@ public class TRechnerGUI {
         innerVBox.setStyle("-fx-background-color: #FFFFFF;"); //nur debugging
 
         tBar = new ToolBar();
-        display = new Display(100.0);
+        display = new Display(100.0,fi);
 
         innerVBox.setVgrow(display,Priority.ALWAYS);
         innerVBox.getChildren().addAll(tBar, display);
@@ -96,12 +96,12 @@ public class TRechnerGUI {
     private class FrameAdapter implements FrameInterface {
         @Override
         public void setBigLabel (String message){
-            display.setBigMsg(message);
+            display.setBigMsgBox(message);
         }
 
         @Override
         public void setSmallLabel (String message) {
-            display.setSmallMsg(message);
+            display.setSmallMsgBox(message);
         }
 
         @Override

@@ -1,17 +1,23 @@
 package de.se.trechner.view;
 
+import de.se.trechner.controller.TextListener;
+import de.se.trechner.interfaces.DisplayInterface;
+import de.se.trechner.interfaces.FrameInterface;
 import javafx.beans.value.ChangeListener;
+import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 
-public class Display extends VBox {
+public class Display extends VBox implements DisplayInterface {
     private Label bigMsgBox;
     private Label smallMsgBox;
+    private TextField bigBox;
 
-    public Display(Double height) {
+    public Display(Double height, FrameInterface fi) {
         super();
         this.setPrefHeight(height);
         this.setStyle("-fx-background-color: #FFFFFF;");
@@ -24,12 +30,19 @@ public class Display extends VBox {
         smallMsgBox.setPrefHeight(height*(1.0/3.0));
         smallMsgBox.setAlignment(Pos.BOTTOM_RIGHT);
 
+        bigBox = new TextField();
+        bigBox.setAlignment(Pos.BOTTOM_RIGHT);
+        bigBox.setPrefHeight(height*(2.0/3.0));
+        bigBox.textProperty().addListener(TextListener.getInstance(fi));
+
+
         bigMsgBox = new Label();
         bigMsgBox.setText("Hallo Welt Hallo Welt Ha");
         //bigMsgBox.setStyle("-fx-background-color: #FF0000;"); //nur debugging
         bigMsgBox.setPrefHeight(height*(2.0/3.0));
+       // bigMsgBox.setFocusTraversable(true);
 
-        this.getChildren().addAll(smallMsgBox, bigMsgBox);
+        this.getChildren().addAll(smallMsgBox, bigBox);
 
         ChangeListener<Number> resizeListener = (observable, oldValue, newValue) -> updateLabelHeight();
 
@@ -52,16 +65,25 @@ public class Display extends VBox {
             // Update Font-Size on Labels
             smallMsgBox.setFont(f1);
             bigMsgBox.setFont(f2);
+            bigBox.setFont(f2);
         }
 
     }
 
-    public void setBigMsg(String msg) {
-        bigMsgBox.setText(msg);
+    public String getSmallMsgBox(){
+        return smallMsgBox.getText();
     }
 
-    public void setSmallMsg(String msg) {
-        smallMsgBox.setText(msg);
+    public String getBigMsgBox() {
+        return bigBox.getText();
+    }
+
+    public void setSmallMsgBox(String s) {
+        smallMsgBox.setText(s);
+    }
+
+    public void setBigMsgBox(String s) {
+        bigBox.setText(s);
     }
 
 }

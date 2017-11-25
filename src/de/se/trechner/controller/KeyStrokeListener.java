@@ -59,67 +59,71 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
             // Single Key
             switch ( e.getCode()) {
                 case ADD:
-                    fi.getNrGrid().fireButton(ActionCmds.ADDITION);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.ADDITION);
                     break;
                 case SUBTRACT:
-                    fi.getNrGrid().fireButton(ActionCmds.SUBTRACT);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.SUBTRACT);
                     break;
                 case MULTIPLY:
-                    fi.getNrGrid().fireButton(ActionCmds.MULTIPLY);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.MULTIPLY);
                     break;
                 case DIVIDE:
-                    fi.getNrGrid().fireButton(ActionCmds.DIVIDE);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.DIVIDE);
                     break;
                 case NUMPAD0:
                 case DIGIT0:
-                    fi.getNrGrid().fireButton(ActionCmds.ZERO);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.ZERO);
                     break;
                 case NUMPAD1:
                 case DIGIT1:
-                    fi.getNrGrid().fireButton(ActionCmds.ONE);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.ONE);
                     break;
                 case NUMPAD2:
                 case DIGIT2:
-                    fi.getNrGrid().fireButton(ActionCmds.TWO);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.TWO);
                     break;
                 case NUMPAD3:
                 case DIGIT3:
-                    fi.getNrGrid().fireButton(ActionCmds.THREE);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.THREE);
                     break;
                 case NUMPAD4:
                 case DIGIT4:
-                    fi.getNrGrid().fireButton(ActionCmds.FOUR);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.FOUR);
                     break;
                 case NUMPAD5:
                 case DIGIT5:
-                    fi.getNrGrid().fireButton(ActionCmds.FIVE);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.FIVE);
                     break;
                 case NUMPAD6:
                 case DIGIT6:
-                    fi.getNrGrid().fireButton(ActionCmds.SIX);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.SIX);
                     break;
                 case NUMPAD7:
                 case DIGIT7:
-                    fi.getNrGrid().fireButton(ActionCmds.SEVEN);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.SEVEN);
                     break;
                 case NUMPAD8:
                 case DIGIT8:
-                    fi.getNrGrid().fireButton(ActionCmds.EIGHT);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.EIGHT);
                     break;
                 case NUMPAD9:
                 case DIGIT9:
-                    fi.getNrGrid().fireButton(ActionCmds.NINE);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.NINE);
                     break;
                 case COMMA:
                 case PERIOD:
                 case DECIMAL:
-                    fi.getNrGrid().fireButton(ActionCmds.KOMMA);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.KOMMA);
                     break;
                 case DEAD_CIRCUMFLEX:
-                    fi.getFuncGrid().fireButton(ActionCmds.XPOWY);
+                    fi.getFuncGrid().setButtonFocus(ActionCmds.XPOWY);
                     break;
                 case EQUALS:
-                    fi.getNrGrid().fireButton(ActionCmds.EQUALS);
+                    fi.getNrGrid().setButtonFocus(ActionCmds.EQUALS);
+                    break;
+                case ENTER:
+                    fi.getNrGrid().fireOnFocus();
+                    fi.getFuncGrid().fireOnFocus();
                     break;
                 default:
                     break;

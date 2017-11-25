@@ -45,25 +45,25 @@ public class NrGrid extends GridPane implements GridInterface {
         // Setup Buttons
         for (ActionCmds ac: ActionCmds.values()) {
 
-        // Search associated ActionCmds
-        if (ac.getGridID() == ac.NR_GRID_ID) {
+            // Search associated ActionCmds
+            if (ac.getGridID() == ac.NR_GRID_ID) {
 
-            // Create Button & Styles
-            Button btn = new Button();
-            btn.getStylesheets().add("resources/css/nrGridStyles.css");
-            btn.setFont(new Font("Lato", 16));
-            btn.setMaxWidth(Double.MAX_VALUE);
-            btn.setMaxHeight(Double.MAX_VALUE);
+                // Create Button & Styles
+                Button btn = new Button();
+                btn.getStylesheets().add("resources/css/nrGridStyles.css");
+                btn.setFont(new Font("Lato", 16));
+                btn.setMaxWidth(Double.MAX_VALUE);
+                btn.setMaxHeight(Double.MAX_VALUE);
 
-            // Add Captions, Text & Listener
-            btn.setId(ac.toString());
-            btn.setText(langModel.getKeyCaption(ac.toString()));
-            btn.setAccessibleText(langModel.getAccessibleText(ac.toString()));
-            btn.addEventHandler(ActionEvent.ACTION,acl);
+                // Add Captions, Text & Listener
+                btn.setId(ac.toString());
+                btn.setText(langModel.getKeyCaption(ac.toString()));
+                btn.setAccessibleText(langModel.getAccessibleText(ac.toString()));
+                btn.addEventHandler(ActionEvent.ACTION,acl);
 
-            //Add Button to Grid & Save for later use
-            this.add(btn,ac.getCol(), ac.getRow(), ac.getColSpan(),ac.getRowSpan());
-            buttonList.add(btn);
+                //Add Button to Grid & Save for later use
+                this.add(btn,ac.getCol(), ac.getRow(), ac.getColSpan(),ac.getRowSpan());
+                buttonList.add(btn);
             }
         }
 
@@ -105,10 +105,9 @@ public class NrGrid extends GridPane implements GridInterface {
     }
 
     @Override
-    public void fireButton(ActionCmds ac) {
+    public void fireOnFocus() {
         for (Button btn: buttonList) {
-            if (btn.getId().equals(ac.toString())) {
-                btn.requestFocus();
+            if (btn.isFocused()) {
                 btn.fire();
             }
         }

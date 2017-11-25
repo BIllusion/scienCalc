@@ -104,10 +104,9 @@ public class FuncGrid extends GridPane implements GridInterface {
     }
 
     @Override
-    public void fireButton(ActionCmds ac) {
+    public void fireOnFocus() {
         for (Button btn: buttonList) {
-            if (btn.getId().equals(ac.toString())) {
-                btn.requestFocus();
+            if (btn.isFocused()) {
                 btn.fire();
             }
         }
