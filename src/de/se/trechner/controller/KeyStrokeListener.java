@@ -1,6 +1,8 @@
 package de.se.trechner.controller;
 
 import javafx.event.EventHandler;
+import javafx.event.EventType;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -23,9 +25,13 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
     private final KeyCombination keyCombinationDel = new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN);
     private final KeyCombination keyCombinationNum = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
     private final KeyCombination keyCombinationOp = new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN);
+    private final KeyCombination keyCombinationEquals = new KeyCodeCombination(KeyCode.DIGIT0, KeyCombination.SHIFT_DOWN);
+
+    private KeyEvent e;
 
     @Override
     public void handle(KeyEvent e) {
+        this.e = e;
         String keyText = e.getText();
         String keyCharacter = e.getCharacter();
         String keyC = e.getCode().toString();
@@ -55,80 +61,109 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
                 fi.getNrGrid().setButtonFocus(ActionCmds.DIVIDE);
 
             }
+        } else if (e.isShiftDown()) {
+            if (keyCombinationEquals.match(e)) {
+                fireButton(ActionCmds.EQUALS);
+            }
         } else {
             // Single Key
             switch ( e.getCode()) {
                 case ADD:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.ADDITION);
+                    fireButton(ActionCmds.ADDITION);
                     break;
                 case SUBTRACT:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.SUBTRACT);
+                    fireButton(ActionCmds.SUBTRACT);
                     break;
                 case MULTIPLY:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.MULTIPLY);
+                    fireButton(ActionCmds.MULTIPLY);
                     break;
                 case DIVIDE:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.DIVIDE);
+                    fireButton(ActionCmds.DIVIDE);
                     break;
                 case NUMPAD0:
                 case DIGIT0:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.ZERO);
+                    fireButton(ActionCmds.ZERO);
                     break;
                 case NUMPAD1:
                 case DIGIT1:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.ONE);
+                    fireButton(ActionCmds.ONE);
                     break;
                 case NUMPAD2:
                 case DIGIT2:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.TWO);
+                    fireButton(ActionCmds.TWO);
                     break;
                 case NUMPAD3:
                 case DIGIT3:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.THREE);
+                    fireButton(ActionCmds.THREE);
                     break;
                 case NUMPAD4:
                 case DIGIT4:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.FOUR);
+                    fireButton(ActionCmds.FOUR);
                     break;
                 case NUMPAD5:
                 case DIGIT5:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.FIVE);
+                    fireButton(ActionCmds.FIVE);
                     break;
                 case NUMPAD6:
                 case DIGIT6:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.SIX);
+                    fireButton(ActionCmds.SIX);
                     break;
                 case NUMPAD7:
                 case DIGIT7:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.SEVEN);
+                    fireButton(ActionCmds.SEVEN);
                     break;
                 case NUMPAD8:
                 case DIGIT8:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.EIGHT);
+                    fireButton(ActionCmds.EIGHT);
                     break;
                 case NUMPAD9:
                 case DIGIT9:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.NINE);
+                    fireButton(ActionCmds.NINE);
                     break;
                 case COMMA:
                 case PERIOD:
                 case DECIMAL:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.KOMMA);
+                    fireButton(ActionCmds.KOMMA);
                     break;
                 case DEAD_CIRCUMFLEX:
-                    fi.getFuncGrid().setButtonFocus(ActionCmds.XPOWY);
+                    fireButton(ActionCmds.XPOWY);
                     break;
                 case EQUALS:
-                    fi.getNrGrid().setButtonFocus(ActionCmds.EQUALS);
+                    fireButton(ActionCmds.EQUALS);
                     break;
                 case ENTER:
-                    fi.getNrGrid().fireOnFocus();
-                    fi.getFuncGrid().fireOnFocus();
+                    if (fi.isBigLabelFocused()) {
+                        fireButton(ActionCmds.EQUALS);
+                    } else {
+                        Button btn = fi.getFocusedButton();
+                        if (btn != null) {
+                            ActionCmds c = ActionCmds.valueOf(btn.getId());
+                            fireButton(c);
+                        }
+                    }
                     break;
                 default:
                     break;
             }
         }
+    }
+
+    private void fireButton(ActionCmds a) {
+        if (e.getEventType().equals(KeyEvent.KEY_PRESSED)) {
+            if (a.getGridID() == a.NR_GRID_ID) {
+                fi.getNrGrid().fireButtonEvent(a);
+            } else if (a.getGridID() == a.FUNC_GRID_ID) {
+                fi.getFuncGrid().fireButtonEvent(a);
+            }
+        }
+        if (e.getEventType().equals(KeyEvent.KEY_RELEASED)) {
+            if (a.getGridID() == a.NR_GRID_ID) {
+                fi.getNrGrid().releaseButtonEvent(a);
+            } else if (a.getGridID() == a.FUNC_GRID_ID) {
+                fi.getFuncGrid().releaseButtonEvent(a);
+            }
+        }
+        e.consume();
     }
 
 

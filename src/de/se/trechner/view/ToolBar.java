@@ -1,5 +1,10 @@
 package de.se.trechner.view;
 
+import de.se.trechner.controller.ToolbarCmdListener;
+import de.se.trechner.interfaces.FrameInterface;
+import de.se.trechner.model.LangModel;
+import de.se.trechner.model.ToolbarActionCmds;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
@@ -19,30 +24,59 @@ public class ToolBar extends AnchorPane {
     private Hyperlink hDEG, hFE, hMS, hMR, hMC;
 
     private Font baseFont = new Font("Lato", 16);
+    private FrameInterface fi;
 
-    public ToolBar() {
+    public ToolBar(FrameInterface fi) {
         super();
 
-        hDEG = new Hyperlink("DEG");
-        hFE = new Hyperlink("F-E");
-        hMS = new Hyperlink("MS");
-        hMR = new Hyperlink("MR");
-        hMC = new Hyperlink("MC");
+        this.fi = fi;
+        this.setStyle("-fx-background-color: #303030;" +
+                "    -fx-border-width: 0 0 8px;" +
+                "    -fx-border-color: #006d68;");
+        this.getStylesheets().add("resources/css/ToolbarStyles.css");
 
-        hDEG.setFont(baseFont);
-        hFE.setFont(baseFont);
+        //Setup Language-Pack & Listener
+        LangModel langModel = LangModel.getInstance();
+        ToolbarCmdListener tcl = ToolbarCmdListener.getInstance(fi);
 
-        modeSwitch = new TextFlow(hDEG, getSeperator(), hFE);
-        memFunc = new TextFlow(hMS, getSeperator(), hMR, getSeperator(), hMC);
+        // Setup Container for Click-Items
+        TextFlow leftContainer = new TextFlow();
+        TextFlow rightContainer = new TextFlow();
 
+        // Setup Buttons
+        for (ToolbarActionCmds tac: ToolbarActionCmds.values()) {
+            Hyperlink hl = new Hyperlink();
+            hl.setId(tac.toString());
+            hl.addEventHandler(ActionEvent.ACTION, tcl);
 
-        this.setTopAnchor(modeSwitch,0.0);
-        this.setLeftAnchor(modeSwitch,0.0);
+            hl.setFont(baseFont);
+            hl.setAccessibleText(langModel.getAccessibleText(tac.toString()));
+            hl.setText(langModel.getKeyCaption(tac.toString()));
+            hlList.add(hl);
 
-        this.setRightAnchor(memFunc,0.0);
-        this.setBottomAnchor(memFunc,0.0);
+            // Search associated ActionCmds
+            if (tac.getContainerID() == tac.TB_CONTAINER_ID_LEFT) {
+                if (!leftContainer.getChildren().isEmpty()) {
+                    leftContainer.getChildren().add(getSeperator());
+                }
+                leftContainer.getChildren().add(hl);
+            }
 
-        this.getChildren().addAll(modeSwitch,memFunc);
+            if (tac.getContainerID() == tac.TB_CONTAINER_ID_RIGHT) {
+                if (!rightContainer.getChildren().isEmpty()) {
+                    rightContainer.getChildren().add(getSeperator());
+                }
+                rightContainer.getChildren().add(hl);
+            }
+        }
+
+        this.setTopAnchor(leftContainer,0.0);
+        this.setLeftAnchor(leftContainer,0.0);
+
+        this.setRightAnchor(rightContainer,0.0);
+        this.setBottomAnchor(rightContainer,0.0);
+
+        this.getChildren().addAll(leftContainer,rightContainer);
     }
 
     private Text getSeperator() {

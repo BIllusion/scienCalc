@@ -2,12 +2,14 @@ package de.se.trechner.view;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import de.se.trechner.interfaces.FrameInterface;
 import de.se.trechner.interfaces.GridInterface;
 import de.se.trechner.controller.KeyStrokeListener;
-import de.se.trechner.model.ActionCmds;
+
 
 public class TRechnerGUI {
 
@@ -22,6 +24,7 @@ public class TRechnerGUI {
     private FuncGrid funcGrid;
     private NrGrid nrGrid;
     private FrameInterface fi = new FrameAdapter();
+    private Scene sc;
 
     public TRechnerGUI() {
 
@@ -30,6 +33,7 @@ public class TRechnerGUI {
         baseAnchorPane.setPadding(new Insets(MAINPADDING, MAINPADDING, MAINPADDING, MAINPADDING));
         baseAnchorPane.setPrefSize(1024, 768);
         baseAnchorPane.setStyle("-fx-background-color: #303030;");
+        sc = new Scene(baseAnchorPane);
 
         // Einteilung oben unten
         outerVBox = new VBox();
@@ -40,7 +44,7 @@ public class TRechnerGUI {
         innerVBox = new VBox();
         innerVBox.setStyle("-fx-background-color: #FFFFFF;"); //nur debugging
 
-        tBar = new ToolBar();
+        tBar = new ToolBar(fi);
         display = new Display(100.0,fi);
 
         innerVBox.setVgrow(display,Priority.ALWAYS);
@@ -69,7 +73,6 @@ public class TRechnerGUI {
         gridHBox.getChildren().addAll(funcGrid, nrGrid);
 
 
-
         // Resize Grids 5 zu 4
         baseAnchorPane.widthProperty().addListener((obs, oldVal, newVal) -> {
             funcGrid.setPrefWidth((5.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
@@ -87,10 +90,13 @@ public class TRechnerGUI {
 
         KeyStrokeListener ks = new KeyStrokeListener(fi);
         baseAnchorPane.setOnKeyPressed(ks);
+        baseAnchorPane.setOnKeyReleased(ks);
 
         Platform.runLater( () -> {
             display.setFocus();
         });
+
+
     }
 
     private class FrameAdapter implements FrameInterface {
@@ -114,10 +120,29 @@ public class TRechnerGUI {
             return nrGrid;
         }
 
+        @Override
+        public Button getFocusedButton() {
+            if (sc.focusOwnerProperty().get() instanceof Button) {
+                return (Button) sc.focusOwnerProperty().get();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public boolean isBigLabelFocused() {
+            if (sc.focusOwnerProperty().get() instanceof Label ) {
+                if((sc.focusOwnerProperty().get()).getId().equals("BigMsgBox")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+        }
+
 
     }
 
-    public Parent asParent() {
-        return baseAnchorPane;
-    }
+    public Scene getScene() {return sc; }
 }

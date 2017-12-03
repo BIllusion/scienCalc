@@ -1,5 +1,7 @@
 package de.se.trechner.interfaces;
 
+import javafx.scene.control.Button;
+
 public interface FrameInterface {
 
     public void setBigLabel(String message);
@@ -9,5 +11,9 @@ public interface FrameInterface {
     public GridInterface getFuncGrid();
 
     public GridInterface getNrGrid();
+
+    public Button getFocusedButton();
+
+    public boolean isBigLabelFocused();
 
 }

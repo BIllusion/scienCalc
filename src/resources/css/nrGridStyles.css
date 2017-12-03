@@ -18,7 +18,7 @@
 }
 
 .button:pressed, #EQUALS:pressed {
-
+    -fx-background-color:#fff15f;
 }
 
 #EQUALS {

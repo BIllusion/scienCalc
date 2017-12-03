@@ -1,6 +1,7 @@
 package de.se.trechner.view;
 
 import javafx.beans.value.ChangeListener;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.ColumnConstraints;
@@ -100,6 +101,25 @@ public class NrGrid extends GridPane implements GridInterface {
         for (Button btn: buttonList) {
             if (btn.getId().equals(ac.toString())) {
                 btn.requestFocus();
+            }
+        }
+    }
+
+    @Override
+    public void fireButtonEvent(ActionCmds ac) {
+        for (Button btn: buttonList) {
+            if (btn.getId().equals(ac.toString())) {
+                btn.pseudoClassStateChanged(PseudoClass.getPseudoClass("pressed"), true);
+                btn.fire();
+            }
+        }
+    }
+
+    @Override
+    public void releaseButtonEvent(ActionCmds ac) {
+        for (Button btn: buttonList) {
+            if (btn.getId().equals(ac.toString())) {
+                btn.pseudoClassStateChanged(PseudoClass.getPseudoClass("pressed"), false);
             }
         }
     }
