@@ -9,6 +9,7 @@ import javafx.scene.layout.*;
 import de.se.trechner.interfaces.FrameInterface;
 import de.se.trechner.interfaces.GridInterface;
 import de.se.trechner.controller.KeyStrokeListener;
+import javafx.scene.text.Font;
 
 
 public class TRechnerGUI {
@@ -28,11 +29,14 @@ public class TRechnerGUI {
 
     public TRechnerGUI() {
 
+
         // Base Anchor init
         baseAnchorPane = new AnchorPane();
         baseAnchorPane.setPadding(new Insets(MAINPADDING, MAINPADDING, MAINPADDING, MAINPADDING));
         baseAnchorPane.setPrefSize(1024, 768);
-        baseAnchorPane.setStyle("-fx-background-color: #303030;");
+        baseAnchorPane.getStylesheets().add("resources/css/TRechnerStyles.css");
+        //baseAnchorPane.setStyle("-fx-background-color: #303030;");
+        baseAnchorPane.setId("BaseAnchor");
         sc = new Scene(baseAnchorPane);
 
         // Einteilung oben unten
