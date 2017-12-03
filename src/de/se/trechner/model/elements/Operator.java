@@ -2,15 +2,96 @@ package de.se.trechner.model.elements;
 
 import de.se.trechner.model.ActionCmds;
 
+/**
+ * Diese abstrakte Klasse erbt von Element und fasst die gemeinsamen 
+ * Eigenschaften des Unäroperators und des Binäroperators zusammen.
+ * 
+ * @author wojke_n
+ * @version 2017-11-28
+ * @see Element
+ * @see UnaryOperator
+ * @see BinaryOperator
+ */
 public abstract class Operator extends Element {
-	private ActionCmds a;
+	private ActionCmds identifier;
 
-	public Operator(String stringRepresentation, ActionCmds a) {
-		super(stringRepresentation);
-		this.a = a;
+	/**
+	 * Konstruktor erhält identifier, speichert diesen und 
+	 * bestimmt damit den passenden String.
+	 *
+	 * @param identifier
+	 */
+	public Operator(ActionCmds identifier) {
+		super(getRepresentation(identifier));
+		this.identifier = identifier;
 	}
 
+	/**
+	 * Einfache Getter-Methode für den identifier.
+	 * 
+	 * @return identifier ermöglicht die eindeutige Identifizierung des Operators.
+	 */
 	public ActionCmds getIdentifier() {
-		return a;
+		return identifier;
+	}
+	
+	/**
+	 * Ordnet dem Identifier des Operators den passenden String zu.
+	 * 
+	 * @param identifier ermöglicht Identifizierung des Operators
+	 * @return String, der den Operator repräsentiert.
+	 */
+	private static String getRepresentation(ActionCmds identifier){
+		switch(identifier) {
+		case SIGNCHANGE:
+			return "negate(";
+		case SIN:
+			return "sin(";
+		case ARCSIN:
+			return "asin(";
+		case COS:
+			return "cos(";
+		case ARCCOS:
+			return "acos(";
+		case TAN:
+			return "tan(";
+		case ARCTAN:
+			return "atan(";
+		case SQR:
+		case CUBIC:
+			return "";
+		case SQRT:
+			return "sqrt(";
+		case RECVAL:
+			return "reciproc(";
+		case FACT:
+			return "";
+		case EX:
+			return "e^";
+		case EXPF:
+			return "10^(";
+		case LOG:
+			return "log(";
+		case LN:
+			return "ln(";
+			// Binäre Operatoren:
+		case ADDITION:
+			return "+";
+		case SUBTRACT:
+			return "-";
+		case MULTIPLY:
+			return "*";
+		case DIVIDE:
+			return "/";
+		case XPOWY:
+			return "^";
+		case YSQRT:
+			return " yRoot ";
+		case EXP:
+			return ", e+";
+		case MOD:
+			return " mod ";
+		}
+		return null;
 	}
 }

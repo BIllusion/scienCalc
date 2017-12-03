@@ -8,20 +8,42 @@ import de.se.trechner.model.elements.Element;
 import de.se.trechner.model.elements.Number;
 import de.se.trechner.model.elements.UnaryOperator;
 
+/**
+ * Diese Klasse enthält den beim Taschrechner eingegebenen Term.
+ * Die Elemente des Terms sind in einer ArrayList gespeichert.
+ * 
+ * @author wojke_n
+ * @version 2017-11-28
+ * @see Element
+ */
 public class Term {
 	private ArrayList<Element> elements;
 	private int openBracketsCounter;
 	private int outputIndex;
 
+	/**
+	 * Konstruktor der lediglich initialize() ausführt.
+	 * 
+	 * @see #initialize()
+	 */
 	public Term() {
 		initialize();
 	}
 	
+	/**
+	 * Diese Methode erzeugt eine neue ArrayList<Element>.
+	 * Außerdem setzt sie den Klammernzähler auf 0.
+	 */
 	public void initialize() {
 		elements = new ArrayList<Element>();
 		openBracketsCounter = 0;
 	}
 	
+	/**
+	 * Diese Methode gibt den String für den Term aus.
+	 * 
+	 * @return ein String, der den Term repräsentiert.
+	 */
 	public String toString(){
 		String output = "";
 		Element e;
@@ -29,7 +51,7 @@ public class Term {
 			e = elements.get(outputIndex);
 			if(e instanceof UnaryOperator){
 				outputIndex--;
-				output = ((UnaryOperator) e).toString(getContentFor((UnaryOperator) e)) + output;
+				output = ((UnaryOperator) e).toString(getContentFor()) + output;
 				outputIndex++;
 			}else{
 				output = e.toString() + output;
@@ -38,7 +60,14 @@ public class Term {
 		return output;
 	}
 	
-	private String getContentFor(UnaryOperator uo) {
+	/**
+	 * Diese Methode gibt den Inhalt einer unären Operation als String zurück.
+	 * Da bei unären Operatoren ein oder mehrere Elemente umschloßen werden,
+	 * ist bei unären Operatoren die rekursive Durchführung dieser Methode notwendig.
+	 * 
+	 * @return ein String, der den Inhalt einer unären Operation enthält.
+	 */
+	private String getContentFor() {
 		String output = "";
 		int openBracket = -1;
 		Element e = elements.get(outputIndex);
@@ -47,14 +76,14 @@ public class Term {
 			return e.toString();
 		}
 		if(e instanceof UnaryOperator) {
-			return uo.toString(getContentFor((UnaryOperator) e));
+			return ((UnaryOperator) e).toString(getContentFor());
 		}
 		output = e.toString();
 		for(; openBracket != 0; outputIndex--) {
 			e = elements.get(outputIndex);
 			if(e instanceof UnaryOperator) {
 				outputIndex--;
-				output = ((UnaryOperator) e).toString(getContentFor((UnaryOperator) e)) + output;
+				output = ((UnaryOperator) e).toString(getContentFor()) + output;
 				outputIndex++;
 			}else {
 				if(e instanceof Bracket) {
@@ -70,11 +99,25 @@ public class Term {
 		return output;
 	}
 	
-	public double solve() {
+	/**
+	 * Berechnet das Ergebnis des Terms.
+	 * 
+	 * @return das Ergebnis des Terms
+	 * @throws Exception wird ausgelöst, wenn durch 0 geteilt wird.
+	 */
+	public double solve() throws Exception {
 		return solve(elements, 0);
 	}
 	
-	public double solve(ArrayList<Element> term, int startIndex){
+	/**
+	 * Berechnet das Ergebnis des Terms ab den startIndex.
+	 * 
+	 * @param term den Term der berechnet werden soll.
+	 * @param startIndex ab dieser stelle wird gerechnet
+	 * @return das Ergebnis der Berechnung
+	 * @throws Exception wird ausgelöst, wenn durch 0 geteilt wird.
+	 */
+	public double solve(ArrayList<Element> term, int startIndex) throws Exception{
 		int index = 0;
 		for(int i=startIndex; i<term.size(); i++){
 			if(term.get(i) instanceof Bracket){
@@ -93,7 +136,16 @@ public class Term {
 		return ((Number) term.get(startIndex)).getValue();
 	}
 	
-	private void solve(ArrayList<Element> term, int index1, int index2){
+	/**
+	 * Berechnet den Teil des Terms zwischen index1 und index2. 
+	 * Wird hauptsächlich genutzt, um den Inhalt von Klammern zu bestimmen.
+	 * 
+	 * @param term den Term der berechnet werden soll.
+	 * @param index1 Anfangsindex
+	 * @param index2 Endindex
+	 * @throws Exception wird ausgelöst, wenn durch 0 geteilt wird.
+	 */
+	private void solve(ArrayList<Element> term, int index1, int index2) throws Exception{
 		Number n, n2;
 		UnaryOperator u;
 		for(int i=1; index1+i <= index2; i++){
@@ -106,7 +158,7 @@ public class Term {
 				i--;
 			}
 		}
-		int index = -1; // markiert den Index der binären Operation mit dem höchsten Rang
+		int index = -1; // markiert den Index der bin�ren Operation mit dem h�chsten Rang
 		BinaryOperator b = null;
 		for(int i=1; index1 != index2; i += 2){
 			if(index == -1){
@@ -141,6 +193,11 @@ public class Term {
 		}
 	}
 	
+	/**
+	 * Fügt den Term eine Zahl hinzu.
+	 * 
+	 * @param num die Zahl, die hinzugefügt werden soll
+	 */
 	public void addNumber(double num) {
 		if(!elements.isEmpty()) {
 			Element lastElement = elements.get(elements.size()-1);
@@ -152,7 +209,15 @@ public class Term {
 		elements.add(new Number(num));
 	}
 	
-	public double addUnaryOperator(ActionCmds identifier){
+	/**
+	 * Fügt dem Term einen unären Operator hinzu.
+	 * Außerdem wird auch direkt das Ergebnis der unären Operation zurückgegeben.
+	 * 
+	 * @param identifier dient der Identifizierung des Operators.
+	 * @return ein double-Wert, der das Ergebnis der unären Operation entspricht.
+	 * @throws Exception 
+	 */
+	public double addUnaryOperator(ActionCmds identifier) throws Exception{
 		if(elements.isEmpty()) elements.add(new Number(0));
 		Element lastElement = elements.get(elements.size()-1);
 		if((lastElement instanceof Bracket && ((Bracket) lastElement).isOpen()) 
@@ -163,7 +228,13 @@ public class Term {
 		return preSolve();
 	}
 	
-	private double preSolve() {
+	/**
+	 * Berechnet eine unäre Operation.
+	 * 
+	 * @return das Ergebnis der Berechnung
+	 * @throws Exception
+	 */
+	private double preSolve() throws Exception {
 		int bracketCounter = 0;
 		ArrayList<Element> clone = getClone();
 		Element e;
@@ -184,6 +255,11 @@ public class Term {
 		return 0;
 	}
 	
+	/**
+	 * Fügt den Term einen binären Operator hinzu.
+	 * 
+	 * @param identifier dient der Identifizierung des Operators.
+	 */
 	public void addBinaryOperator(ActionCmds identifier){
 		if(elements.isEmpty()) elements.add(new Number(0));
 		else {
@@ -199,6 +275,12 @@ public class Term {
 		elements.add(new BinaryOperator(identifier));
 	}
 	
+	/**
+	 * Fügt den Term eine Klammer hinzu.
+	 * 
+	 * @param open true, wenn die neue Klammer eine offene ist.
+	 * @return true, wenn das Hinzufügen geklappt hat.
+	 */
 	public boolean addBracket(boolean open){
 		if(!elements.isEmpty()) {
 			Element lastElement = elements.get(elements.size()-1);
@@ -231,6 +313,11 @@ public class Term {
 		return true;
 	}
 	
+	/**
+	 * Diese Methode erschafft einen Clon der Arrayliste und gibt diese zurück.
+	 * 
+	 * @return ein Clon der ArrayListe dieses Terms.
+	 */
 	private ArrayList<Element> getClone(){
 		ArrayList<Element> clone = new ArrayList<Element>();
 		for(Element e: elements){

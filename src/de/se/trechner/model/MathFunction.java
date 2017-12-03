@@ -107,7 +107,7 @@ public abstract class MathFunction {
 		return Math.log(value);
 	}
 	
-	public static double binaryOperation(ActionCmds identifier, double value1, double value2){
+	public static double binaryOperation(ActionCmds identifier, double value1, double value2) throws Exception{
 		switch(identifier){
 		case ADDITION: 
 			return addition(value1, value2);
@@ -141,7 +141,10 @@ public abstract class MathFunction {
 		return factor1 * factor2;
 	}
 	
-	private static double divide(double dividend, double divisor) {
+	private static double divide(double dividend, double divisor) throws Exception {
+		if(divisor == 0) {
+			throw new Exception("Teilen durch 0 ist nicht möglich");
+		}
 		return dividend / divisor;
 	}
 	

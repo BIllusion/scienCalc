@@ -38,7 +38,7 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
 
     @Override
     public void handle(ActionEvent e) {
-    	double value;
+    	double value = 0;
         String cmdID = ((Button)e.getSource()).getId();
         ActionCmds c = ActionCmds.valueOf(cmdID);
         switch (c) {
@@ -274,9 +274,13 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("ADDITION");
                 break;
             case EQUALS:
-                value = term.solve();
-                isResult = true;
-                numInput = formatNumber(value);
+            	try {
+            		value = term.solve();
+            		numInput = formatNumber(value);
+            	} catch (Exception e1) {
+            		numInput = e1.getMessage();
+            	}
+				isResult = true;
                 System.out.println("EQUALS");
                 break;
             default:
@@ -294,7 +298,11 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
     }
     
     private void unaryOperator(ActionCmds identifier) {
-    	numInput = formatNumber(term.addUnaryOperator(identifier));
+    	try {
+			numInput = formatNumber(term.addUnaryOperator(identifier));
+		} catch (Exception e) {
+			numInput = e.getMessage();
+		}
         calculation = term.toString();
     }
     

@@ -6,7 +6,7 @@ public class BinaryOperator extends Operator{
 	private int rank;
 
 	public BinaryOperator(ActionCmds identifier) {
-		super(getRepresentation(identifier), identifier);
+		super(identifier);
 		rank = getRank(identifier);
 	}
 
@@ -24,32 +24,10 @@ public class BinaryOperator extends Operator{
 			return 2;
 		case XPOWY:
 		case YSQRT:
-		case EXPF:
+		case EXP:
 		case MOD:
 			return 3;
 		}
 		return -1;
-	}
-	
-	private static String getRepresentation(ActionCmds identifier){
-		switch(identifier){
-		case ADDITION:
-			return "+";
-		case SUBTRACT:
-			return "-";
-		case MULTIPLY:
-			return "*";
-		case DIVIDE:
-			return "/";
-		case XPOWY:
-			return "^";
-		case YSQRT:
-			return " yRoot ";
-		case EXPF:
-			return ",e+";
-		case MOD:
-			return " mod ";
-		}
-		return null;
 	}
 }

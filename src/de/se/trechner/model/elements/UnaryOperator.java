@@ -2,14 +2,35 @@ package de.se.trechner.model.elements;
 
 import de.se.trechner.model.ActionCmds;
 
+/**
+ * Diese Klasse steht für die Unären Operatoren eines Terms.
+ * 
+ * @author wojke_n
+ * @version 2017-11-28
+ * @see Operator
+ * @see de.se.trechner.model.Term
+ */
 public class UnaryOperator extends Operator{
 	private String representationEnd;
 
+	/**
+	 * Konstruktor ermittelt anhand des identifiers den passenden Operator
+	 * und ermittelt dazu den passenden String.
+	 * 
+	 * @param identifier ermöglicht die eindeutige Identifizierung des Operators 
+	 */
 	public UnaryOperator(ActionCmds identifier) {
-		super(getRepresentation(identifier), identifier);
+		super(identifier);
 		representationEnd = getRepresentationEnd(identifier);
 	}
 	
+	/**
+	 * Der unäre Operator benötigt eine spezielle Methode zur Stringausgabe, 
+	 * da häufig sowohl vor als auch hinter den Operand der Operator dargestellt wird.
+	 * 
+	 * @param content
+	 * @return
+	 */
 	public String toString(String content) {
 		return stringRepresentation + content + representationEnd;
 	}
@@ -41,43 +62,6 @@ public class UnaryOperator extends Operator{
 		case LOG:
 		case LN:
 			return ")";
-		}
-		return null;
-	}
-	
-	private static String getRepresentation(ActionCmds identifier){
-		switch(identifier) {
-		case SIGNCHANGE:
-			return "negate(";
-		case SIN:
-			return "sin(";
-		case ARCSIN:
-			return "asin(";
-		case COS:
-			return "cos(";
-		case ARCCOS:
-			return "acos(";
-		case TAN:
-			return "tan(";
-		case ARCTAN:
-			return "atan(";
-		case SQR:
-		case CUBIC:
-			return "";
-		case SQRT:
-			return "sqrt(";
-		case RECVAL:
-			return "reciproc(";
-		case FACT:
-			return "";
-		case EX:
-			return "e^";
-		case EXPF:
-			return "10^(";
-		case LOG:
-			return "log(";
-		case LN:
-			return "ln(";
 		}
 		return null;
 	}

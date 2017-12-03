@@ -1,5 +1,6 @@
 package de.se.trechner.view;
 
+import de.se.trechner.Main;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -29,6 +30,7 @@ public class TRechnerGUI {
 
     public TRechnerGUI() {
 
+       // Font.loadFont(Main.class.getResource("Lato.ttf").toExternalForm(),20);
 
         // Base Anchor init
         baseAnchorPane = new AnchorPane();
