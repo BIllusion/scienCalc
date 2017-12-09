@@ -3,7 +3,7 @@ package de.se.trechner.model;
 public abstract class MathFunction {
 	public static final double PI = Math.PI;
 	
-	public static double unaryOperation(ActionCmds identifier, double value){
+	public static double unaryOperation(GridActions identifier, double value){
 		switch(identifier){
 		case SIGNCHANGE:
 			return signChange(value);
@@ -107,7 +107,7 @@ public abstract class MathFunction {
 		return Math.log(value);
 	}
 	
-	public static double binaryOperation(ActionCmds identifier, double value1, double value2) throws Exception{
+	public static double binaryOperation(GridActions identifier, double value1, double value2) throws Exception{
 		switch(identifier){
 		case ADDITION: 
 			return addition(value1, value2);

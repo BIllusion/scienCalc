@@ -217,7 +217,7 @@ public class Term {
 	 * @return ein double-Wert, der das Ergebnis der unären Operation entspricht.
 	 * @throws Exception 
 	 */
-	public double addUnaryOperator(ActionCmds identifier) throws Exception{
+	public double addUnaryOperator(GridActions identifier) throws Exception{
 		if(elements.isEmpty()) elements.add(new Number(0));
 		Element lastElement = elements.get(elements.size()-1);
 		if((lastElement instanceof Bracket && ((Bracket) lastElement).isOpen()) 
@@ -260,7 +260,7 @@ public class Term {
 	 * 
 	 * @param identifier dient der Identifizierung des Operators.
 	 */
-	public void addBinaryOperator(ActionCmds identifier){
+	public void addBinaryOperator(GridActions identifier){
 		if(elements.isEmpty()) elements.add(new Number(0));
 		else {
 			Element lastElement = elements.get(elements.size()-1);

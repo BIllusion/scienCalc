@@ -1,14 +1,15 @@
 package de.se.trechner.view;
 
 import de.se.trechner.Main;
+import de.se.trechner.interfaces.ActionsInterface;
+import de.se.trechner.model.CSSNodeIDs;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import de.se.trechner.interfaces.FrameInterface;
-import de.se.trechner.interfaces.GridInterface;
 import de.se.trechner.controller.KeyStrokeListener;
 import javafx.scene.text.Font;
 
@@ -18,6 +19,7 @@ public class TRechnerGUI {
     public final static int MAINPADDING = 30;
     public final static int INNERPADDING = 10;
 
+    private Scene sc;
     private AnchorPane baseAnchorPane;
     private VBox outerVBox, innerVBox;
     private HBox gridHBox;
@@ -26,32 +28,34 @@ public class TRechnerGUI {
     private FuncGrid funcGrid;
     private NrGrid nrGrid;
     private FrameInterface fi = new FrameAdapter();
-    private Scene sc;
 
     public TRechnerGUI() {
 
-       // Font.loadFont(Main.class.getResource("Lato.ttf").toExternalForm(),20);
-
         // Base Anchor init
         baseAnchorPane = new AnchorPane();
+        baseAnchorPane.setId(CSSNodeIDs.BASEANCHOR);
         baseAnchorPane.setPadding(new Insets(MAINPADDING, MAINPADDING, MAINPADDING, MAINPADDING));
         baseAnchorPane.setPrefSize(1024, 768);
-        baseAnchorPane.getStylesheets().add("resources/css/TRechnerStyles.css");
-        //baseAnchorPane.setStyle("-fx-background-color: #303030;");
-        baseAnchorPane.setId("BaseAnchor");
+
+        // Scene für Stage-Building
         sc = new Scene(baseAnchorPane);
+        sc.getStylesheets().add("resources/css/TRechnerStyles.css");
 
         // Einteilung oben unten
         outerVBox = new VBox();
+        outerVBox.setId(CSSNodeIDs.OUTERVBOX);
         outerVBox.setFillWidth(true);
         outerVBox.setSpacing(MAINPADDING);
 
         // Oberer Teil
         innerVBox = new VBox();
-        innerVBox.setStyle("-fx-background-color: #FFFFFF;"); //nur debugging
+        innerVBox.setId(CSSNodeIDs.INNERVBOX);
 
+
+        // Toolbar
         tBar = new ToolBar(fi);
-        display = new Display(100.0,fi);
+        tBar.setId(CSSNodeIDs.TOOLBAR);
+        display = new Display();
 
         innerVBox.setVgrow(display,Priority.ALWAYS);
         innerVBox.getChildren().addAll(tBar, display);
@@ -65,7 +69,9 @@ public class TRechnerGUI {
 
         // Button Grids Erstellen
         funcGrid = new FuncGrid(fi);
+        funcGrid.setId(CSSNodeIDs.FUNCGRID);
         nrGrid = new NrGrid(fi);
+        nrGrid.setId(CSSNodeIDs.NRGRID);
 
         // GUI-Aufbau
         baseAnchorPane.setTopAnchor(outerVBox,0.0);
@@ -89,17 +95,26 @@ public class TRechnerGUI {
 
         // Resize Grids zu Label 7 zu 3
         baseAnchorPane.heightProperty().addListener((obs, oldVal, newVal) -> {
-            gridHBox.setPrefHeight(0.7 * (baseAnchorPane.getHeight() - (MAINPADDING * 3)));
-            innerVBox.setPrefHeight(0.3 * (baseAnchorPane.getHeight() - (MAINPADDING * 3)));
+            gridHBox.setPrefHeight(0.65 * (baseAnchorPane.getHeight() - (MAINPADDING * 3)));
+            innerVBox.setPrefHeight(0.35 * (baseAnchorPane.getHeight() - (MAINPADDING * 3)));
             System.out.println("HboxHeight: " + gridHBox.getHeight() + "  BaseAnchorPane height: " + baseAnchorPane.getHeight());
         });
 
+
+
         KeyStrokeListener ks = new KeyStrokeListener(fi);
-        baseAnchorPane.setOnKeyPressed(ks);
-        baseAnchorPane.setOnKeyReleased(ks);
+        sc.addEventFilter(KeyEvent.KEY_PRESSED, ks);
+        sc.addEventFilter(KeyEvent.KEY_RELEASED, ks);
+
+        Font.loadFont(Main.class.getResource("../../../resources/fonts/Lato-Regular.ttf").toExternalForm(),20);
+        Font.loadFont(Main.class.getResource("../../../resources/fonts/Lato-Bold.ttf").toExternalForm(),20);
+        Font.loadFont(Main.class.getResource("../../../resources/fonts/Lato-Black.ttf").toExternalForm(),20);
+        Font.loadFont(Main.class.getResource("../../../resources/fonts/Lato-Light.ttf").toExternalForm(),20);
 
         Platform.runLater( () -> {
             display.setFocus();
+            funcGrid.updateFontSize();
+            nrGrid.updateFontSize();
         });
 
 
@@ -117,28 +132,29 @@ public class TRechnerGUI {
         }
 
         @Override
-        public GridInterface getFuncGrid() {
+        public ActionsInterface getToolBar() {
+            return tBar;
+        }
+
+        @Override
+        public ActionsInterface getFuncGrid() {
             return funcGrid;
         }
 
         @Override
-        public GridInterface getNrGrid() {
+        public ActionsInterface getNrGrid() {
             return nrGrid;
         }
 
         @Override
-        public Button getFocusedButton() {
-            if (sc.focusOwnerProperty().get() instanceof Button) {
-                return (Button) sc.focusOwnerProperty().get();
-            } else {
-                return null;
-            }
+        public String getIdFromFocus() {
+            return sc.focusOwnerProperty().get().getId();
         }
 
         @Override
         public boolean isBigLabelFocused() {
             if (sc.focusOwnerProperty().get() instanceof Label ) {
-                if((sc.focusOwnerProperty().get()).getId().equals("BigMsgBox")) {
+                if((sc.focusOwnerProperty().get()).getId().equals(CSSNodeIDs.BIGMSGBOX)) {
                     return true;
                 } else {
                     return false;

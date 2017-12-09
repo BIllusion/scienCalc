@@ -34,6 +34,9 @@ public class LangModel {
         return bundle.getString(key + ".AccessibleText");
     }
 
+    public String getAccessibleHelp(String key) {
+        return bundle.getString(key + ".AccessibleHelp");
+    }
 
 
 }

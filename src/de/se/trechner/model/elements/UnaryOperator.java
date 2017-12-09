@@ -1,6 +1,6 @@
 package de.se.trechner.model.elements;
 
-import de.se.trechner.model.ActionCmds;
+import de.se.trechner.model.GridActions;
 
 /**
  * Diese Klasse steht für die Unären Operatoren eines Terms.
@@ -19,7 +19,7 @@ public class UnaryOperator extends Operator{
 	 * 
 	 * @param identifier ermöglicht die eindeutige Identifizierung des Operators 
 	 */
-	public UnaryOperator(ActionCmds identifier) {
+	public UnaryOperator(GridActions identifier) {
 		super(identifier);
 		representationEnd = getRepresentationEnd(identifier);
 	}
@@ -35,7 +35,7 @@ public class UnaryOperator extends Operator{
 		return stringRepresentation + content + representationEnd;
 	}
 	
-	private String getRepresentationEnd(ActionCmds identifier) {
+	private String getRepresentationEnd(GridActions identifier) {
 		switch(identifier) {
 		case SIGNCHANGE:
 			return ")";

@@ -12,10 +12,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         primaryStage.setTitle("Taschenrechner-Prototyp");
         TRechnerGUI tRechnerGUI = new TRechnerGUI();
-       // Scene scene = new Scene(tRechnerGUI.asParent());
-        Scene scene = tRechnerGUI.getScene();
-        primaryStage.setScene(scene);
+        primaryStage.setScene(tRechnerGUI.getScene());
         primaryStage.show();
+        primaryStage.setMinWidth(700);
+        primaryStage.setMinHeight(600);
     }
 
 

@@ -1,6 +1,6 @@
 package de.se.trechner.model.elements;
 
-import de.se.trechner.model.ActionCmds;
+import de.se.trechner.model.GridActions;
 
 /**
  * Diese abstrakte Klasse erbt von Element und fasst die gemeinsamen 
@@ -13,7 +13,7 @@ import de.se.trechner.model.ActionCmds;
  * @see BinaryOperator
  */
 public abstract class Operator extends Element {
-	private ActionCmds identifier;
+	private GridActions identifier;
 
 	/**
 	 * Konstruktor erhält identifier, speichert diesen und 
@@ -21,7 +21,7 @@ public abstract class Operator extends Element {
 	 *
 	 * @param identifier
 	 */
-	public Operator(ActionCmds identifier) {
+	public Operator(GridActions identifier) {
 		super(getRepresentation(identifier));
 		this.identifier = identifier;
 	}
@@ -31,7 +31,7 @@ public abstract class Operator extends Element {
 	 * 
 	 * @return identifier ermöglicht die eindeutige Identifizierung des Operators.
 	 */
-	public ActionCmds getIdentifier() {
+	public GridActions getIdentifier() {
 		return identifier;
 	}
 	
@@ -41,7 +41,7 @@ public abstract class Operator extends Element {
 	 * @param identifier ermöglicht Identifizierung des Operators
 	 * @return String, der den Operator repräsentiert.
 	 */
-	private static String getRepresentation(ActionCmds identifier){
+	private static String getRepresentation(GridActions identifier){
 		switch(identifier) {
 		case SIGNCHANGE:
 			return "negate(";

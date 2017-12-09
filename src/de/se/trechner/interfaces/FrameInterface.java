@@ -1,6 +1,8 @@
 package de.se.trechner.interfaces;
 
-import javafx.scene.control.Button;
+
+import de.se.trechner.model.GridActions;
+import de.se.trechner.model.ToolbarActions;
 
 public interface FrameInterface {
 
@@ -8,11 +10,13 @@ public interface FrameInterface {
 
     public void setSmallLabel(String message);
 
-    public GridInterface getFuncGrid();
+    public String getIdFromFocus();
 
-    public GridInterface getNrGrid();
+    public ActionsInterface<ToolbarActions> getToolBar();
 
-    public Button getFocusedButton();
+    public ActionsInterface<GridActions> getFuncGrid();
+
+    public ActionsInterface<GridActions> getNrGrid();
 
     public boolean isBigLabelFocused();
 

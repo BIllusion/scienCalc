@@ -1,14 +1,13 @@
 package de.se.trechner.controller;
 
+import de.se.trechner.model.GridActions;
+import de.se.trechner.model.ToolbarActions;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import de.se.trechner.interfaces.FrameInterface;
-import de.se.trechner.model.ActionCmds;
 
 public class KeyStrokeListener implements EventHandler<KeyEvent> {
 
@@ -40,106 +39,104 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
         if (e.isControlDown()) {
             // Keystroke Checks
             if (keyCombinationExpf.match(e)) {
-                fi.getFuncGrid().setButtonFocus(ActionCmds.SQR);
+                fi.getFuncGrid().requestFocus(GridActions.SQR);
 
             } else if (keyCombinationSin.match(e)) {
-                fi.getFuncGrid().setButtonFocus(ActionCmds.SIN);
+                fi.getFuncGrid().requestFocus(GridActions.SIN);
 
             } else if (keyCombinationConv.match(e)) {
-                fi.getFuncGrid().setButtonFocus(ActionCmds.EXP);
+                fi.getFuncGrid().requestFocus(GridActions.EXP);
 
             } else if (keyCombinationExtras.match(e)) {
-                fi.getFuncGrid().setButtonFocus(ActionCmds.MOD);
+                fi.getFuncGrid().requestFocus(GridActions.MOD);
 
             } else if (keyCombinationDel.match(e)) {
-                fi.getNrGrid().setButtonFocus(ActionCmds.CLEARINPUT);
+                fi.getNrGrid().requestFocus(GridActions.CLEARINPUT);
 
             } else if (keyCombinationNum.match(e)) {
-                fi.getNrGrid().setButtonFocus(ActionCmds.ONE);
+                fi.getNrGrid().requestFocus(GridActions.ONE);
 
             } else if (keyCombinationOp.match(e)) {
-                fi.getNrGrid().setButtonFocus(ActionCmds.DIVIDE);
+                fi.getNrGrid().requestFocus(GridActions.DIVIDE);
 
             }
         } else if (e.isShiftDown()) {
             if (keyCombinationEquals.match(e)) {
-                fireButton(ActionCmds.EQUALS);
+                fireAction(GridActions.EQUALS);
             }
         } else {
             // Single Key
             switch ( e.getCode()) {
                 case ADD:
-                    fireButton(ActionCmds.ADDITION);
+                    fireAction(GridActions.ADDITION);
                     break;
                 case SUBTRACT:
-                    fireButton(ActionCmds.SUBTRACT);
+                    fireAction(GridActions.SUBTRACT);
                     break;
                 case MULTIPLY:
-                    fireButton(ActionCmds.MULTIPLY);
+                    fireAction(GridActions.MULTIPLY);
                     break;
                 case DIVIDE:
-                    fireButton(ActionCmds.DIVIDE);
+                    fireAction(GridActions.DIVIDE);
                     break;
                 case NUMPAD0:
                 case DIGIT0:
-                    fireButton(ActionCmds.ZERO);
+                    fireAction(GridActions.ZERO);
                     break;
                 case NUMPAD1:
                 case DIGIT1:
-                    fireButton(ActionCmds.ONE);
+                    fireAction(GridActions.ONE);
                     break;
                 case NUMPAD2:
                 case DIGIT2:
-                    fireButton(ActionCmds.TWO);
+                    fireAction(GridActions.TWO);
                     break;
                 case NUMPAD3:
                 case DIGIT3:
-                    fireButton(ActionCmds.THREE);
+                    fireAction(GridActions.THREE);
                     break;
                 case NUMPAD4:
                 case DIGIT4:
-                    fireButton(ActionCmds.FOUR);
+                    fireAction(GridActions.FOUR);
                     break;
                 case NUMPAD5:
                 case DIGIT5:
-                    fireButton(ActionCmds.FIVE);
+                    fireAction(GridActions.FIVE);
                     break;
                 case NUMPAD6:
                 case DIGIT6:
-                    fireButton(ActionCmds.SIX);
+                    fireAction(GridActions.SIX);
                     break;
                 case NUMPAD7:
                 case DIGIT7:
-                    fireButton(ActionCmds.SEVEN);
+                    fireAction(GridActions.SEVEN);
                     break;
                 case NUMPAD8:
                 case DIGIT8:
-                    fireButton(ActionCmds.EIGHT);
+                    fireAction(GridActions.EIGHT);
                     break;
                 case NUMPAD9:
                 case DIGIT9:
-                    fireButton(ActionCmds.NINE);
+                    fireAction(GridActions.NINE);
                     break;
                 case COMMA:
                 case PERIOD:
                 case DECIMAL:
-                    fireButton(ActionCmds.KOMMA);
+                    fireAction(GridActions.KOMMA);
                     break;
                 case DEAD_CIRCUMFLEX:
-                    fireButton(ActionCmds.XPOWY);
+                    fireAction(GridActions.XPOWY);
                     break;
                 case EQUALS:
-                    fireButton(ActionCmds.EQUALS);
+                    fireAction(GridActions.EQUALS);
                     break;
                 case ENTER:
+                case SPACE:
+
                     if (fi.isBigLabelFocused()) {
-                        fireButton(ActionCmds.EQUALS);
+                        fireAction(GridActions.EQUALS);
                     } else {
-                        Button btn = fi.getFocusedButton();
-                        if (btn != null) {
-                            ActionCmds c = ActionCmds.valueOf(btn.getId());
-                            fireButton(c);
-                        }
+                        fireAction(fi.getIdFromFocus());
                     }
                     break;
                 default:
@@ -148,23 +145,39 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
         }
     }
 
-    private void fireButton(ActionCmds a) {
+    private void fireAction(GridActions ga) {
         if (e.getEventType().equals(KeyEvent.KEY_PRESSED)) {
-            if (a.getGridID() == a.NR_GRID_ID) {
-                fi.getNrGrid().fireButtonEvent(a);
-            } else if (a.getGridID() == a.FUNC_GRID_ID) {
-                fi.getFuncGrid().fireButtonEvent(a);
-            }
+            fi.getNrGrid().fireActionEvent(ga);
+            fi.getFuncGrid().fireActionEvent(ga);
         }
         if (e.getEventType().equals(KeyEvent.KEY_RELEASED)) {
-            if (a.getGridID() == a.NR_GRID_ID) {
-                fi.getNrGrid().releaseButtonEvent(a);
-            } else if (a.getGridID() == a.FUNC_GRID_ID) {
-                fi.getFuncGrid().releaseButtonEvent(a);
+            fi.getNrGrid().releaseActionEvent(ga);
+            fi.getFuncGrid().releaseActionEvent(ga);
+        }
+    }
+
+    private void fireAction(ToolbarActions ta) {
+        if(e.getEventType().equals(KeyEvent.KEY_PRESSED)) {
+            fi.getToolBar().fireActionEvent(ta);
+        }
+        if (e.getEventType().equals(KeyEvent.KEY_RELEASED)) {
+            fi.getToolBar().releaseActionEvent(ta);
+        }
+    }
+
+    private void fireAction(String cmd) {
+        for (ToolbarActions tac: ToolbarActions.values()) {
+            if (tac.toString().equals(cmd)) {
+                fireAction(tac);
+            }
+        }
+
+        for (GridActions ac : GridActions.values()) {
+            if (ac.toString().equals(cmd)) {
+                fireAction(ac);
             }
         }
         e.consume();
     }
-
 
 }

@@ -1,5 +1,7 @@
 package de.se.trechner.view;
 
+import de.se.trechner.interfaces.ActionsInterface;
+import de.se.trechner.model.GridActions;
 import javafx.beans.value.ChangeListener;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -10,16 +12,16 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import de.se.trechner.interfaces.FrameInterface;
-import de.se.trechner.interfaces.GridInterface;
-import de.se.trechner.controller.ActionCmdListener;
-import de.se.trechner.model.ActionCmds;
+import de.se.trechner.controller.GridActionsListener;
 import de.se.trechner.model.LangModel;
+import javafx.scene.text.FontWeight;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 
-public class FuncGrid extends GridPane implements GridInterface {
+public class FuncGrid extends GridPane implements ActionsInterface<GridActions> {
 
     private List<Button> buttonList = new ArrayList<Button>();
 
@@ -35,7 +37,6 @@ public class FuncGrid extends GridPane implements GridInterface {
         row.setVgrow(Priority.ALWAYS);
 
         // Setup 5x5 Grid
-
         this.setHgap(TRechnerGUI.INNERPADDING);
         this.setVgap(TRechnerGUI.INNERPADDING);
         this.getColumnConstraints().addAll(col,col,col,col, col);
@@ -43,18 +44,16 @@ public class FuncGrid extends GridPane implements GridInterface {
 
         //Setup Language-Pack & Listener
         LangModel langModel = LangModel.getInstance();
-        ActionCmdListener acl = ActionCmdListener.getInstance(fi);
+        GridActionsListener acl = GridActionsListener.getInstance(fi);
 
         // Setup Buttons
-        for (ActionCmds ac: ActionCmds.values()) {
+        for (GridActions ac: GridActions.values()) {
 
-            // Search associated ActionCmds
-            if (ac.getGridID() == ac.FUNC_GRID_ID) {
+            // Search associated GridActions
+            if (IntStream.of(GridActions.FUNC_GRID_GROUP_IDS).anyMatch(x -> x == ac.getGroupID())) {
 
                 // Create Button & Styles
                 Button btn = new Button();
-                btn.getStylesheets().add("resources/css/funcGridStyles.css");
-                btn.setFont(new Font("Lato", 16));
                 btn.setMaxWidth(Double.MAX_VALUE);
                 btn.setMaxHeight(Double.MAX_VALUE);
 
@@ -62,6 +61,7 @@ public class FuncGrid extends GridPane implements GridInterface {
                 btn.setId(ac.toString());
                 btn.setText(langModel.getKeyCaption(ac.toString()));
                 btn.setAccessibleText(langModel.getAccessibleText(ac.toString()));
+                btn.setAccessibleHelp(langModel.getAccessibleHelp(ac.toString()));
                 btn.addEventHandler(ActionEvent.ACTION,acl);
 
                 //Add Button to Grid & Save for later use
@@ -70,8 +70,6 @@ public class FuncGrid extends GridPane implements GridInterface {
             }
         }
 
-        updateFontSize();
-
         // Resize Listener for Text Scaling
         this.widthProperty().addListener(resizeListener);
         this.heightProperty().addListener(resizeListener);
@@ -79,26 +77,25 @@ public class FuncGrid extends GridPane implements GridInterface {
 
     ChangeListener<Number> resizeListener = (observable, oldValue, newValue) -> updateFontSize();
 
-    private void updateFontSize() {
+    public void updateFontSize() {
         // Get smaller Side length
         Button sampleButton = buttonList.get(0);
         Double sideLength = Math.min(sampleButton.getWidth(), sampleButton.getHeight());
         if (sideLength != 0 ) {
             // Calculate Font-Size
             Double fontSize = sideLength / 4;
-            Font f = new Font("Lato", fontSize);
+
             // Update Font-Size on all Buttons
             for (Button btn : buttonList) {
-                // btn.setStyle("-fx-font-size: "+Math.round(100.0 * fontSize) / 100.0+"px;");
-                btn.setFont(f);
+                btn.setFont(Font.font("Lato", FontWeight.NORMAL, fontSize));
             }
         }
     }
 
     @Override
-    public void setButtonFocus(ActionCmds ac) {
+    public void requestFocus(GridActions ga) {
         for (Button btn: buttonList) {
-            if (btn.getId().equals(ac.toString())) {
+            if (btn.getId().equals(ga.toString())) {
                 btn.requestFocus();
             }
         }
@@ -106,9 +103,9 @@ public class FuncGrid extends GridPane implements GridInterface {
 
 
     @Override
-    public void fireButtonEvent(ActionCmds ac) {
+    public void fireActionEvent(GridActions ga) {
         for (Button btn: buttonList) {
-            if (btn.getId().equals(ac.toString())) {
+            if (btn.getId().equals(ga.toString())) {
                 btn.pseudoClassStateChanged(PseudoClass.getPseudoClass("pressed"), true);
                 btn.fire();
             }
@@ -116,19 +113,10 @@ public class FuncGrid extends GridPane implements GridInterface {
     }
 
     @Override
-    public void releaseButtonEvent(ActionCmds ac) {
+    public void releaseActionEvent(GridActions ga) {
         for (Button btn: buttonList) {
-            if (btn.getId().equals(ac.toString())) {
+            if (btn.getId().equals(ga.toString())) {
                 btn.pseudoClassStateChanged(PseudoClass.getPseudoClass("pressed"), false);
-            }
-        }
-    }
-
-    @Override
-    public void fireOnFocus() {
-        for (Button btn: buttonList) {
-            if (btn.isFocused()) {
-                btn.fire();
             }
         }
     }

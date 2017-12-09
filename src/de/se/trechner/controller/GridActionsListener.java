@@ -1,17 +1,17 @@
 package de.se.trechner.controller;
 
+import de.se.trechner.model.GridActions;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
 import de.se.trechner.interfaces.FrameInterface;
-import de.se.trechner.model.ActionCmds;
 import de.se.trechner.model.MathFunction;
 import de.se.trechner.model.Term;
 
 
-public class ActionCmdListener implements EventHandler<ActionEvent> {
-    private static ActionCmdListener ownInstance;
+public class GridActionsListener implements EventHandler<ActionEvent> {
+    private static GridActionsListener ownInstance;
 
     private FrameInterface fi;
     private Term term;
@@ -23,7 +23,7 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
     private String calculation;
     
 
-    private ActionCmdListener(FrameInterface fi) {
+    private GridActionsListener(FrameInterface fi) {
         this.fi = fi;
         term = new Term();
         isAddingNumber = false;
@@ -40,8 +40,8 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
     public void handle(ActionEvent e) {
     	double value = 0;
         String cmdID = ((Button)e.getSource()).getId();
-        ActionCmds c = ActionCmds.valueOf(cmdID);
-        switch (c) {
+        GridActions ga = GridActions.valueOf(cmdID);
+        switch (ga) {
         	case ONE:
         	case TWO:
         	case THREE:
@@ -83,57 +83,57 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
         		break;
         }
         // Entscheidung welche Funktion aufgerufen wird.
-        switch (c) {
+        switch (ga) {
             case SQR:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("SQR");
                 break;
             case CUBIC:
-                unaryOperator(c);
+                unaryOperator(ga);
                 System.out.println("CUBIC");
                 break;
             case SIN:
-                unaryOperator(c);
+                unaryOperator(ga);
                 System.out.println("SIN");
                 break;
             case COS:
-                unaryOperator(c);
+                unaryOperator(ga);
                 System.out.println("COS");
                 break;
             case TAN:
-                unaryOperator(c);
+                unaryOperator(ga);
                 System.out.println("TAN");
                 break;
             case XPOWY:
-            	binaryOperator(c);
+            	binaryOperator(ga);
                 System.out.println("XPOWY");
                 break;
             case RECVAL:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("RECVAL");
                 break;
             case ARCSIN:
-                unaryOperator(c);
+                unaryOperator(ga);
                 System.out.println("ARCSIN");
                 break;
             case ARCCOS:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("ARCCOS");
                 break;
             case ARCTAN:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("ARCTAN");
                 break;
             case SQRT:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("SQRT");
                 break;
             case YSQRT:
-            	binaryOperator(c);
+            	binaryOperator(ga);
                 System.out.println("YSQRT");
                 break;
             case EXP:
-            	binaryOperator(c);
+            	binaryOperator(ga);
                 System.out.println("EXP");
                 break;
             case DMS:
@@ -145,15 +145,15 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("DEG");
                 break;
             case EXPF:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("EXPF");
                 break;
             case LOG:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("LOG");
                 break;
             case MOD:
-            	binaryOperator(c);
+            	binaryOperator(ga);
                 System.out.println("MOD");
                 break;
             case OBRACKET:
@@ -167,15 +167,15 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("CBRACKET");
                 break;
             case EX:
-                unaryOperator(c);
+                unaryOperator(ga);
                 System.out.println("EX");
                 break;
             case LN:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("LN");
                 break;
             case FACT:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("FACT");
                 break;
             case PI:
@@ -184,7 +184,7 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("PI");
                 break;
             case SIGNCHANGE:
-            	unaryOperator(c);
+            	unaryOperator(ga);
                 System.out.println("SIGNCHANGE");
                 break;
             case CLEARINPUT:
@@ -258,19 +258,19 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
                 System.out.println("KOMMA");
                 break;
             case DIVIDE:
-                binaryOperator(c);
+                binaryOperator(ga);
                 System.out.println("DIVIDE");
                 break;
             case MULTIPLY:
-                binaryOperator(c);
+                binaryOperator(ga);
                 System.out.println("MULTIPLY");
                 break;
             case SUBTRACT:
-                binaryOperator(c);
+                binaryOperator(ga);
                 System.out.println("SUBTRACT");
                 break;
             case ADDITION:
-            	binaryOperator(c);
+            	binaryOperator(ga);
                 System.out.println("ADDITION");
                 break;
             case EQUALS:
@@ -292,12 +292,12 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
         e.consume();
     }
     
-    private void binaryOperator(ActionCmds identifier) {
+    private void binaryOperator(GridActions identifier) {
     	term.addBinaryOperator(identifier);
         calculation = term.toString();
     }
     
-    private void unaryOperator(ActionCmds identifier) {
+    private void unaryOperator(GridActions identifier) {
     	try {
 			numInput = formatNumber(term.addUnaryOperator(identifier));
 		} catch (Exception e) {
@@ -320,9 +320,9 @@ public class ActionCmdListener implements EventHandler<ActionEvent> {
         else return String.format("%s", value);
     }
 
-    public static ActionCmdListener getInstance(FrameInterface fi) {
+    public static GridActionsListener getInstance(FrameInterface fi) {
         if (ownInstance == null) {
-            ownInstance = new ActionCmdListener(fi);
+            ownInstance = new GridActionsListener(fi);
         }
         return ownInstance;
     }

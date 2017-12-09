@@ -1,11 +1,11 @@
 package de.se.trechner.model.elements;
 
-import de.se.trechner.model.ActionCmds;
+import de.se.trechner.model.GridActions;
 
 public class BinaryOperator extends Operator{
 	private int rank;
 
-	public BinaryOperator(ActionCmds identifier) {
+	public BinaryOperator(GridActions identifier) {
 		super(identifier);
 		rank = getRank(identifier);
 	}
@@ -14,7 +14,7 @@ public class BinaryOperator extends Operator{
 		return (rank >= b.rank);
 	}
 	
-	private int getRank(ActionCmds identifier){
+	private int getRank(GridActions identifier){
 		switch(identifier){
 		case ADDITION:
 		case SUBTRACT:

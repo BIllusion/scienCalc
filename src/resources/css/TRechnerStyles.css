@@ -1,3 +1,99 @@
-#BaseAnchor {
+#baseAnchor {
     -fx-background-color: #303030;
+}
+
+#innerVBox {
+    -fx-background-color: #FFFFFF;
+}
+
+#nrGrid .button {
+    -fx-background-color: #32504e;
+}
+
+#funcGrid .button {
+    -fx-background-color: #595959;
+}
+
+#funcGrid .button, #nrGrid .button  {
+    -fx-background-radius: 0,0,0;
+    -fx-font-smoothing-type: lcd;
+    -fx-text-fill: #FFFFFF;
+    -fx-cursor: hand;
+}
+
+
+#funcGrid .button:hover, #nrGrid .button:hover,  #EQUALS.button:hover {
+    -fx-background-color:#FFFFFF;
+    /*-fx-text-fill: #595959;*/
+    -fx-text-fill: #303030;
+}
+
+#funcGrid .button:focused, #nrGrid .button:focused,  #EQUALS.button:focused {
+    -fx-border-color: #fff15f;
+    -fx-border-width: 2px;
+    -fx-border-insets: -2px;
+}
+
+#funcGrid .button:pressed, #nrGrid .button:pressed, #EQUALS.button:pressed {
+    -fx-background-color:#fff15f;
+    -fx-text-fill: #000000;
+}
+
+#EQUALS.button {
+    -fx-background-color:#006d68;
+}
+
+#toolbar {
+    -fx-background-color: #303030;
+    -fx-pref-height: 28px;
+    -fx-border-width: 0 0 8px;
+    -fx-border-color: #006d68;
+}
+
+#tLeftContainer .hyperlink, #tRightContainer .hyperlink {
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 5px;
+}
+
+#tLeftContainer .hyperlink:hover , #tRightContainer .hyperlink:hover {
+    -fx-text-fill: #006d68;
+    -fx-underline: false;
+}
+
+#tLeftContainer .hyperlink:focused , #tRightContainer .hyperlink:focused {
+    -fx-border-color: #fff15f;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-stroke-borders: 0;
+    -fx-padding: 4px;
+
+}
+
+#tLeftContainer .hyperlink:pressed , #tRightContainer .hyperlink:pressed {
+    -fx-text-fill: #000000;
+    -fx-background-color: #fff15f;
+}
+
+#tLeftContainer .hyperlink:visited , #tRightContainer .hyperlink:visited {
+    -fx-underline: false;
+}
+
+#bigMsgBox, #smallMsgBox {
+    -fx-cursor: hand;
+    -fx-padding: 0 12px;
+}
+
+#bigMsgBox {
+    -fx-text-fill: #000000;
+}
+
+#smallMsgBox {
+    -fx-text-fill: #676767;
+}
+
+#bigMsgBox:focused, #smallMsgBox:focused {
+    -fx-border-color: #fff15f;
+    -fx-border-width: 2px;
+    -fx-border-insets: 0px;
+    -fx-padding: 0 10px;
 }
