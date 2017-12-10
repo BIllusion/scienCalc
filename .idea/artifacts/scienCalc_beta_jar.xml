@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="scienCalc:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/scienCalc_jar</output-path>
+  <artifact type="jar" build-on-make="true" name="scienCalc-beta.jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/scienCalc_beta_jar</output-path>
     <root id="archive" name="scienCalc.jar">
       <element id="module-output" name="scienCalc" />
     </root>

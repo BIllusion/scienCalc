@@ -106,13 +106,13 @@ public class TRechnerGUI {
         sc.addEventFilter(KeyEvent.KEY_PRESSED, ks);
         sc.addEventFilter(KeyEvent.KEY_RELEASED, ks);
 
-        Font.loadFont(Main.class.getResource("../../../resources/fonts/Lato-Regular.ttf").toExternalForm(),20);
-        Font.loadFont(Main.class.getResource("../../../resources/fonts/Lato-Bold.ttf").toExternalForm(),20);
-        Font.loadFont(Main.class.getResource("../../../resources/fonts/Lato-Black.ttf").toExternalForm(),20);
-        Font.loadFont(Main.class.getResource("../../../resources/fonts/Lato-Light.ttf").toExternalForm(),20);
+        Font.loadFont(Main.class.getResource("/resources/fonts/Lato-Regular.ttf").toExternalForm(),20);
+        Font.loadFont(Main.class.getResource("/resources/fonts/Lato-Bold.ttf").toExternalForm(),20);
+        Font.loadFont(Main.class.getResource("/resources/fonts/Lato-Black.ttf").toExternalForm(),20);
+        Font.loadFont(Main.class.getResource("/resources/fonts/Lato-Light.ttf").toExternalForm(),20);
 
+        display.setFocus();
         Platform.runLater( () -> {
-            display.setFocus();
             funcGrid.updateFontSize();
             nrGrid.updateFontSize();
         });
@@ -162,8 +162,6 @@ public class TRechnerGUI {
             }
             return false;
         }
-
-
     }
 
     public Scene getScene() {return sc; }
