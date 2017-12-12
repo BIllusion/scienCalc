@@ -13,20 +13,24 @@ import de.se.trechner.model.elements.UnaryOperator;
  * Die Elemente des Terms sind in einer ArrayList gespeichert.
  * 
  * @author wojke_n
- * @version 2017-11-28
+ * @version 2017-12-09
  * @see Element
  */
 public class Term {
+	private static Term ownInstance;
 	private ArrayList<Element> elements;
+	private MathFunction mathFunction;
 	private int openBracketsCounter;
 	private int outputIndex;
+	private NumInput numInput;
+	
 
 	/**
 	 * Konstruktor der lediglich initialize() ausführt.
 	 * 
 	 * @see #initialize()
 	 */
-	public Term() {
+	private Term() {
 		initialize();
 	}
 	
@@ -36,6 +40,8 @@ public class Term {
 	 */
 	public void initialize() {
 		elements = new ArrayList<Element>();
+		numInput = NumInput.getInstance(this);
+		mathFunction = MathFunction.getInstance();
 		openBracketsCounter = 0;
 	}
 	
@@ -54,10 +60,12 @@ public class Term {
 				output = ((UnaryOperator) e).toString(getContentFor()) + output;
 				outputIndex++;
 			}else{
-				output = e.toString() + output;
+				if(numInput.isFE() && e instanceof Number)
+					output = ((Number) e).getFE() + output;
+				else output = e.toString() + output;
 			}
 		}
-		return output;
+		return output.replace('.', ',');
 	}
 	
 	/**
@@ -99,13 +107,21 @@ public class Term {
 		return output;
 	}
 	
+	private void correctTerm() {
+		if(elements.get(elements.size()-1) instanceof BinaryOperator) 
+			elements.remove(elements.size()-1);
+		for(; openBracketsCounter != 0; openBracketsCounter--)
+			elements.add(new Bracket(false));
+	}
+	
 	/**
 	 * Berechnet das Ergebnis des Terms.
 	 * 
 	 * @return das Ergebnis des Terms
-	 * @throws Exception wird ausgelöst, wenn durch 0 geteilt wird.
+	 * @throws MathException wird ausgelöst, wenn durch 0 geteilt wird
 	 */
-	public double solve() throws Exception {
+	public double solve() throws MathException {
+		correctTerm();
 		return solve(elements, 0);
 	}
 	
@@ -115,9 +131,9 @@ public class Term {
 	 * @param term den Term der berechnet werden soll.
 	 * @param startIndex ab dieser stelle wird gerechnet
 	 * @return das Ergebnis der Berechnung
-	 * @throws Exception wird ausgelöst, wenn durch 0 geteilt wird.
+	 * @throws MathException wird ausgelöst, wenn durch 0 geteilt wird
 	 */
-	public double solve(ArrayList<Element> term, int startIndex) throws Exception{
+	public double solve(ArrayList<Element> term, int startIndex) throws MathException {
 		int index = 0;
 		for(int i=startIndex; i<term.size(); i++){
 			if(term.get(i) instanceof Bracket){
@@ -143,16 +159,16 @@ public class Term {
 	 * @param term den Term der berechnet werden soll.
 	 * @param index1 Anfangsindex
 	 * @param index2 Endindex
-	 * @throws Exception wird ausgelöst, wenn durch 0 geteilt wird.
+	 * @throws MathException wird ausgelöst, wenn durch 0 geteilt wird
 	 */
-	private void solve(ArrayList<Element> term, int index1, int index2) throws Exception{
+	private void solve(ArrayList<Element> term, int index1, int index2) throws MathException {
 		Number n, n2;
 		UnaryOperator u;
 		for(int i=1; index1+i <= index2; i++){
 			if(term.get(index1 + i) instanceof UnaryOperator){
 				u = (UnaryOperator) term.get(index1+i);
 				n = (Number) term.get(index1+i-1);
-				n.setValue(MathFunction.unaryOperation(u.getIdentifier(), n.getValue()));
+				n.setValue(mathFunction.unaryOperation(u.getIdentifier(), n.getValue()));
 				term.remove(index1+i);
 				index2--;
 				i--;
@@ -215,9 +231,9 @@ public class Term {
 	 * 
 	 * @param identifier dient der Identifizierung des Operators.
 	 * @return ein double-Wert, der das Ergebnis der unären Operation entspricht.
-	 * @throws Exception 
+	 * @throws MathException 
 	 */
-	public double addUnaryOperator(GridActions identifier) throws Exception{
+	public double addUnaryOperator(GridActions identifier) throws MathException{
 		if(elements.isEmpty()) elements.add(new Number(0));
 		Element lastElement = elements.get(elements.size()-1);
 		if((lastElement instanceof Bracket && ((Bracket) lastElement).isOpen()) 
@@ -232,9 +248,9 @@ public class Term {
 	 * Berechnet eine unäre Operation.
 	 * 
 	 * @return das Ergebnis der Berechnung
-	 * @throws Exception
+	 * @throws MathException 
 	 */
-	private double preSolve() throws Exception {
+	private double preSolve() throws MathException {
 		int bracketCounter = 0;
 		ArrayList<Element> clone = getClone();
 		Element e;
@@ -313,6 +329,10 @@ public class Term {
 		return true;
 	}
 	
+	public void changeMode(AngleMode mode) {
+		mathFunction.changeMode(mode);
+	}
+	
 	/**
 	 * Diese Methode erschafft einen Clon der Arrayliste und gibt diese zurück.
 	 * 
@@ -335,5 +355,11 @@ public class Term {
 			}
 		}
 		return clone;
+	}
+	
+	public static Term getInstance() {
+		if(ownInstance == null)
+			ownInstance = new Term();
+		return ownInstance;
 	}
 }

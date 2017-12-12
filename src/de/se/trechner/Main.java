@@ -11,10 +11,9 @@ public class Main extends Application {
         primaryStage.setTitle("Taschenrechner-Prototyp");
         TRechnerGUI tRechnerGUI = new TRechnerGUI();
         primaryStage.setScene(tRechnerGUI.getScene());
+        primaryStage.show();
         primaryStage.setMinWidth(700);
         primaryStage.setMinHeight(600);
-        primaryStage.show();
-
     }
 
 

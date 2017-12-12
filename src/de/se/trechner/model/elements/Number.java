@@ -1,11 +1,13 @@
 package de.se.trechner.model.elements;
 
+import de.se.trechner.model.MathFunction;
+
 /**
  * Diese Klasse stellt eine Zahl innerhalb eines Terms dar.
  * Sie erbt von Element und speichert ihren Wert als double.
  * 
  * @author wojke_n
- * @version 2017-11-28
+ * @version 2017-12-11
  * @see Element
  * @see de.se.trechner.model.Term
  */
@@ -21,6 +23,15 @@ public class Number extends Element{
 	public Number(double value) {
 		super(getRepresentation(value));
 		this.value = value;
+	}
+	
+	/**
+	 * Gibt die Zahl in FE-Format zurück.
+	 * 
+	 * @return die Zahl in FE-Format
+	 */
+	public String getFE() {
+		return MathFunction.fe(value);
 	}
 
 	/**
@@ -50,8 +61,6 @@ public class Number extends Element{
 	 * @return String, der die Zahl repräsentiert.
 	 */
 	private static String getRepresentation(double value){
-		if(value == (long) value)
-			return String.format("%d", (long) value);
-		return String.format("%s", value);
+		return MathFunction.formatDouble(value);
 	}
 }

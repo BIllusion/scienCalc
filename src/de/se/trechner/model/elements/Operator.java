@@ -7,7 +7,7 @@ import de.se.trechner.model.GridActions;
  * Eigenschaften des Unäroperators und des Binäroperators zusammen.
  * 
  * @author wojke_n
- * @version 2017-11-28
+ * @version 2017-12-09
  * @see Element
  * @see UnaryOperator
  * @see BinaryOperator
@@ -74,6 +74,10 @@ public abstract class Operator extends Element {
 			return "log(";
 		case LN:
 			return "ln(";
+		case DMS:
+			return "dms(";
+		case DEG:
+			return "deg(";
 			// Binäre Operatoren:
 		case ADDITION:
 			return "+";
@@ -91,7 +95,8 @@ public abstract class Operator extends Element {
 			return ", e+";
 		case MOD:
 			return " mod ";
+		default:
+			return null;
 		}
-		return null;
 	}
 }
