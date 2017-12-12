@@ -25,6 +25,7 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
     private final KeyCombination keyCombinationNum = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
     private final KeyCombination keyCombinationOp = new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN);
     private final KeyCombination keyCombinationEquals = new KeyCodeCombination(KeyCode.DIGIT0, KeyCombination.SHIFT_DOWN);
+    private final KeyCombination keyCombinationInput = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
 
     private KeyEvent e;
 
@@ -59,7 +60,10 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
             } else if (keyCombinationOp.match(e)) {
                 fi.getNrGrid().requestFocus(GridActions.DIVIDE);
 
+            } else if (keyCombinationInput.match(e)) {
+                fi.setInputFocus();
             }
+
         } else if (e.isShiftDown()) {
             if (keyCombinationEquals.match(e)) {
                 fireAction(GridActions.EQUALS);
@@ -132,12 +136,15 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
                     break;
                 case ENTER:
                 case SPACE:
-
                     if (fi.isBigLabelFocused()) {
                         fireAction(GridActions.EQUALS);
                     } else {
                         fireAction(fi.getIdFromFocus());
                     }
+                    break;
+                case DELETE:
+                case BACK_SPACE:
+                    fireAction(GridActions.DELLASTCHAR);
                     break;
                 default:
                     break;

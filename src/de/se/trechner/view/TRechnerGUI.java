@@ -163,6 +163,11 @@ public class TRechnerGUI {
             return false;
         }
 
+        @Override
+        public void setInputFocus() {
+            display.setFocus();
+        }
+
 
     }
 

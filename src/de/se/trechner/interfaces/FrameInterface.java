@@ -20,4 +20,6 @@ public interface FrameInterface {
 
     public boolean isBigLabelFocused();
 
+    public void setInputFocus();
+
 }
