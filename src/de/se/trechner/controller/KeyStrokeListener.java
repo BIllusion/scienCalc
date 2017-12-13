@@ -129,6 +129,7 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
                     fireAction(GridActions.KOMMA);
                     break;
                 case DEAD_CIRCUMFLEX:
+                case BACK_QUOTE:
                     fireAction(GridActions.XPOWY);
                     break;
                 case EQUALS:
