@@ -49,7 +49,7 @@ public class ToolBar extends AnchorPane implements ActionsInterface<ToolbarActio
                 hl.setAccessibleText(langModel.getAccessibleText(ta.toString()));
                 hl.setAccessibleHelp(langModel.getAccessibleHelp(ta.toString()));
 
-                hl.setFont(Font.font("Lato", FontWeight.BOLD, 20));
+                hl.setFont(Font.font("Lato-Bold", FontWeight.BOLD, 20));
                 hlList.add(hl);
 
                 // Search associated GridActions and distribute the Hyperlinks in the Containers
