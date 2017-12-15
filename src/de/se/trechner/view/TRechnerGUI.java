@@ -68,10 +68,11 @@ public class TRechnerGUI {
 
 
         // Button Grids Erstellen
-        funcGrid = new FuncGrid(fi);
-        funcGrid.setId(CSSNodeIDs.FUNCGRID);
         nrGrid = new NrGrid(fi);
         nrGrid.setId(CSSNodeIDs.NRGRID);
+        funcGrid = new FuncGrid(fi);
+        funcGrid.setId(CSSNodeIDs.FUNCGRID);
+
 
         // GUI-Aufbau
         baseAnchorPane.setTopAnchor(outerVBox,0.0);
