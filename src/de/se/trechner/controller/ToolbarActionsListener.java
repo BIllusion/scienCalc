@@ -9,6 +9,15 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Hyperlink;
 
+/**
+ * Diese Klasse wertet Nutzereingaben aus und steuert damit die Modellklasse NumInput.
+ * Sie ist als Singleton realisiert.
+ * 
+ * @author wojke_n
+ * @author ruess_c
+ * @version 2017-12-16
+ * @see de.se.trechner.model.NumInput
+ */
 public class ToolbarActionsListener implements EventHandler<ActionEvent> {
 
     private static ToolbarActionsListener ownInstance;
@@ -64,6 +73,12 @@ public class ToolbarActionsListener implements EventHandler<ActionEvent> {
         hl.setAccessibleHelp(LangModel.getInstance().getAccessibleHelp(ta.getNextGroupItem().toString()));
     }
 
+    /**
+     * Diese statische Methode gibt die Instanz dieser Klasse zurück (Singleton-Pattern).
+     * 
+     * @param fi ermöglicht Zugriff auf die GUI 
+     * @return Instanz dieser Klasse.
+     */
     public static ToolbarActionsListener getInstance(FrameInterface fi) {
         if (ownInstance == null) {
             ownInstance = new ToolbarActionsListener(fi);

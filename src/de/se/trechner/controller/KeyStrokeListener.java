@@ -9,10 +9,24 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import de.se.trechner.interfaces.FrameInterface;
 
+/**
+ * Diese Klasse wertet Tastendrücke und Kombinationen aus um Shortcuts zu realisieren
+ * und Button Events bei Tastendruck auszulösen.
+ *
+ * @author ruess_c
+ * @version 2017-12-17
+ */
+
 public class KeyStrokeListener implements EventHandler<KeyEvent> {
 
 
     private FrameInterface fi;
+
+    /**
+     * Konstruktor erstellt den Zugriff auf die GUI um dort Aktionen auszuführen
+     *
+     * @param fi das Frameinterface ermöglicht den Zugriff auf die GUI
+     */
     public KeyStrokeListener(FrameInterface fi) {
         this.fi = fi;
     }
@@ -24,12 +38,12 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
     private final KeyCombination keyCombinationDel = new KeyCodeCombination(KeyCode.D, KeyCombination.CONTROL_DOWN);
     private final KeyCombination keyCombinationNum = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
     private final KeyCombination keyCombinationOp = new KeyCodeCombination(KeyCode.O, KeyCombination.CONTROL_DOWN);
-    private final KeyCombination keyCombinationEquals = new KeyCodeCombination(KeyCode.DIGIT0, KeyCombination.SHIFT_DOWN);
     private final KeyCombination keyCombinationInput = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
-    private final KeyCombination keyCombinationPlus = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
-    private final KeyCombination keyCombinationMinus = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
-    private final KeyCombination keyCombinationMult = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
-    private final KeyCombination keyCombinationDiv = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
+    private final KeyCombination keyCombinationEquals = new KeyCodeCombination(KeyCode.DIGIT0, KeyCombination.SHIFT_DOWN);
+    private final KeyCombination keyCombinationMult = new KeyCodeCombination(KeyCode.PLUS, KeyCombination.SHIFT_DOWN);
+    private final KeyCombination keyCombinationDiv = new KeyCodeCombination(KeyCode.DIGIT7, KeyCombination.SHIFT_DOWN);
+
+
 
     private KeyEvent e;
 
@@ -71,14 +85,20 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
         } else if (e.isShiftDown()) {
             if (keyCombinationEquals.match(e)) {
                 fireAction(GridActions.EQUALS);
+            } else if (keyCombinationMult.match(e)) {
+                fireAction(GridActions.MULTIPLY);
+            } else if (keyCombinationDiv.match(e)) {
+                fireAction(GridActions.DIVIDE);
             }
         } else {
             // Single Key
             switch ( e.getCode()) {
                 case ADD:
+                case PLUS:
                     fireAction(GridActions.ADDITION);
                     break;
                 case SUBTRACT:
+                case MINUS:
                     fireAction(GridActions.SUBTRACT);
                     break;
                 case MULTIPLY:
@@ -155,12 +175,6 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
                     break;
                 case BACK_SPACE:
                     fireAction(GridActions.DELLASTCHAR);
-                    break;
-                case TAB:
-                    if (fi.isBigLabelFocused() && e.getEventType().equals(KeyEvent.KEY_PRESSED)){
-                        e.consume();
-                        fi.getNrGrid().requestFocus(GridActions.ONE);
-                    }
                     break;
                 default:
                     break;

@@ -18,7 +18,7 @@ public class Number extends Element{
 	 * Der Konstruktor kriegt einen Wert übergeben, speichert diesen 
 	 * und baut daraus einen passenden String.
 	 * 
-	 * @param value
+	 * @param value Wert den diese Instanz hält.
 	 */
 	public Number(double value) {
 		super(getRepresentation(value));

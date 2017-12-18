@@ -19,7 +19,7 @@ public abstract class Operator extends Element {
 	 * Konstruktor erhält identifier, speichert diesen und 
 	 * bestimmt damit den passenden String.
 	 *
-	 * @param identifier
+	 * @param identifier ermöglicht die Identifizierung des Operators
 	 */
 	public Operator(GridActions identifier) {
 		super(getRepresentation(identifier));

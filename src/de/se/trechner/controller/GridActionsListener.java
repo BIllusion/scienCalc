@@ -38,7 +38,16 @@ public class GridActionsListener implements EventHandler<ActionEvent> {
         fi.setSmallLabel(calculation);
         fi.setBigLabel(numInput.getNumInput());
     }
-    
+
+    /**
+     * Ermittelt welcher Button aus dem FuncGrid und NrGrid gedrückt wurde und
+     * bestimmt welche Aktion ausgeführt wird.
+     *
+     * @param e ermögicht die Unterscheidung zwischen den einzelnen Aktionen und enthält den GridActions Command
+     * @see de.se.trechner.view.NrGrid
+     * @see de.se.trechner.view.FuncGrid
+     * @see de.se.trechner.model.GridActions
+     */
     @Override
     public void handle(ActionEvent e) {
         String cmdID = ((Button)e.getSource()).getId();
@@ -285,10 +294,10 @@ public class GridActionsListener implements EventHandler<ActionEvent> {
     }
 
     /**
-     * Diese statische Methode gibt diese Klasse zurück. (Singleton-Pattern)
+     * Diese statische Methode gibt die Instanz dieser Klasse zurück. (Singleton-Pattern)
      * 
      * @param fi das Frameinterface ermöglicht den Zugriff auf die GUI
-     * @return diese Klasse
+     * @return Instanz dieser Klasse
      */
     public static GridActionsListener getInstance(FrameInterface fi) {
         if (ownInstance == null) {

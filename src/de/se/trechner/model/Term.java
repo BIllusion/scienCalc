@@ -35,7 +35,7 @@ public class Term {
 	}
 	
 	/**
-	 * Diese Methode erzeugt eine neue ArrayList<Element>.
+	 * Diese Methode erzeugt eine neue Element-ArrayList.
 	 * Außerdem setzt sie den Klammernzähler auf 0.
 	 */
 	public void initialize() {
@@ -357,6 +357,11 @@ public class Term {
 		return clone;
 	}
 	
+	/**
+	 * Diese Methode ermöglicht es eine Instanz dieser Klasse zu erhalten.
+	 * 
+	 * @return die Instanz dieser Klasse.
+	 */
 	public static Term getInstance() {
 		if(ownInstance == null)
 			ownInstance = new Term();

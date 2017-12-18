@@ -466,6 +466,11 @@ public class MathFunction {
 		return dividend % divisor;
 	}
 	
+	/**
+	 * Diese Methode ermöglicht es die Instanz dieser Klasse zu erhalten.
+	 * 
+	 * @return Instanz dieser Klasse
+	 */
 	public static MathFunction getInstance() {
         if (ownInstance == null) {
             ownInstance = new MathFunction();
