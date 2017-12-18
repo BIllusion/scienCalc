@@ -11,17 +11,29 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-
+/**
+ * Repräsentiert eine zweigeteilte Ausgabe Komponente
+ *
+ * @author ruess_c
+ * @version 2017-12-16
+ * @see de.se.trechner.interfaces.DisplayInterface
+ */
 public class Display extends VBox implements DisplayInterface {
     private Label bigMsgBox;
     private Label smallMsgBox;
 
+    /**
+     * Baut die Komponente auf und definiert die Position der Elemente
+     *
+     */
     public Display() {
         super();
 
+        // Setup Container
         this.setFillWidth(true);
         this.setAlignment(Pos.CENTER_RIGHT);
 
+        // Setup kleine obere Ausgabezeile
         smallMsgBox = new Label();
         smallMsgBox.setId(CSSNodeIDs.SMALLMSGBOX);
         smallMsgBox.setPrefWidth(Double.MAX_VALUE);
@@ -29,6 +41,7 @@ public class Display extends VBox implements DisplayInterface {
         smallMsgBox.setFocusTraversable(true);
         smallMsgBox.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> smallMsgBox.requestFocus());
 
+        // Setup große untere Ausgabezeile
         bigMsgBox = new Label();
         bigMsgBox.setId(CSSNodeIDs.BIGMSGBOX);
         bigMsgBox.setPrefWidth(Double.MAX_VALUE);
@@ -39,6 +52,7 @@ public class Display extends VBox implements DisplayInterface {
 
         this.getChildren().addAll(smallMsgBox, bigMsgBox);
 
+        // Listener für Scaling
         ChangeListener<Number> resizeListener = (observable, oldValue, newValue) -> updateLabelHeight();
 
         this.widthProperty().addListener(resizeListener);
@@ -46,12 +60,20 @@ public class Display extends VBox implements DisplayInterface {
 
     }
 
+    /**
+     * Errechnet und setzt die Höhe der beiden Ausgabezeilen im Verhältnis 2 zu 1 relativ zur Höhe der gesamten Komponente
+     *
+     */
     private void updateLabelHeight() {
         bigMsgBox.setPrefHeight(this.getHeight()*(2.0/3.0));
         smallMsgBox.setPrefHeight(this.getHeight()*(1.0/3.0));
         updateFontSize();
     }
 
+    /**
+     * Berechnet die neue Textgröße basiernd auf die der Größe der Ausgabezeilen
+     *
+     */
     private void updateFontSize() {
         if (this.getHeight() > 0.0 ) {
 
@@ -62,23 +84,52 @@ public class Display extends VBox implements DisplayInterface {
 
     }
 
+    /**
+     * Gibt den Inhalt der kleinen Ausgabezeile zurück
+     *
+     * @return Text der kleinen Ausgabezeile
+     */
+    @Override
     public String getSmallMsgBox(){
         return smallMsgBox.getText();
     }
 
+    /**
+     * Gibt den Inhalt der großen Ausgabezeile zurück
+     *
+     * @return Text der großen Ausgabezeile
+     */
+    @Override
     public String getBigMsgBox() {
         return bigMsgBox.getText();
     }
 
+    /**
+     * Setzt den Inhalt der kleinen Ausgabezeile auf einen Wert
+     *
+     * @param s neuer Text
+     */
+    @Override
     public void setSmallMsgBox(String s) {
         smallMsgBox.setText(s);
     }
 
+    /**
+     * Setzt den Inhalt der großen Ausgabezeile auf einen Wert
+     *
+     * @param s neuer Text
+     */
+    @Override
     public void setBigMsgBox(String s) {
         bigMsgBox.setText(s);
     }
 
-    public void setFocus() {
+    /**
+     * Anfrage um den Fokus auf die Komponente zu setzen
+     *
+     */
+    @Override
+    public void requestFocus() {
         bigMsgBox.requestFocus();
     }
 

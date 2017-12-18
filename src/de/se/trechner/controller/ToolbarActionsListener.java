@@ -23,10 +23,22 @@ public class ToolbarActionsListener implements EventHandler<ActionEvent> {
     private static ToolbarActionsListener ownInstance;
     private FrameInterface fi;
 
+    /**
+     * Konstruktor erstellt den Zugriff auf die GUI um dort Aktionen auszuführen
+     *
+     * @param fi das Frameinterface ermöglicht den Zugriff auf die GUI
+     */
     private ToolbarActionsListener(FrameInterface fi) {
         this.fi = fi;
     }
 
+    /**
+     * Ermittelt welcher Button aus der Toolbar gedrückt wurde und bestimmt welche Aktion ausgeführt wird.
+     *
+     * @param e ermögicht die Unterscheidung zwischen den einzelnen Aktionen und enthält den ToolbarActionsCommand
+     * @see de.se.trechner.view.ToolBar
+     * @see de.se.trechner.model.ToolbarActions
+     */
     @Override
     public void handle(ActionEvent e) {
         Hyperlink hl = ((Hyperlink) e.getSource());
@@ -37,34 +49,27 @@ public class ToolbarActionsListener implements EventHandler<ActionEvent> {
         switch (ta) {
             case TDEG:
             	numInput.changeMode(AngleMode.RAD);
-                System.out.println("DEG");
                 break;
             case TRAD:
             	numInput.changeMode(AngleMode.GRAD);
-                System.out.println("RAD");
                 break;
             case TGRAD:
             	numInput.changeMode(AngleMode.DEG);
-                System.out.println("GRAD");
                 break;
             case TFE:
-            	fi.setBigLabel(numInput.changeFE());
-                System.out.println("FE");
+            	fi.getDisplay().setBigMsgBox(numInput.changeFE());
                 break;
             case TMS:
             	numInput.memorySave();
-                System.out.println("MS");
                 break;
             case TMR:
-            	fi.setBigLabel(numInput.memoryRecall());
-                System.out.println("MR");
+            	fi.getDisplay().setBigMsgBox(numInput.memoryRecall());
                 break;
             case TMC:
             	numInput.memoryClear();
-                System.out.println("MC");
                 break;
             default:
-                System.out.println("Default");
+                System.out.println("Aktion für Toolbar nicht gefunden");
                 break;
         }
         hl.setId(ta.getNextGroupItem().toString());

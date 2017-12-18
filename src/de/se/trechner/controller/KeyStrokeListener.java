@@ -11,25 +11,13 @@ import de.se.trechner.interfaces.FrameInterface;
 
 /**
  * Diese Klasse wertet Tastendrücke und Kombinationen aus um Shortcuts zu realisieren
- * und Button Events bei Tastendruck auszulösen.
+ * und Button Events über die Tastatur auszulösen.
  *
  * @author ruess_c
  * @version 2017-12-17
  */
 
 public class KeyStrokeListener implements EventHandler<KeyEvent> {
-
-
-    private FrameInterface fi;
-
-    /**
-     * Konstruktor erstellt den Zugriff auf die GUI um dort Aktionen auszuführen
-     *
-     * @param fi das Frameinterface ermöglicht den Zugriff auf die GUI
-     */
-    public KeyStrokeListener(FrameInterface fi) {
-        this.fi = fi;
-    }
 
     private final KeyCombination keyCombinationExpf = new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN);
     private final KeyCombination keyCombinationSin = new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN);
@@ -43,20 +31,30 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
     private final KeyCombination keyCombinationMult = new KeyCodeCombination(KeyCode.PLUS, KeyCombination.SHIFT_DOWN);
     private final KeyCombination keyCombinationDiv = new KeyCodeCombination(KeyCode.DIGIT7, KeyCombination.SHIFT_DOWN);
 
-
-
     private KeyEvent e;
 
+    private FrameInterface fi;
+
+    /**
+     * Konstruktor erstellt den Zugriff auf die GUI um dort Aktionen auszuführen
+     *
+     * @param fi das Frameinterface ermöglicht den Zugriff auf die GUI
+     */
+    public KeyStrokeListener(FrameInterface fi) {
+        this.fi = fi;
+    }
+
+    /**
+     * Ermittelt welche Taste und Tastenkombination gedrückt wurde und verknüpft diese mit Aktionen in der GUI
+     *
+     * @param e enthält alle Informationen über die gedrückte Taste
+     */
     @Override
     public void handle(KeyEvent e) {
         this.e = e;
-        String keyText = e.getText();
-        String keyCharacter = e.getCharacter();
-        String keyC = e.getCode().toString();
-        System.out.println("Text: "+ keyText + " Char: " + keyCharacter + " Code: " + keyC);
 
+        // Keystroke Checks
         if (e.isControlDown()) {
-            // Keystroke Checks
             if (keyCombinationExpf.match(e)) {
                 fi.getFuncGrid().requestFocus(GridActions.SQR);
 
@@ -79,20 +77,22 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
                 fi.getNrGrid().requestFocus(GridActions.DIVIDE);
 
             } else if (keyCombinationInput.match(e)) {
-                fi.setInputFocus();
+                fi.getDisplay().requestFocus();
             }
 
         } else if (e.isShiftDown()) {
             if (keyCombinationEquals.match(e)) {
                 fireAction(GridActions.EQUALS);
+
             } else if (keyCombinationMult.match(e)) {
                 fireAction(GridActions.MULTIPLY);
+
             } else if (keyCombinationDiv.match(e)) {
                 fireAction(GridActions.DIVIDE);
             }
         } else {
             // Single Key
-            switch ( e.getCode()) {
+            switch (e.getCode()) {
                 case ADD:
                 case PLUS:
                     fireAction(GridActions.ADDITION);
@@ -182,6 +182,12 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
         }
     }
 
+    /**
+     * Leitet die Aktion an die Grids weiter, damit diese ein Button press und release Event ausführen kann
+     *
+     * @param ga enthält die Grid spezifische Aktion
+     * @see de.se.trechner.model.GridActions
+     */
     private void fireAction(GridActions ga) {
         if (e.getEventType().equals(KeyEvent.KEY_PRESSED)) {
             fi.getNrGrid().fireActionEvent(ga);
@@ -193,6 +199,12 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
         }
     }
 
+    /**
+     * Leitet die Aktion an die Toolbar weiter, damit diese ein Button press und release Event ausführen kann.
+     *
+     * @param ta enthält die Toolbar spezifische Aktion
+     * @see de.se.trechner.model.ToolbarActions
+     */
     private void fireAction(ToolbarActions ta) {
         if(e.getEventType().equals(KeyEvent.KEY_PRESSED)) {
             fi.getToolBar().fireActionEvent(ta);
@@ -202,6 +214,14 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
         }
     }
 
+    /**
+     * Untersucht ob der String ein Kommando der ToolbarActions oder GridActions ist und leitet falls zutreffend die
+     * Aktion weiter an die entsprechende Komponente.
+     *
+     * @param cmd enthält ein mögliches Kommando
+     * @see de.se.trechner.model.GridActions
+     * @see de.se.trechner.model.ToolbarActions
+     */
     private void fireAction(String cmd) {
         for (ToolbarActions tac: ToolbarActions.values()) {
             if (tac.toString().equals(cmd)) {

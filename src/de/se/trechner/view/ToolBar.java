@@ -19,11 +19,23 @@ import javafx.scene.text.TextFlow;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Repräsentiert die Toolbar
+ *
+ * @author ruess_c
+ * @version 2017-12-16
+ * @see de.se.trechner.interfaces.ActionsInterface
+ */
 public class ToolBar extends AnchorPane implements ActionsInterface<ToolbarActions> {
 
     private List<Hyperlink> hlList = new ArrayList<Hyperlink>();
 
+    /**
+     * Baut die Komponente nach den Vorgaben aus der ToolbarActions auf.
+     *
+     * @param fi das Frameinterface ermöglicht den Zugriff auf die GUI
+     * @see de.se.trechner.model.ToolbarActions
+     */
     public ToolBar(FrameInterface fi) {
         super();
 
@@ -79,13 +91,24 @@ public class ToolBar extends AnchorPane implements ActionsInterface<ToolbarActio
         this.getChildren().addAll(leftContainer,rightContainer);
     }
 
+    /**
+     * Gibt einen Textbasierten Separator zurück
+     *
+     * @return Hochstrich mit Leerzeichen
+     */
     private Text getSeparator() {
         Text t = new Text(" | ");
+        t.setId(CSSNodeIDs.TSEPARATOR);
         t.setFont(Font.font("Lato", FontWeight.NORMAL, 20));
         t.setFill(Paint.valueOf("#FFFFFF"));
         return t;
     }
 
+    /**
+     * Anfrage um den Fokus auf einen Hyperlink zu setzen
+     *
+     * @param tbac Identifizierer für den Hyperlink
+     */
     @Override
     public void requestFocus(ToolbarActions tbac) {
         for (Hyperlink hl: hlList) {
@@ -95,6 +118,11 @@ public class ToolBar extends AnchorPane implements ActionsInterface<ToolbarActio
         }
     }
 
+    /**
+     * Führt die mit dem Hyperlink verknüpfte Aktion aus
+     *
+     * @param tbac Identifizierer für den Hyperlink
+     */
     @Override
     public void fireActionEvent(ToolbarActions tbac) {
         for (Hyperlink hl: hlList) {
@@ -105,6 +133,11 @@ public class ToolBar extends AnchorPane implements ActionsInterface<ToolbarActio
         }
     }
 
+    /**
+     * Beendet das Ausführen einer Hyperlink Aktion
+     *
+     * @param tbac Identifizierer für den Hyperlink
+     */
     @Override
     public void releaseActionEvent(ToolbarActions tbac) {
         for (Hyperlink hl: hlList) {

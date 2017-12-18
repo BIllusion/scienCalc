@@ -1,5 +1,14 @@
 package de.se.trechner.model;
 
+/**
+ * Sammlung aller Button Definitionen innerhalb der Grids.
+ * Jeder Eintrag definiert einen Button mit einer Gruppennummer, Spalte, Reihe, Spaltenausbreitung und Reihenausbreitung
+ *
+ * @author ruess_c
+ * @version 2017-12-16
+ * @see de.se.trechner.view.NrGrid
+ * @see de.se.trechner.view.FuncGrid
+ */
 public enum GridActions {
 
     // Func Grid --------------------------------------
@@ -83,6 +92,15 @@ public enum GridActions {
     public static final int[] FUNC_GRID_GROUP_IDS = {POTENZ_GROUP_ID, TRIGO_GROUP_ID, GRAD_GROUP_ID, SPECIAL_GROUP_ID};
     public static final int[] NR_GRID_GROUP_IDS = {CLEAR_GROUP_ID, NUMBER_GROUP_ID, BASIC_GROUP_ID, EQUALS_GROUP_ID};
 
+    /**
+     * Definition jedes Buttons für die Grids
+     *
+     * @param groupID Gruppenzugehörigkeitsnummer
+     * @param col Spalte
+     * @param row Reihe
+     * @param colSpan über wieviele Spalten sich der Button erstreckt
+     * @param rowSpan über wieviele Zeilen sich der Button erstreckt
+     */
     GridActions(int groupID, int col, int row, int colSpan, int rowSpan) {
         this.groupID = groupID;
         this.col = col;
@@ -91,22 +109,47 @@ public enum GridActions {
         this.rowSpan = rowSpan;
     }
 
+    /**
+     * Gibt die GruppenID des Elements zurück
+     *
+     * @return Gruppenzugehörigkeitsnummer
+     */
     public int getGroupID() {
         return this.groupID;
     }
 
+    /**
+     * Gibt die Spalte zurück in der sich das Element befindet
+     *
+     * @return Spalte
+     */
     public int getCol() {
         return this.col;
     }
 
+    /**
+     * Gibt die Zeile zurück in der sich das Element befindet
+     *
+     * @return Zeile
+     */
     public int getRow() {
         return this.row;
     }
 
+    /**
+     * Gibt die Spaltenausbreitung des Elements zurück
+     *
+     * @return Spaltenausbreitung
+     */
     public int getColSpan() {
         return this.colSpan;
     }
 
+    /**
+     * Gibt die Zeilenausbreitung des Elements zurück
+     *
+     * @return Zeilenausbreitung
+     */
     public int getRowSpan() {
         return this.rowSpan;
     }

@@ -2,7 +2,10 @@ package de.se.trechner.view;
 
 import de.se.trechner.Main;
 import de.se.trechner.interfaces.ActionsInterface;
+import de.se.trechner.interfaces.DisplayInterface;
 import de.se.trechner.model.CSSNodeIDs;
+import de.se.trechner.model.GridActions;
+import de.se.trechner.model.ToolbarActions;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -13,7 +16,13 @@ import de.se.trechner.interfaces.FrameInterface;
 import de.se.trechner.controller.KeyStrokeListener;
 import javafx.scene.text.Font;
 
-
+/**
+ * Repräsentiert die Basis GUI-Klasse
+ *
+ * @author ruess_c
+ * @version 2017-12-16
+ * @see de.se.trechner.interfaces.ActionsInterface
+ */
 public class TRechnerGUI {
 
     public final static int MAINPADDING = 30;
@@ -29,6 +38,10 @@ public class TRechnerGUI {
     private NrGrid nrGrid;
     private FrameInterface fi = new FrameAdapter();
 
+    /**
+     * Baut das eigentliche Fenster auf und setzt die Position aller auf der Oberfläche zu sehenden Elemente
+     *
+     */
     public TRechnerGUI() {
 
         // Base Anchor init
@@ -56,6 +69,7 @@ public class TRechnerGUI {
         tBar = new ToolBar(fi);
         tBar.setId(CSSNodeIDs.TOOLBAR);
         display = new Display();
+        display.setId(CSSNodeIDs.DISPLAY);
 
         innerVBox.setVgrow(display,Priority.ALWAYS);
         innerVBox.getChildren().addAll(tBar, display);
@@ -63,6 +77,7 @@ public class TRechnerGUI {
 
         // Unterer Teil
         gridHBox = new HBox();
+        gridHBox.setId(CSSNodeIDs.GRIDHBOX);
         gridHBox.setFillHeight(true);
         gridHBox.setSpacing(MAINPADDING);
 
@@ -113,7 +128,7 @@ public class TRechnerGUI {
         Font.loadFont(Main.class.getResource("/resources/fonts/Lato-Light.ttf").toExternalForm(),20);
 
         Platform.runLater( () -> {
-            display.setFocus();
+            display.requestFocus();
             funcGrid.updateFontSize();
             nrGrid.updateFontSize();
         });
@@ -122,36 +137,70 @@ public class TRechnerGUI {
     }
 
     private class FrameAdapter implements FrameInterface {
+
+
+        /**
+         * Gibt Zugriff auf die definierten Funktionen einer zweigeteilten Ausgabekomponente
+         *
+         * @return das Interface der zweigeteilten Ausgabekomponente
+         * @see de.se.trechner.interfaces.DisplayInterface
+         */
         @Override
-        public void setBigLabel (String message){
-            display.setBigMsgBox(message);
+        public DisplayInterface getDisplay () {
+            return  display;
         }
 
+        /**
+         * Gibt Zugriff auf vom ActionsInterface definierte Funktionen der Toolbar
+         *
+         * @return das Interface um die Funktionen zu nutzen
+         * @see de.se.trechner.interfaces.ActionsInterface
+         * @see de.se.trechner.view.ToolBar
+         */
         @Override
-        public void setSmallLabel (String message) {
-            display.setSmallMsgBox(message);
-        }
-
-        @Override
-        public ActionsInterface getToolBar() {
+        public ActionsInterface<ToolbarActions> getToolBar() {
             return tBar;
         }
 
+        /**
+         * Gibt Zugriff auf vom ActionsInterface definierte Funktionen des FuncGrids
+         *
+         * @return das Interface um die Funktionen zu nutzen
+         * @see de.se.trechner.interfaces.ActionsInterface
+         * @see de.se.trechner.view.FuncGrid
+         */
         @Override
-        public ActionsInterface getFuncGrid() {
+        public ActionsInterface<GridActions> getFuncGrid() {
             return funcGrid;
         }
 
+        /**
+         * Gibt Zugriff auf vom ActionsInterface definierte Funktionen des NrGrids
+         *
+         * @return das Interface um die Funktionen zu nutzen
+         * @see de.se.trechner.interfaces.ActionsInterface
+         * @see de.se.trechner.view.NrGrid
+         */
         @Override
-        public ActionsInterface getNrGrid() {
+        public ActionsInterface<GridActions> getNrGrid() {
             return nrGrid;
         }
 
+        /**
+         * Gibt die ID des momentan fokussierten Objekts zurück
+         *
+         * @return enthält die ID des momentan fokussierten Objekts
+         */
         @Override
         public String getIdFromFocus() {
             return sc.focusOwnerProperty().get().getId();
         }
 
+        /**
+         * Beschreibt ob der aktuelle Fokus auf der großen Inputzeile liegt
+         *
+         * @return fokussiert
+         */
         @Override
         public boolean isBigLabelFocused() {
             if (sc.focusOwnerProperty().get() instanceof Label ) {
@@ -164,13 +213,12 @@ public class TRechnerGUI {
             return false;
         }
 
-        @Override
-        public void setInputFocus() {
-            display.setFocus();
-        }
-
-
     }
 
+    /**
+     * Gibt die Basis-Scene zum Anzeigen zurück
+     *
+     * @return die Scene für den Stage-Container
+     */
     public Scene getScene() {return sc; }
 }

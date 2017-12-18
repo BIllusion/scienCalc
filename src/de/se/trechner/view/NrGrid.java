@@ -20,12 +20,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-
+/**
+ * Repräsentiert das Grid mit dem Nummernblock
+ *
+ * @author ruess_c
+ * @version 2017-12-16
+ * @see de.se.trechner.interfaces.ActionsInterface
+ */
 public class NrGrid extends GridPane implements ActionsInterface<GridActions> {
 
     private List<Button> buttonList = new ArrayList<Button>();
 
-
+    /**
+     * Baut die Komponente nach den Vorgaben aus den GridActions auf.
+     *
+     * @param fi das Frameinterface ermöglicht den Zugriff auf die GUI
+     * @see de.se.trechner.model.GridActions
+     */
     public NrGrid (FrameInterface fi) {
         super();
         // Grid Resize-Helper
@@ -77,6 +88,10 @@ public class NrGrid extends GridPane implements ActionsInterface<GridActions> {
 
     ChangeListener<Number> resizeListener = (observable, oldValue, newValue) -> updateFontSize();
 
+    /**
+     * Berechnet die neue Buttonbeschriftungsgröße
+     *
+     */
     public void updateFontSize() {
         // Get smaller Side length
         Button sampleButton = buttonList.get(0);
@@ -88,7 +103,7 @@ public class NrGrid extends GridPane implements ActionsInterface<GridActions> {
             // Update Font-Size on all Buttons
             for (Button btn : buttonList) {
                 if( GridActions.valueOf(btn.getId()).getGroupID() == GridActions.NUMBER_GROUP_ID ) {
-                    btn.setFont(Font.font("Lato", FontWeight.BLACK, fontSize*1.75));
+                    btn.setFont(Font.font("Lato-Black", FontWeight.BLACK, fontSize*1.75));
                 } else {
                     btn.setFont(Font.font("Lato", FontWeight.NORMAL, fontSize));
                 }
@@ -96,7 +111,11 @@ public class NrGrid extends GridPane implements ActionsInterface<GridActions> {
         }
     }
 
-
+    /**
+     * Anfrage um den Fokus auf einen Button zu setzen
+     *
+     * @param ga Identifizierer für den Button
+     */
     @Override
     public void requestFocus(GridActions ga) {
         for (Button btn: buttonList) {
@@ -106,6 +125,11 @@ public class NrGrid extends GridPane implements ActionsInterface<GridActions> {
         }
     }
 
+    /**
+     * Führt die mit dem Button verknüpfte Aktion aus
+     *
+     * @param ga Identifizierer für den Button
+     */
     @Override
     public void fireActionEvent(GridActions ga) {
         for (Button btn: buttonList) {
@@ -116,6 +140,11 @@ public class NrGrid extends GridPane implements ActionsInterface<GridActions> {
         }
     }
 
+    /**
+     * Beendet das ausführen einer Button Aktion
+     *
+     * @param ga Identifizierer für den Button
+     */
     @Override
     public void releaseActionEvent(GridActions ga) {
         for (Button btn: buttonList) {

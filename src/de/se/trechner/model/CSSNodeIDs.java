@@ -1,6 +1,11 @@
 package de.se.trechner.model;
 
-
+/**
+ * Zentrale Sammlung von IDs für einzelne GUI Komponenten um diese im CSS direkt ansprechen zu können.
+ *
+ * @author ruess_c
+ * @version 2017-12-16
+ */
 public class CSSNodeIDs {
 
     public static String BASEANCHOR = "baseAnchor";
@@ -16,20 +21,4 @@ public class CSSNodeIDs {
     public static String GRIDHBOX = "gridContainer";
     public static String FUNCGRID = "funcGrid";
     public static String NRGRID = "nrGrid";
-
-
-    // BASEANCHORPANE ("baseAnchor"),     // Basis Pane auf der alles liegt.
-    //    OUTERVBOX ("outerVBox"),          // Unterteilung in oben und unten
-    //        INNERVBOX ("innerVBox"),          // Oberer Teil: Beinhaltet Display und Toolbar
-    //            TOOLBAR ("toolbar"),            // Beinhaltet Hyperlinks mit Mode-Switch und Memory Functions (AnchorPane)
-    //                TLEFTCONTAINER ("tLeftContainer"),
-    //                TRIGHTCONTRAINER ("tRightContainer"),
-    //                TSEPARATOR ("tSeparator"),
-    //            DISPLAY ("displayContainer"),            // Beinhaltet die 2 Ausgabelabels
-    //                SMALLMSGBOX ("smallMsgBox"),
-    //                BIGMSGBOX ("bigMsgBox"),
-    //        GRIDHBOX ("gridContainer"),       // Hält beide Tabellen in sich
-    //            FUNCGRID ("funcGrid"),   // Tabelle mit Funktionen (Gridpane)
-    //            NRGRID ("nrGrid");     // Zahlenblock und Basis-Operationen (GridPane)
-
 }
