@@ -3,6 +3,7 @@ package de.se.trechner.view;
 import de.se.trechner.Main;
 import de.se.trechner.model.CSSNodeIDs;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -28,6 +29,7 @@ public class HelpWindow {
     private HelpWindow() {
         // Setup Base
         stage.setTitle("Hilfe");
+        stage.getIcons().add(new Image(Main.class.getResourceAsStream("/resources/icon.png")));
         stage.hide();
         AnchorPane baseAnchor = new AnchorPane();
         baseAnchor.setId(CSSNodeIDs.HELPWINDOW);
@@ -45,6 +47,14 @@ public class HelpWindow {
         baseAnchor.getChildren().add(wv);
 
         Scene sc = new Scene(baseAnchor);
+
+        sc.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case ESCAPE:
+                    stage.close();
+                    break;
+            }
+        });
         stage.setScene(sc);
     }
 

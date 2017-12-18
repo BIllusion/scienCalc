@@ -9,7 +9,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        primaryStage.setTitle("Taschenrechner-Prototyp");
+        primaryStage.setTitle("Barrierefreier Taschenrechner");
         TRechnerGUI tRechnerGUI = new TRechnerGUI();
         primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("/resources/icon.png")));
         primaryStage.setScene(tRechnerGUI.getScene());

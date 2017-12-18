@@ -127,7 +127,9 @@ public class ToolBar extends AnchorPane implements ActionsInterface<ToolbarActio
     public void fireActionEvent(ToolbarActions tbac) {
         for (Hyperlink hl: hlList) {
             if (hl.getId().equals(tbac.toString())) {
-                hl.pseudoClassStateChanged(PseudoClass.getPseudoClass("pressed"), true);
+                if (tbac.toString() != ToolbarActions.THELP.toString()) {
+                    hl.pseudoClassStateChanged(PseudoClass.getPseudoClass("pressed"), true);
+                }
                 hl.fire();
             }
         }

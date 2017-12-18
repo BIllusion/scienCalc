@@ -133,7 +133,6 @@ public class TRechnerGUI {
             nrGrid.updateFontSize();
         });
 
-
     }
 
     private class FrameAdapter implements FrameInterface {
