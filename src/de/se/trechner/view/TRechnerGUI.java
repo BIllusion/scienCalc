@@ -48,7 +48,7 @@ public class TRechnerGUI {
         baseAnchorPane = new AnchorPane();
         baseAnchorPane.setId(CSSNodeIDs.BASEANCHOR);
         baseAnchorPane.setPadding(new Insets(MAINPADDING, MAINPADDING, MAINPADDING, MAINPADDING));
-        baseAnchorPane.setPrefSize(1024, 768);
+        baseAnchorPane.setPrefSize(1024, 650);
 
         // Scene für Stage-Building
         sc = new Scene(baseAnchorPane);
@@ -105,7 +105,6 @@ public class TRechnerGUI {
         baseAnchorPane.widthProperty().addListener((obs, oldVal, newVal) -> {
             funcGrid.setPrefWidth((5.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
             nrGrid.setPrefWidth((4.0/9.0) * (baseAnchorPane.getWidth() - (MAINPADDING * 3) ));
-            System.out.println("HboxWidth: " + gridHBox.getWidth() + "  BaseAnchorPane width: " + baseAnchorPane.getWidth());
 
         });
 
@@ -113,7 +112,6 @@ public class TRechnerGUI {
         baseAnchorPane.heightProperty().addListener((obs, oldVal, newVal) -> {
             gridHBox.setPrefHeight(0.65 * (baseAnchorPane.getHeight() - (MAINPADDING * 3)));
             innerVBox.setPrefHeight(0.35 * (baseAnchorPane.getHeight() - (MAINPADDING * 3)));
-            System.out.println("HboxHeight: " + gridHBox.getHeight() + "  BaseAnchorPane height: " + baseAnchorPane.getHeight());
         });
 
 
