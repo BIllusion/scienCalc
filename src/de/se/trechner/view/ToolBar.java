@@ -8,6 +8,7 @@ import de.se.trechner.model.LangModel;
 import de.se.trechner.model.ToolbarActions;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
+import javafx.scene.AccessibleRole;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
@@ -59,6 +60,7 @@ public class ToolBar extends AnchorPane implements ActionsInterface<ToolbarActio
 
                 hl.setText(langModel.getKeyCaption(ta.toString()));
                 hl.setAccessibleText(langModel.getAccessibleText(ta.toString()));
+                hl.setAccessibleRole(AccessibleRole.BUTTON);
                 hl.setAccessibleHelp(langModel.getAccessibleHelp(ta.toString()));
 
                 hl.setFont(Font.font("Lato-Bold", FontWeight.BOLD, 20));

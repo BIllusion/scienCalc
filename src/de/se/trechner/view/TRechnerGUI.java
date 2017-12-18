@@ -48,7 +48,7 @@ public class TRechnerGUI {
         baseAnchorPane = new AnchorPane();
         baseAnchorPane.setId(CSSNodeIDs.BASEANCHOR);
         baseAnchorPane.setPadding(new Insets(MAINPADDING, MAINPADDING, MAINPADDING, MAINPADDING));
-        baseAnchorPane.setPrefSize(1024, 650);
+        baseAnchorPane.setPrefSize(1024, 768);
 
         // Scene für Stage-Building
         sc = new Scene(baseAnchorPane);

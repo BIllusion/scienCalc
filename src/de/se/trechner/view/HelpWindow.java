@@ -9,6 +9,8 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.*;
 import java.net.URL;
 
 /**
@@ -37,6 +39,8 @@ public class HelpWindow {
         // Load HTML
         WebView wv = new WebView();
         WebEngine we = wv.getEngine();
+
+        wv.setContextMenuEnabled(true);
         we.load(url.toString());
 
         // Layout
@@ -44,7 +48,7 @@ public class HelpWindow {
         baseAnchor.setLeftAnchor(wv,0.0);
         baseAnchor.setRightAnchor(wv,0.0);
         baseAnchor.setBottomAnchor(wv,0.0);
-        baseAnchor.getChildren().add(wv);
+        baseAnchor.getChildren().addAll(wv);
 
         Scene sc = new Scene(baseAnchor);
 
@@ -65,5 +69,31 @@ public class HelpWindow {
     public static void open() {
         stage.show();
         stage.requestFocus();
+    }
+
+    public static void openHelpInBrowser() {
+        try {
+            InputStream fileStream = Main.class.getResourceAsStream("/resources/Help.html");
+
+            File tempFile = File.createTempFile("Help", ".html");
+            tempFile.deleteOnExit();
+
+            OutputStream out = new FileOutputStream(tempFile);
+            byte[] buffer = new byte[1024];
+            int len = fileStream.read(buffer);
+            while (len != -1) {
+                out.write(buffer, 0, len);
+                len = fileStream.read(buffer);
+            }
+
+            // Close the streams
+            fileStream.close();
+            out.close();
+
+            // Open Temp-File in Browser
+            Desktop.getDesktop().browse(tempFile.toURI());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

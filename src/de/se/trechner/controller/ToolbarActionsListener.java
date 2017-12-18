@@ -5,10 +5,10 @@ import de.se.trechner.model.AngleMode;
 import de.se.trechner.model.LangModel;
 import de.se.trechner.model.NumInput;
 import de.se.trechner.model.ToolbarActions;
+import de.se.trechner.view.HelpWindow;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Hyperlink;
-import javafx.stage.Stage;
 
 /**
  * Diese Klasse wertet Nutzereingaben aus und steuert damit die Modellklasse NumInput.
@@ -61,7 +61,7 @@ public class ToolbarActionsListener implements EventHandler<ActionEvent> {
             	fi.getDisplay().setBigMsgBox(numInput.changeFE());
                 break;
             case THELP:
-                fi.showHelp();
+                HelpWindow.openHelpInBrowser();
                 break;
             case TMS:
             	numInput.memorySave();
