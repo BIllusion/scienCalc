@@ -21,4 +21,5 @@ public class CSSNodeIDs {
     public static String GRIDHBOX = "gridContainer";
     public static String FUNCGRID = "funcGrid";
     public static String NRGRID = "nrGrid";
+    public static String HELPWINDOW = "helpWindow";
 }

@@ -8,6 +8,7 @@ import de.se.trechner.model.ToolbarActions;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Hyperlink;
+import javafx.stage.Stage;
 
 /**
  * Diese Klasse wertet Nutzereingaben aus und steuert damit die Modellklasse NumInput.
@@ -58,6 +59,9 @@ public class ToolbarActionsListener implements EventHandler<ActionEvent> {
                 break;
             case TFE:
             	fi.getDisplay().setBigMsgBox(numInput.changeFE());
+                break;
+            case THELP:
+                fi.showHelp();
                 break;
             case TMS:
             	numInput.memorySave();

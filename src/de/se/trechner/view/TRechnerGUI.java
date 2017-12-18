@@ -138,7 +138,6 @@ public class TRechnerGUI {
 
     private class FrameAdapter implements FrameInterface {
 
-
         /**
          * Gibt Zugriff auf die definierten Funktionen einer zweigeteilten Ausgabekomponente
          *
@@ -194,6 +193,16 @@ public class TRechnerGUI {
         @Override
         public String getIdFromFocus() {
             return sc.focusOwnerProperty().get().getId();
+        }
+
+        /**
+         * Öffnet das Hilfefenster
+         *
+         * @see de.se.trechner.view.HelpWindow
+         */
+        @Override
+        public void showHelp() {
+            HelpWindow.open();
         }
 
         /**

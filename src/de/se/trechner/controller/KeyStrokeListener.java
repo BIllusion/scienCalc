@@ -93,6 +93,9 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
         } else {
             // Single Key
             switch (e.getCode()) {
+                case F1:
+                    fi.showHelp();
+                    break;
                 case ADD:
                 case PLUS:
                     fireAction(GridActions.ADDITION);

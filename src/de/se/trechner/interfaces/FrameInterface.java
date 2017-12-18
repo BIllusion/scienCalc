@@ -55,6 +55,13 @@ public interface FrameInterface {
     public ActionsInterface<GridActions> getNrGrid();
 
     /**
+     * Öffnet das Hilfefenster
+     *
+     * @see de.se.trechner.view.HelpWindow
+     */
+    public void showHelp();
+
+    /**
      * Beschreibt ob der aktuelle Fokus auf der großen Inputzeile liegt
      *
      * @return fokussiert
