@@ -192,15 +192,6 @@ public class TRechnerGUI {
             return sc.focusOwnerProperty().get().getId();
         }
 
-        /**
-         * Öffnet das Hilfefenster
-         *
-         * @see de.se.trechner.view.HelpWindow
-         */
-        @Override
-        public void showHelp() {
-            HelpWindow.open();
-        }
 
         /**
          * Beschreibt ob der aktuelle Fokus auf der großen Inputzeile liegt

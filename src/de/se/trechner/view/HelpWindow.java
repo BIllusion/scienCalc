@@ -71,6 +71,10 @@ public class HelpWindow {
         stage.requestFocus();
     }
 
+    /**
+     * Speichert die Help.html temporär auf das Laufwerk und öffnet diese mit dem Standart Browser
+     *
+     */
     public static void openHelpInBrowser() {
         try {
             InputStream fileStream = Main.class.getResourceAsStream("/resources/Help.html");

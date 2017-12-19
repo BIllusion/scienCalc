@@ -3,6 +3,7 @@ package de.se.trechner.controller;
 import de.se.trechner.model.GridActions;
 import de.se.trechner.model.ToolbarActions;
 import de.se.trechner.view.HelpWindow;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -95,7 +96,7 @@ public class KeyStrokeListener implements EventHandler<KeyEvent> {
             // Single Key
             switch (e.getCode()) {
                 case F1:
-                    HelpWindow.openHelpInBrowser();
+                    fireAction(ToolbarActions.THELP);
                     break;
                 case ADD:
                 case PLUS:
