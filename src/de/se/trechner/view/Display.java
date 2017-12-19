@@ -39,6 +39,7 @@ public class Display extends VBox implements DisplayInterface {
         smallMsgBox.setPrefWidth(Double.MAX_VALUE);
         smallMsgBox.setAlignment(Pos.BOTTOM_RIGHT);
         smallMsgBox.setFocusTraversable(true);
+        smallMsgBox.setAccessibleHelp("Rechnungsverlauf");
         smallMsgBox.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> smallMsgBox.requestFocus());
 
         // Setup große untere Ausgabezeile
@@ -47,6 +48,7 @@ public class Display extends VBox implements DisplayInterface {
         bigMsgBox.setPrefWidth(Double.MAX_VALUE);
         bigMsgBox.setAlignment(Pos.CENTER_RIGHT);
         bigMsgBox.setFocusTraversable(true);
+        bigMsgBox.setAccessibleHelp("Eingabe & Ergebniszeile");
         bigMsgBox.setTextOverrun(OverrunStyle.LEADING_ELLIPSIS);
         bigMsgBox.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> bigMsgBox.requestFocus());
 
