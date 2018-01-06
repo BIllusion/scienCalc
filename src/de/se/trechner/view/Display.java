@@ -4,6 +4,7 @@ import de.se.trechner.interfaces.DisplayInterface;
 import de.se.trechner.model.CSSNodeIDs;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
+import javafx.scene.AccessibleAttribute;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.input.MouseEvent;
@@ -114,6 +115,7 @@ public class Display extends VBox implements DisplayInterface {
     @Override
     public void setSmallMsgBox(String s) {
         smallMsgBox.setText(s);
+        smallMsgBox.notifyAccessibleAttributeChanged(AccessibleAttribute.TEXT);
     }
 
     /**
@@ -124,6 +126,7 @@ public class Display extends VBox implements DisplayInterface {
     @Override
     public void setBigMsgBox(String s) {
         bigMsgBox.setText(s);
+        bigMsgBox.notifyAccessibleAttributeChanged(AccessibleAttribute.TEXT);
     }
 
     /**
