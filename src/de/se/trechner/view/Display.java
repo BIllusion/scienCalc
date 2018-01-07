@@ -5,6 +5,7 @@ import de.se.trechner.model.CSSNodeIDs;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Pos;
 import javafx.scene.AccessibleAttribute;
+import javafx.scene.AccessibleRole;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.input.MouseEvent;
@@ -41,6 +42,7 @@ public class Display extends VBox implements DisplayInterface {
         smallMsgBox.setAlignment(Pos.BOTTOM_RIGHT);
         smallMsgBox.setFocusTraversable(true);
         smallMsgBox.setAccessibleHelp("Rechnungsverlauf");
+        smallMsgBox.setAccessibleRole(AccessibleRole.TEXT);
         smallMsgBox.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> smallMsgBox.requestFocus());
 
         // Setup große untere Ausgabezeile
@@ -50,6 +52,7 @@ public class Display extends VBox implements DisplayInterface {
         bigMsgBox.setAlignment(Pos.CENTER_RIGHT);
         bigMsgBox.setFocusTraversable(true);
         bigMsgBox.setAccessibleHelp("Eingabe & Ergebniszeile");
+        bigMsgBox.setAccessibleRole(AccessibleRole.TEXT_FIELD);
         bigMsgBox.setTextOverrun(OverrunStyle.LEADING_ELLIPSIS);
         bigMsgBox.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> bigMsgBox.requestFocus());
 
