@@ -42,7 +42,7 @@ public class NumInput {
      * Sie speichert den angezeigten Wert.
      */
     public void memorySave() {
-    	memory = Double.valueOf(numInput.replace(',', '.'));
+    	memory = Double.valueOf(numInput.replace(',', '.').replace("=",""));
     	isResult = true;
     }
     
